@@ -1,7 +1,38 @@
 #include <iostream>
 #include <array>
+#include <vector>
 
 #include <Helper.h>
+
+class Student {
+    std::string nume;
+    int grupa;
+public:
+    Student() = default;
+    Student(std::string nume_, int grupa_) {
+            this->nume = nume_;
+            this->grupa = grupa_;
+    }
+
+};
+
+class Prof {
+    std::string nume;
+    std::string curs;
+public:
+    Prof(const std::string &nume, const std::string &curs) : nume(nume), curs(curs) {}
+};
+
+class Facultate {
+    std::string nume;
+    std::vector<Student> studenti;
+    std::vector<Prof> profesori;
+public:
+    Facultate(const std::string &nume, const std::vector<Student> &studenti, const std::vector<Prof> &profesori) : nume(
+            nume), studenti(studenti), profesori(profesori) {}
+
+};
+
 
 int main() {
     std::cout << "Hello, world!\n";
