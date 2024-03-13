@@ -1,88 +1,141 @@
 #include <iostream>
-#include <array>
+#include <string>
+#include <utility>
 #include <vector>
 
-#include <Helper.h>
-
-class Student {
-    std::string nume;
-    int grupa;
+class Token {
+private:
+    std::string color;
+    std::pair<int, int> current_position;
+    int movement;
+    bool is_home;
 public:
-    Student() = default;
-    Student(std::string nume_, int grupa_) {
-            this->nume = nume_;
-            this->grupa = grupa_;
+    //constructor de initializare fara parametri
+    Token() = default;
+    // constructor de initializare cu parametrii
+    Token(std::string color_, std::pair<int, int> current_position_, int movement_ = 0, bool is_home_ = 0) : color(color_), current_position(current_position_), movement(movement_), is_home(is_home_) {}
+    // constructor de copiere
+    Token(const Token& other) : color(other.color), current_position(other.current_position), movement(other.movement), is_home(other.is_home) {}
+    // operatorul egal
+    Token& operator =(const Token& other) {
+        this->color = other.color;
+        this->current_position = other.current_position;
+        this->movement = other.movement;
+        this->is_home = other.is_home;
+        return *this;
     }
+    // destructorul
+    ~Token() {};
+    // operatorul <<
+    friend std::ostream& operator <<(std::ostream& os, const Token& token);
+
 
 };
 
-class Prof {
-    std::string nume;
-    std::string curs;
+// << pt token
+std::ostream& operator <<(std::ostream& os, const Token& token) {
+    os << token.color << "\n";
+    os << token.current_position.first << " " << token.current_position.second << "\n";
+    os << token.movement << "\n";
+    os << token.is_home << "\n";
+    return os;
+}
+
+class Yard {
+private:
+    std::string color;
+    int remaining_tokens; // the no of tokens inside the yard
+    std::pair<int, int> left_corner;
+    std::pair<int, int> right_corner;
+
 public:
-    Prof(const std::string &nume, const std::string &curs) : nume(nume), curs(curs) {}
+    // constructor fara parametri
+    Yard() = default;
+    // constructor cu parametri
+    Yard(std::string color_, int remaining_tokens_, std::pair<int, int> left_corner_, std::pair <int, int> right_corner_) :
+            color(color_), remaining_tokens(remaining_tokens_), left_corner(left_corner_), right_corner(right_corner_) {}
+    // constructor de copiere
+    Yard(const Yard& other) : color(other.color), remaining_tokens(other.remaining_tokens), left_corner(other.left_corner), right_corner(other.right_corner) {}
+    // op =
+    Yard& operator =(const Yard& other) {
+        this->color = other.color;
+        this->remaining_tokens = other.remaining_tokens;
+        this->left_corner = other.left_corner;
+        this->right_corner = other.right_corner;
+        return *this;
+    }
+    // destructor
+    ~Yard() {};
+    // op <<
+    friend std::ostream& operator <<(std::ostream& os, const Yard& yard);
 };
 
-class Facultate {
-    std::string nume;
-    std::vector<Student> studenti;
-    std::vector<Prof> profesori;
+// afisare pt yard
+std::ostream& operator <<(std::ostream& os, const Yard& yard) {
+    os << yard.color << "\n";
+    os << yard.remaining_tokens << "\n";
+    os << yard.left_corner.first << " " << yard.left_corner.second << "\n";
+    os << yard.right_corner.first << " " << yard.right_corner.second << "\n";
+    return os;
+}
+
+class Dice {
+
 public:
-    Facultate(const std::string &nume, const std::vector<Student> &studenti, const std::vector<Prof> &profesori) : nume(
-            nume), studenti(studenti), profesori(profesori) {}
-
+    int Roll() {
+        return rand() % 6 + 1; // tb revazut, a dat de 3 ori consecutiv 6 ??
+    }
 };
 
+class Player{
+private:
+    Yard yard;
+    std::string color;
+    Token token1, token2, token3, token4;
+public:
+    // constructor fara parametri
+    Player() = default;
+    // costructor cu parametri
+    Player(Yard yard_, std::string color_, Token token1_, Token token2_, Token token3_, Token token4_) : yard(yard_),
+                                                                                                         color(color_), token1(token1_), token2(token2_), token3(token3_), token4(token4_) {}
+    // constructor de copiere
+    Player(const Player& other) : yard(other.yard), color(other.color), token1(other.token1),
+                                  token2(other.token2), token3(other.token3), token4(other.token4) {}
+    // operatorul =
+    Player& operator =(const Player& other) {
+        this->yard = other.yard;
+        this->color = other.color;
+        this->token1 = other.token1;
+        this->token2 = other.token2;
+        this->token3 = other.token3;
+        this->token4 = other.token4;
+        return *this;
+    }
+    // destructor
+    ~Player() {}
+    // op <<
+    friend std::ostream& operator <<(std::ostream& os, const Player& player);
+};
+
+// afisare player
+std::ostream& operator <<(std::ostream& os, const Player& player) {
+
+    os << "Yard details\n";
+    os << player.yard << "\n";
+    os << "Color: " << player.color << "\n";
+    os << "Tokens details" << "\n";
+    os << player.token1 << "\n";
+    os << player.token2 << "\n";
+    os << player.token3 << "\n";
+    os << player.token4 << "\n";
+    return os;
+}
 
 int main() {
-    std::cout << "Hello, world!\n";
-    std::array<int, 100> v{};
-    int nr;
-    std::cout << "Introduceți nr: ";
-    /////////////////////////////////////////////////////////////////////////
-    /// Observație: dacă aveți nevoie să citiți date de intrare de la tastatură,
-    /// dați exemple de date de intrare folosind fișierul tastatura.txt
-    /// Trebuie să aveți în fișierul tastatura.txt suficiente date de intrare
-    /// (în formatul impus de voi) astfel încât execuția programului să se încheie.
-    /// De asemenea, trebuie să adăugați în acest fișier date de intrare
-    /// pentru cât mai multe ramuri de execuție.
-    /// Dorim să facem acest lucru pentru a automatiza testarea codului, fără să
-    /// mai pierdem timp de fiecare dată să introducem de la zero aceleași date de intrare.
-    ///
-    /// Pe GitHub Actions (bife), fișierul tastatura.txt este folosit
-    /// pentru a simula date introduse de la tastatură.
-    /// Bifele verifică dacă programul are erori de compilare, erori de memorie și memory leaks.
-    ///
-    /// Dacă nu puneți în tastatura.txt suficiente date de intrare, îmi rezerv dreptul să vă
-    /// testez codul cu ce date de intrare am chef și să nu pun notă dacă găsesc vreun bug.
-    /// Impun această cerință ca să învățați să faceți un demo și să arătați părțile din
-    /// program care merg (și să le evitați pe cele care nu merg).
-    ///
-    /////////////////////////////////////////////////////////////////////////
-    std::cin >> nr;
-    /////////////////////////////////////////////////////////////////////////
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "v[" << i << "] = ";
-        std::cin >> v[i];
-    }
-    std::cout << "\n\n";
-    std::cout << "Am citit de la tastatură " << nr << " elemente:\n";
-    for(int i = 0; i < nr; ++i) {
-        std::cout << "- " << v[i] << "\n";
-    }
-    ///////////////////////////////////////////////////////////////////////////
-    /// Pentru date citite din fișier, NU folosiți tastatura.txt. Creați-vă voi
-    /// alt fișier propriu cu ce alt nume doriți.
-    /// Exemplu:
-    /// std::ifstream fis("date.txt");
-    /// for(int i = 0; i < nr2; ++i)
-    ///     fis >> v2[i];
-    ///
-    ///////////////////////////////////////////////////////////////////////////
-    ///                Exemplu de utilizare cod generat                     ///
-    ///////////////////////////////////////////////////////////////////////////
-    Helper helper;
-    helper.help();
-    ///////////////////////////////////////////////////////////////////////////
+    Dice dice;
+    std::cout << dice.Roll() << "\n";
+    Yard y1("red", 4, {0, 0}, {5, 5});
+    std::cout << y1;
+
     return 0;
 }
