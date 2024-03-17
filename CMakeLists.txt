@@ -107,6 +107,7 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
+        grid.h
 )
 
 ###############################################################################
