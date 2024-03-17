@@ -16,7 +16,7 @@ public:
     //constructor de initializare fara parametri
     Token() = default;
     // constructor de initializare cu parametrii
-    Token(std::string color_, std::pair<int, int> current_position_, int movement_ = 0, bool is_home_ = 0) : color(color_), current_position(current_position_), movement(movement_), is_home(is_home_) {}
+    Token(const std::string& color_, std::pair<int, int> current_position_, int movement_ = 0, bool is_home_ = 0) : color(color_), current_position(current_position_), movement(movement_), is_home(is_home_) {}
     // constructor de copiere
     Token(const Token& other) : color(other.color), current_position(other.current_position), movement(other.movement), is_home(other.is_home) {}
     // operatorul egal
@@ -55,7 +55,7 @@ public:
     // constructor fara parametri
     Yard() = default;
     // constructor cu parametri
-    Yard(std::string color_, int remaining_tokens_, std::pair<int, int> left_corner_, std::pair <int, int> right_corner_) :
+    Yard(const std::string& color_, int remaining_tokens_, std::pair<int, int> left_corner_, std::pair <int, int> right_corner_) :
             color(color_), remaining_tokens(remaining_tokens_), left_corner(left_corner_), right_corner(right_corner_) {}
     // constructor de copiere
     Yard(const Yard& other) : color(other.color), remaining_tokens(other.remaining_tokens), left_corner(other.left_corner), right_corner(other.right_corner) {}
@@ -98,7 +98,7 @@ public:
     // constructor fara parametri
     Player() = default;
     // costructor cu parametri
-    Player(Yard yard_, std::string color_, Token token1_, Token token2_, Token token3_, Token token4_) : yard(yard_),
+    Player(const Yard& yard_, const std::string& color_, const Token& token1_, const Token& token2_, const Token& token3_, const Token& token4_) : yard(yard_),
                                                                                                          color(color_), token1(token1_), token2(token2_), token3(token3_), token4(token4_) {}
     // constructor de copiere
     Player(const Player& other) : yard(other.yard), color(other.color), token1(other.token1),
