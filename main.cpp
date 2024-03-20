@@ -2,7 +2,7 @@
 #include <string>
 #include <utility>
 #include <iostream>
-#include "grid.h"
+#include "grid1.h"
 #include "dice.h"
 
 class Token {
@@ -88,8 +88,7 @@ public:
         return rand() % 6 + 1; // tb revazut, a dat de 3 ori consecutiv 6 ??
     }
 };
- */
-
+*/
 class Player{
 private:
     Yard yard;
@@ -136,16 +135,13 @@ std::ostream& operator <<(std::ostream& os, const Player& player) {
 
 int main()
 {
-
-    sf::RenderWindow window(sf::VideoMode(900, 900), "Ludo Game", sf::Style::Close | sf::Style::Titlebar);
+    sf::RenderWindow window(sf::VideoMode(900, 900), "Ludo Game", sf::Style::Close
+                                                                  | sf::Style::Titlebar);
     const int squareSize = 60; // size of each square
-    const sf::Color ligth_yellow = sf::Color(253, 253, 150);
-    const sf::Color ligth_blue = sf::Color(137, 207, 240);
-    const sf::Color ligth_green = sf::Color(175, 225, 175);
-    const sf::Color ligth_red = sf::Color(222, 49, 99);
-    Grid grid(window, squareSize, sf::Color(60,179,113) , sf::Color(255, 255, 0), sf::Color(220, 20, 60),
-              sf::Color(0, 191, 255), ligth_green, ligth_yellow, ligth_red, ligth_blue);
+    Grid grid(window, squareSize);
     grid.draw();
+
+    // Dice dice(window, 100);
 
     window.display();
     while (window.isOpen()) {
@@ -153,6 +149,7 @@ int main()
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
+
         }
     }
     return 0;

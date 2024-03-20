@@ -8,7 +8,7 @@ private:
     sf::RenderWindow& window;
     const int size; // size of each square
     sf::RectangleShape square;
-    sf::Color green;
+    static const sf::Color green;
     sf::Color yellow;
     sf::Color red;
     sf::Color blue;
@@ -21,7 +21,7 @@ public:
     Grid() = default;
     Grid(sf::RenderWindow& window_, int size_, const sf::Color& g_, const sf::Color& y_, const sf::Color& r_,
          const sf::Color& b_, const sf::Color& lg_, const sf::Color& ly_, const sf::Color& lr_, const sf::Color& lb_)
-         : window(window_), size(size_), green(g_), yellow(y_), red(r_), blue(b_), light_yellow(ly_), light_blue(lb_),
+         : window(window_), size(size_), yellow(y_), red(r_), blue(b_), light_yellow(ly_), light_blue(lb_),
          light_green(lg_), light_red(lr_) {
         square.setSize(sf::Vector2f(size, size));
     }
@@ -134,23 +134,10 @@ public:
         else if (row == 7 && (col >= 9 && col < 14)) {
             square.setFillColor(blue);
         }
-        /*
-        else if((row >= 6 && row <= 8) && (col >= 6 && col <= 8)) {
-            // square.setFillColor(sf::Color::Black);
-            sf::Texture corner;
-            corner.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\fundal.jpg");
-            square.setTexture(&corner);
-        } */
         else {
             square.setFillColor(sf::Color(210, 180, 140)); // beige
         }
     }
-/*
-    friend void Position_yellow(sf::RenderWindow& window, int size, int line, int col);
-    friend void Position_red(sf::RenderWindow& window, int size, int line, int col);
-    friend void Position_green(sf::RenderWindow& window, int size, int line, int col);
-    friend void Position_blue(sf::RenderWindow& window, int size, int line, int col);
-*/
 
     void Position_flowers(int line, int col) {
         sf::Texture texture;

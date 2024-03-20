@@ -109,6 +109,8 @@ add_executable(${PROJECT_NAME}
     env_fixes.h
         grid.h
         dice.h
+        grid1.cpp
+        grid1.h
 )
 
 ###############################################################################
