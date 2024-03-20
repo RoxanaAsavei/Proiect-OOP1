@@ -12,9 +12,16 @@ private:
     sf::Color yellow;
     sf::Color red;
     sf::Color blue;
+    sf::Color light_yellow;
+    sf::Color light_blue;
+    sf::Color light_green;
+    sf::Color light_red;
 public:
     Grid() = default;
-    Grid(sf::RenderWindow& window_, int size_, const sf::Color& g_, const sf::Color& y_, const sf::Color& r_, const sf::Color& b_) : window(window_), size(size_), green(g_), yellow(y_), red(r_), blue(b_) {
+    Grid(sf::RenderWindow& window_, int size_, const sf::Color& g_, const sf::Color& y_, const sf::Color& r_,
+         const sf::Color& b_, const sf::Color& lg_, const sf::Color& ly_, const sf::Color& lr_, const sf::Color& lb_)
+         : window(window_), size(size_), green(g_), yellow(y_), red(r_), blue(b_), light_yellow(ly_), light_blue(lb_),
+         light_green(lg_), light_red(lr_) {
         square.setSize(sf::Vector2f(size, size));
     }
 
@@ -38,29 +45,50 @@ public:
             for (int col = 0; col < 15; ++col) {
                 setColor(row, col);
                 square.setPosition(col * size, row * size);
+                square.setOutlineThickness(1.0f);
+                square.setOutlineColor(sf::Color::Black);
                 window.draw(square);
             }
         }
-        draw_circle(1, 3, 1, 3, green);
-        draw_circle(3, 5, 1, 3, green);
-        draw_circle(1, 3, 3, 5, green);
-        draw_circle(3, 5, 3, 5, green);
+        draw_circle(1, 3, 1, 3, light_green);
+        draw_circle(3, 5, 1, 3, light_green);
+        draw_circle(1, 3, 3, 5, light_green);
+        draw_circle(3, 5, 3, 5, light_green);
 
-        draw_circle(10, 12, 1, 3, yellow);
-        draw_circle(12, 14, 1, 3, yellow);
-        draw_circle(10, 12, 3, 5, yellow);
-        draw_circle(12, 14, 3, 5, yellow);
+        draw_circle(10, 12, 1, 3, light_yellow);
+        draw_circle(12, 14, 1, 3, light_yellow);
+        draw_circle(10, 12, 3, 5, light_yellow);
+        draw_circle(12, 14, 3, 5, light_yellow);
 
-        draw_circle(1, 3, 10, 12, red);
-        draw_circle(3, 5, 10, 12, red);
-        draw_circle(1, 3, 12, 14, red);
-        draw_circle(3, 5, 12, 14, red);
+        draw_circle(1, 3, 10, 12, light_red);
+        draw_circle(3, 5, 10, 12, light_red);
+        draw_circle(1, 3, 12, 14, light_red);
+        draw_circle(3, 5, 12, 14, light_red);
 
-        draw_circle(10, 12, 10, 12, blue);
-        draw_circle(12, 14, 10, 12, blue);
-        draw_circle(10, 12, 12, 14, blue);
-        draw_circle(12, 14, 12, 14, blue);
+        draw_circle(10, 12, 10, 12, light_blue);
+        draw_circle(12, 14, 10, 12, light_blue);
+        draw_circle(10, 12, 12, 14, light_blue);
+        draw_circle(12, 14, 12, 14, light_blue);
 
+        Position_yellow(10, 1);
+        Position_yellow(12, 1);
+        Position_yellow(10, 3);
+        Position_yellow(12, 3);
+
+        Position_green(1, 1);
+        Position_green(3, 1);
+        Position_green(1, 3);
+        Position_green(3, 3);
+
+        Position_blue(10,10);
+        Position_blue(12, 10);
+        Position_blue(10, 12);
+        Position_blue(12, 12);
+
+        Position_red(1, 10);
+        Position_red(3, 10);
+        Position_red(1, 12);
+        Position_red(3, 12);
     }
 
     void setColor(int row, int col) {
@@ -94,10 +122,71 @@ public:
             square.setFillColor(blue);
         } else if (row == 8 && col == 13) {
             square.setFillColor(blue);
-        } else if (row == 7 && (col >= 9 && col < 14)) {
+        }
+        else if (row == 7 && (col >= 9 && col < 14)) {
             square.setFillColor(blue);
-        } else {
-            square.setFillColor(sf::Color::White); // white
+        }
+        else if((row >= 6 && row <= 8) && (col >= 6 && col <= 8)) {
+            // square.setFillColor(sf::Color::Black);
+            sf::Texture corner;
+            corner.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\fundal.jpg");
+            square.setTexture(&corner);
+            square.setTextureRect(sf::IntRect(0, 0, corner.getSize().x, corner.getSize().y));
+        }
+        else {
+            square.setFillColor(sf::Color(210, 180, 140)); // beige
         }
     }
+/*
+    friend void Position_yellow(sf::RenderWindow& window, int size, int line, int col);
+    friend void Position_red(sf::RenderWindow& window, int size, int line, int col);
+    friend void Position_green(sf::RenderWindow& window, int size, int line, int col);
+    friend void Position_blue(sf::RenderWindow& window, int size, int line, int col);
+*/
+
+    void Position_yellow(int line, int col) {
+        sf::Texture yellow_token;
+        yellow_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\yellow_token.png");
+        sf::Sprite yellow1(yellow_token);
+        yellow1.setScale(0.2f, 0.2f);
+        yellow1.setPosition(line * size - 4, col * size);
+        window.draw(yellow1);
+    }
+
+    void Position() {
+        sf::Texture corner;
+        corner.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\colt66.png");
+        sf::Sprite p1(corner);
+        p1.setScale(size, size);
+        p1.setPosition(6 * size, 6 * size);
+        window.draw(p1);
+    }
+
+    void Position_red(int line, int col) {
+        sf::Texture red_token;
+        red_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\red_token.png");
+        sf::Sprite red1(red_token);
+        red1.setScale(0.2f, 0.2f);
+        red1.setPosition(line * size - 4, col * size);
+        window.draw(red1);
+    }
+
+    void Position_green(int line, int col) {
+        sf::Texture green_token;
+        green_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\green_token.png");
+        sf::Sprite green1(green_token);
+        green1.setScale(0.2f, 0.2f);
+        green1.setPosition(line * size - 4, col * size);
+        window.draw(green1);
+    }
+
+    void Position_blue(int line, int col) {
+        sf::Texture blue_token;
+        blue_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\blue_token.png");
+        sf::Sprite blue1(blue_token);
+        blue1.setScale(0.2f, 0.2f);
+        blue1.setPosition(line * size - 4, col * size);
+        window.draw(blue1);
+    }
+
 };
