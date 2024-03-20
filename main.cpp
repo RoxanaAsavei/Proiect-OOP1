@@ -3,7 +3,7 @@
 #include <utility>
 #include <iostream>
 #include "grid.h"
-
+#include "dice.h"
 
 class Token {
 private:
@@ -81,12 +81,14 @@ std::ostream& operator <<(std::ostream& os, const Yard& yard) {
     return os;
 }
 
+/*
 class Dice {
 public:
     int Roll() {
         return rand() % 6 + 1; // tb revazut, a dat de 3 ori consecutiv 6 ??
     }
 };
+ */
 
 class Player{
 private:

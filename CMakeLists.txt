@@ -108,6 +108,7 @@ add_executable(${PROJECT_NAME}
     generated/src/Helper.cpp
     env_fixes.h
         grid.h
+        dice.h
 )
 
 ###############################################################################

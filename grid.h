@@ -131,7 +131,6 @@ public:
             sf::Texture corner;
             corner.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\fundal.jpg");
             square.setTexture(&corner);
-            square.setTextureRect(sf::IntRect(0, 0, corner.getSize().x, corner.getSize().y));
         }
         else {
             square.setFillColor(sf::Color(210, 180, 140)); // beige
@@ -146,25 +145,16 @@ public:
 
     void Position_yellow(int line, int col) {
         sf::Texture yellow_token;
-        yellow_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\yellow_token.png");
+        yellow_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\tokens\\yellow_token.png");
         sf::Sprite yellow1(yellow_token);
         yellow1.setScale(0.2f, 0.2f);
         yellow1.setPosition(line * size - 4, col * size);
         window.draw(yellow1);
     }
 
-    void Position() {
-        sf::Texture corner;
-        corner.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\colt66.png");
-        sf::Sprite p1(corner);
-        p1.setScale(size, size);
-        p1.setPosition(6 * size, 6 * size);
-        window.draw(p1);
-    }
-
     void Position_red(int line, int col) {
         sf::Texture red_token;
-        red_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\red_token.png");
+        red_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\tokens\\red_token.png");
         sf::Sprite red1(red_token);
         red1.setScale(0.2f, 0.2f);
         red1.setPosition(line * size - 4, col * size);
@@ -173,7 +163,7 @@ public:
 
     void Position_green(int line, int col) {
         sf::Texture green_token;
-        green_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\green_token.png");
+        green_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\tokens\\green_token.png");
         sf::Sprite green1(green_token);
         green1.setScale(0.2f, 0.2f);
         green1.setPosition(line * size - 4, col * size);
@@ -182,7 +172,7 @@ public:
 
     void Position_blue(int line, int col) {
         sf::Texture blue_token;
-        blue_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\blue_token.png");
+        blue_token.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\tokens\\blue_token.png");
         sf::Sprite blue1(blue_token);
         blue1.setScale(0.2f, 0.2f);
         blue1.setPosition(line * size - 4, col * size);
