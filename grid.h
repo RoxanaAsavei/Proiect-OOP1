@@ -16,6 +16,7 @@ private:
     sf::Color light_blue;
     sf::Color light_green;
     sf::Color light_red;
+
 public:
     Grid() = default;
     Grid(sf::RenderWindow& window_, int size_, const sf::Color& g_, const sf::Color& y_, const sf::Color& r_,
@@ -89,6 +90,13 @@ public:
         Position_red(3, 10);
         Position_red(1, 12);
         Position_red(3, 12);
+
+        for(int i = 6; i <= 8; ++i) {
+            for(int j = 6; j <= 8; ++j) {
+                Position_flowers(i, j);
+            }
+        }
+
     }
 
     void setColor(int row, int col) {
@@ -126,12 +134,13 @@ public:
         else if (row == 7 && (col >= 9 && col < 14)) {
             square.setFillColor(blue);
         }
+        /*
         else if((row >= 6 && row <= 8) && (col >= 6 && col <= 8)) {
             // square.setFillColor(sf::Color::Black);
             sf::Texture corner;
             corner.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\fundal.jpg");
             square.setTexture(&corner);
-        }
+        } */
         else {
             square.setFillColor(sf::Color(210, 180, 140)); // beige
         }
@@ -142,6 +151,15 @@ public:
     friend void Position_green(sf::RenderWindow& window, int size, int line, int col);
     friend void Position_blue(sf::RenderWindow& window, int size, int line, int col);
 */
+
+    void Position_flowers(int line, int col) {
+        sf::Texture texture;
+        texture.loadFromFile("C:\\Users\\roxan\\OneDrive\\Desktop\\proiect poo\\Proiect-OOP1\\fundal.jpg");
+        square.setTexture(&texture);
+        square.setPosition(col * size, line * size);
+        square.setOutlineColor(sf::Color::Transparent);
+        window.draw(square);
+    }
 
     void Position_yellow(int line, int col) {
         sf::Texture yellow_token;
