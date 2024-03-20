@@ -1,9 +1,9 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <utility>
-#include <vector>
 #include <iostream>
 #include "grid.h"
+
 
 class Token {
 private:
@@ -11,14 +11,16 @@ private:
     std::pair<int, int> current_position;
     int movement;
     bool is_home;
+    sf::Sprite token;
 
 public:
-    //constructor de initializare fara parametri
     Token() = default;
-    // constructor de initializare cu parametrii
-    Token(const std::string& color_, std::pair<int, int> current_position_, int movement_ = 0, bool is_home_ = 0) : color(color_), current_position(current_position_), movement(movement_), is_home(is_home_) {}
-    // constructor de copiere
-    Token(const Token& other) : color(other.color), current_position(other.current_position), movement(other.movement), is_home(other.is_home) {}
+    Token(const std::string& color_, std::pair<int, int> current_position_, int movement_ = 0, bool is_home_ = 0) : color(color_), current_position(current_position_), movement(movement_), is_home(is_home_) {
+        std::cout << "Constructor initializare token\n";
+    }
+    Token(const Token& other) : color(other.color), current_position(other.current_position), movement(other.movement), is_home(other.is_home) {
+        std::cout << "Constructor de copiere token \n";
+    }
     // operatorul egal
     Token& operator =(const Token& other) {
         this->color = other.color;
@@ -28,14 +30,11 @@ public:
         return *this;
     }
     // destructorul
-    ~Token() {};
+    ~Token() = default;
     // operatorul <<
     friend std::ostream& operator <<(std::ostream& os, const Token& token);
-
-
 };
 
-// << pt token
 std::ostream& operator <<(std::ostream& os, const Token& token) {
     os << token.color << "\n";
     os << token.current_position.first << " " << token.current_position.second << "\n";
@@ -138,20 +137,21 @@ int main()
 
     sf::RenderWindow window(sf::VideoMode(900, 900), "Ludo Game", sf::Style::Close | sf::Style::Titlebar);
     const int squareSize = 60; // size of each square
-
-    Grid grid(window, squareSize, sf::Color(60,179,113) , sf::Color(255, 255, 0), sf::Color(220, 20, 60), sf::Color(0, 191, 255));
+    const sf::Color ligth_yellow = sf::Color(253, 253, 150);
+    const sf::Color ligth_blue = sf::Color(137, 207, 240);
+    const sf::Color ligth_green = sf::Color(175, 225, 175);
+    const sf::Color ligth_red = sf::Color(222, 49, 99);
+    Grid grid(window, squareSize, sf::Color(60,179,113) , sf::Color(255, 255, 0), sf::Color(220, 20, 60),
+              sf::Color(0, 191, 255), ligth_green, ligth_yellow, ligth_red, ligth_blue);
     grid.draw();
 
-
     window.display();
-    while(window.isOpen()) {
-        sf::Event evnt;
-        while (window.pollEvent(evnt)) { // so you can move the window
-            if (evnt.type == sf::Event::Closed) {
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
                 window.close();
-            }
         }
     }
-
     return 0;
 }
