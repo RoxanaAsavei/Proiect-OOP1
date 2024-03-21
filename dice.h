@@ -2,6 +2,7 @@
 #define OOP_DICE_H
 #endif //OOP_DICE_H
 #include <SFML/Graphics.hpp>
+#include <ctime>
 
 class Dice {
 private:
@@ -12,39 +13,44 @@ private:
     sf::RectangleShape face4;
     sf::RectangleShape face5;
     sf::RectangleShape face6;
+    sf::Texture texture1;
+    sf::Texture texture2;
+    sf::Texture texture3;
+    sf::Texture texture4;
+    sf::Texture texture5;
+    sf::Texture texture6;
     const int size;
 public:
     Dice(sf::RenderWindow& window_, const int size_) : window(window_), size(size_) {
         // loading the textures for the six sides of the dice
-        sf::Texture texture;
-
-        texture.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-six.png");
+        texture6.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-six.png");
         face6.setSize(sf::Vector2f(size, size));
-        face6.setTexture(&texture);
+        face6.setTexture(&texture6);
 
-        texture.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-five.png");
+        texture5.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-five.png");
         face5.setSize(sf::Vector2f(size, size));
-        face5.setTexture(&texture);
+        face5.setTexture(&texture5);
 
-        texture.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-four.png");
+        texture4.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-four.png");
         face4.setSize(sf::Vector2f(size, size));
-        face4.setTexture(&texture);
+        face4.setTexture(&texture4);
 
-        texture.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-three.png");
+        texture3.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-three.png");
         face3.setSize(sf::Vector2f(size, size));
-        face3.setTexture(&texture);
+        face3.setTexture(&texture3);
 
-        texture.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-two.png");
+        texture2.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-two.png");
         face2.setSize(sf::Vector2f(size, size));
-        face2.setTexture(&texture);
+        face2.setTexture(&texture2);
 
-        texture.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-one.png");
+        texture1.loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-one.png");
         face1.setSize(sf::Vector2f(size, size));
-        face1.setTexture(&texture);
+        face1.setTexture(&texture1);
 
     }
 public:
-    int Roll() { // tb facuta uniform distribuita si randomizat seed
+    int Roll() {
+        srand(static_cast<unsigned int>(time(0)));
         return rand() % 6 + 1;
     }
 
