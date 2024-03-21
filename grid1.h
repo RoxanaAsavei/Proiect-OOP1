@@ -18,7 +18,6 @@ private:
     static const sf::Color light_red;
 
 public:
-    Grid() = default;
     Grid(sf::RenderWindow& window_, int size_) : window(window_), size(size_) {
         square.setSize(sf::Vector2f(size, size));
     }
