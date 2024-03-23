@@ -36,8 +36,8 @@ public:
     ~Game();
 
     // accessors
-    const bool running() const;
-    const bool ending() const;
+    bool running() const;
+    bool ending() const;
 
     // functions
     void update();

@@ -115,11 +115,11 @@ void Game::render() { // the drawing part
     this->window->display();
 }
 
-const bool Game::running() const {
+bool Game::running() const {
     return this->window->isOpen();
 }
 
-const bool Game::ending() const {
+bool Game::ending() const {
     return this->endGame;
 }
 
