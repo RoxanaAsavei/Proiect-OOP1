@@ -107,9 +107,18 @@ add_executable(${PROJECT_NAME}
     main.cpp
     generated/src/Helper.cpp
     env_fixes.h
-        dice.h
         grid1.cpp
         grid1.h
+        Game.h
+        Game.h
+        Game.cpp
+        Game.h
+        Dice.cpp
+        Dice.h
+        Token.cpp
+        Token.h
+        Player.cpp
+        Player.h
 )
 
 ###############################################################################

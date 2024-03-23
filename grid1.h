@@ -5,9 +5,14 @@
 
 class Grid {
 private:
-    sf::RenderWindow& window;
-    const int size; // size of each square
+    // class objects
+    int size; // size of each square
     sf::RectangleShape square;
+    std::vector<std::vector<sf::RectangleShape>> tiles;
+    sf::CircleShape circle;
+    std::vector<sf::CircleShape> circles;
+
+    // colors for the grid
     static const sf::Color green;
     static const sf::Color yellow;
     static const sf::Color red;
@@ -17,25 +22,21 @@ private:
     static const sf::Color light_green;
     static const sf::Color light_red;
 
-public:
-    Grid(sf::RenderWindow& window_, int size_) : window(window_), size(size_) {
-        square.setSize(sf::Vector2f(size, size));
-    }
-
-
-    void draw_circle(int line1, int line2, int col1, int col2, sf::Color color);
-    void draw();
+    // functions
+    void initCircle(int line1, int col1, int line2, int col2, sf::Color color);
+    void initCircles();
 
     void setColor(int row, int col);
+    void initSquare(int line, int col);
+    void initTiles();
 
-    void Position_flowers(int line, int col);
 
-    void Position_yellow(int line, int col);
+public:
+    // constructor
+    Grid();
 
-    void Position_red(int line, int col);
+    // functions
+    void renderGrid(sf::RenderWindow &window);
 
-    void Position_green(int line, int col);
-
-    void Position_blue(int line, int col);
 
 };

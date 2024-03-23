@@ -9,7 +9,53 @@ const sf::Color Grid::light_blue{137, 207, 240};
 const sf::Color Grid::light_green{175, 225, 175};
 const sf::Color Grid::light_red{222, 49, 99};
 
-void Grid::draw_circle(int line1, int line2, int col1, int col2, sf::Color color) {
+void Grid::setColor(int line, int col) {
+    if ((line == 0 || line == 5) && col <= 5) {
+        this->square.setFillColor(green); // green
+    } else if ((col == 0 || col == 5) && (line >= 1 && line <= 4)) {
+        this->square.setFillColor(green);
+    } else if (line == 6 && col == 1) {
+        this->square.setFillColor(green);
+    } else if (line == 7 && (col >= 1 && col <= 5)) {
+        this->square.setFillColor(green);
+    } else if ((line == 0 || line == 5) && col >= 9) {
+        this->square.setFillColor(yellow); // yellow
+    } else if ((col == 9 || col == 14) && (line >= 1 && line <= 4)) {
+        this->square.setFillColor(yellow);
+    } else if (line == 1 && (col == 7 || col == 8)) {
+        this->square.setFillColor(yellow);
+    } else if (col == 7 && (line >= 2 && line <= 5)) {
+        this->square.setFillColor(yellow);
+    } else if ((line == 9 || line == 14) && col <= 5) {
+        this->square.setFillColor(red); // red
+    } else if ((col == 0 || col == 5) && (line >= 10 && line <= 13)) {
+        this->square.setFillColor(red);
+    } else if (line == 13 && col == 6) {
+        this->square.setFillColor(red);
+    } else if (col == 7 && (line >= 9 && line <= 13)) {
+        this->square.setFillColor(red);
+    } else if ((col == 9 || col == 14) && line >= 9) {
+        this->square.setFillColor(blue); // blue
+    } else if ((line == 9 || line == 14) && (col >= 10 && col <= 13)) {
+        this->square.setFillColor(blue);
+    } else if (line == 8 && col == 13) {
+        this->square.setFillColor(blue);
+    }
+    else if (line == 7 && (col >= 9 && col < 14)) {
+        this->square.setFillColor(blue);
+    }
+    else if((line >= 6 && line <= 8) && (col >= 6 && col <= 8)) {
+        this->square.setFillColor(sf::Color::White);
+    }
+    else {
+        this->square.setFillColor(sf::Color(210, 180, 140)); // beige
+    }
+}
+
+
+
+void Grid::initCircle(int line1, int col1, int line2, int col2, sf::Color color) {
+    // setting dimension, color and position for the circle
     float minX = line1 * size;
     float maxX = line2 * size;
     float minY = col1 * size;
@@ -17,152 +63,92 @@ void Grid::draw_circle(int line1, int line2, int col1, int col2, sf::Color color
     float centerX = (minX + maxX) / 2.0f;
     float centerY = (minY + maxY) / 2.0f;
     float radius = size / 2.0f;
-    sf::CircleShape circle(radius);
-    circle.setFillColor(color);
-    circle.setPosition(centerX - radius, centerY - radius);
-    window.draw(circle);
+    this->circle.setFillColor(color);
+    this->circle.setPosition(centerX - radius, centerY - radius);
+}
+
+void Grid::initSquare(int line, int col) {
+    // setting the square's properties
+    this->size = 60;
+    this->square.setSize(sf::Vector2f(size, size));
+    setColor(line, col);
+    this->square.setPosition(col * size, line * size);
+    this->square.setOutlineThickness(1.0f);
+    this->square.setOutlineColor(sf::Color::Black);
 
 }
 
-void Grid::draw() {
-    for (int row = 0; row < 15; ++row) {
-        for (int col = 0; col < 15; ++col) {
-            setColor(row, col);
-            square.setPosition(col * size, row * size);
-            square.setOutlineThickness(1.0f);
-            square.setOutlineColor(sf::Color::Black);
-            window.draw(square);
+
+void Grid::initCircles() {
+    this->initCircle(1, 3, 1, 3, light_green);
+    this->circles.push_back(this->circle);
+    this->initCircle(3, 5, 1, 3, light_green);
+    this->circles.push_back(this->circle);
+    this->initCircle(1, 3, 3, 5, light_green);
+    this->circles.push_back(this->circle);
+    this->initCircle(3, 5, 3, 5, light_green);
+    this->circles.push_back(this->circle);
+
+    this->initCircle(10, 12, 1, 3, light_yellow);
+    this->circles.push_back(this->circle);
+    this->initCircle(12, 14, 1, 3, light_yellow);
+    this->circles.push_back(this->circle);
+    this->initCircle(10, 12, 3, 5, light_yellow);
+    this->circles.push_back(this->circle);
+    this->initCircle(12, 14, 3, 5, light_yellow);
+    this->circles.push_back(this->circle);
+
+    this->initCircle(1, 3, 10, 12, light_red);
+    this->circles.push_back(this->circle);
+    this->initCircle(3, 5, 10, 12, light_red);
+    this->circles.push_back(this->circle);
+    this->initCircle(1, 3, 12, 14, light_red);
+    this->circles.push_back(this->circle);
+    this->initCircle(3, 5, 12, 14, light_red);
+    this->circles.push_back(this->circle);
+
+    this->initCircle(10, 12, 10, 12, light_blue);
+    this->circles.push_back(this->circle);
+    this->initCircle(12, 14, 10, 12, light_blue);
+    this->circles.push_back(this->circle);
+    this->initCircle(10, 12, 12, 14, light_blue);
+    this->circles.push_back(this->circle);
+    this->initCircle(12, 14, 12, 14, light_blue);
+    this->circles.push_back(this->circle);
+
+}
+
+void Grid::initTiles() {
+    // Initialize tiles vector with size 15x15
+    tiles.resize(15);
+    for (int i = 0; i < 15; ++i) {
+        tiles[i].resize(15);
+    }
+
+    for(int line = 0; line < 15; ++line) { // for each tile
+        for(int col = 0; col < 15; ++col) {
+            this->initSquare(line, col); // setting the square
+            this->tiles[line].push_back(this->square); // appending the square
         }
     }
-    draw_circle(1, 3, 1, 3, light_green);
-    draw_circle(3, 5, 1, 3, light_green);
-    draw_circle(1, 3, 3, 5, light_green);
-    draw_circle(3, 5, 3, 5, light_green);
+}
 
-    draw_circle(10, 12, 1, 3, light_yellow);
-    draw_circle(12, 14, 1, 3, light_yellow);
-    draw_circle(10, 12, 3, 5, light_yellow);
-    draw_circle(12, 14, 3, 5, light_yellow);
+Grid::Grid() {
+    initTiles();
+    initCircles();
+}
 
-    draw_circle(1, 3, 10, 12, light_red);
-    draw_circle(3, 5, 10, 12, light_red);
-    draw_circle(1, 3, 12, 14, light_red);
-    draw_circle(3, 5, 12, 14, light_red);
-
-    draw_circle(10, 12, 10, 12, light_blue);
-    draw_circle(12, 14, 10, 12, light_blue);
-    draw_circle(10, 12, 12, 14, light_blue);
-    draw_circle(12, 14, 12, 14, light_blue);
-
-    Position_yellow(10, 1);
-    Position_yellow(12, 1);
-    Position_yellow(10, 3);
-    Position_yellow(12, 3);
-
-    Position_green(1, 1);
-    Position_green(3, 1);
-    Position_green(1, 3);
-    Position_green(3, 3);
-
-    Position_blue(10,10);
-    Position_blue(12, 10);
-    Position_blue(10, 12);
-    Position_blue(12, 12);
-
-    Position_red(1, 10);
-    Position_red(3, 10);
-    Position_red(1, 12);
-    Position_red(3, 12);
-
-    for(int i = 6; i <= 8; ++i) {
-        for(int j = 6; j <= 8; ++j) {
-            Position_flowers(i, j);
+void Grid::renderGrid(sf::RenderWindow &window) {
+    // rendering the tiles
+    for(int i = 0; i < 15; ++i) {
+        for(int j = 0; j < 15; ++j) {
+            window.draw(this->tiles[i][j]);
         }
     }
-
-}
-
-void Grid::setColor(int row, int col) {
-    if ((row == 0 || row == 5) && col <= 5) {
-        square.setFillColor(green); // green
-    } else if ((col == 0 || col == 5) && (row >= 1 && row <= 4)) {
-        square.setFillColor(green);
-    } else if (row == 6 && col == 1) {
-        square.setFillColor(green);
-    } else if (row == 7 && (col >= 1 && col <= 5)) {
-        square.setFillColor(green);
-    } else if ((row == 0 || row == 5) && col >= 9) {
-        square.setFillColor(yellow); // yellow
-    } else if ((col == 9 || col == 14) && (row >= 1 && row <= 4)) {
-        square.setFillColor(yellow);
-    } else if (row == 1 && (col == 7 || col == 8)) {
-        square.setFillColor(yellow);
-    } else if (col == 7 && (row >= 2 && row <= 5)) {
-        square.setFillColor(yellow);
-    } else if ((row == 9 || row == 14) && col <= 5) {
-        square.setFillColor(red); // red
-    } else if ((col == 0 || col == 5) && (row >= 10 && row <= 13)) {
-        square.setFillColor(red);
-    } else if (row == 13 && col == 6) {
-        square.setFillColor(red);
-    } else if (col == 7 && (row >= 9 && row <= 13)) {
-        square.setFillColor(red);
-    } else if ((col == 9 || col == 14) && row >= 9) {
-        square.setFillColor(blue); // blue
-    } else if ((row == 9 || row == 14) && (col >= 10 && col <= 13)) {
-        square.setFillColor(blue);
-    } else if (row == 8 && col == 13) {
-        square.setFillColor(blue);
-    }
-    else if (row == 7 && (col >= 9 && col < 14)) {
-        square.setFillColor(blue);
-    }
-    else {
-        square.setFillColor(sf::Color(210, 180, 140)); // beige
+    // rendering the circles
+    for(auto const &c : this->circles) {
+        window.draw(c);
     }
 }
 
-void Grid::Position_flowers(int line, int col) {
-    sf::Texture texture;
-    texture.loadFromFile("Proiect-OOP1/fundal.jpg");
-    square.setTexture(&texture);
-    square.setPosition(col * size, line * size);
-    square.setOutlineColor(sf::Color::Transparent);
-    window.draw(square);
-}
 
-void Grid::Position_yellow(int line, int col) {
-    sf::Texture yellow_token;
-    yellow_token.loadFromFile("Proiect-OOP1/tokens/yellow_token.png");
-    sf::Sprite yellow1(yellow_token);
-    yellow1.setScale(0.2f, 0.2f);
-    yellow1.setPosition(line * size - 4, col * size);
-    window.draw(yellow1);
-}
-
-void Grid::Position_red(int line, int col) {
-    sf::Texture red_token;
-    red_token.loadFromFile("Proiect-OOP1/tokens/red_token.png");
-    sf::Sprite red1(red_token);
-    red1.setScale(0.2f, 0.2f);
-    red1.setPosition(line * size - 4, col * size);
-    window.draw(red1);
-}
-
-void Grid::Position_green(int line, int col) {
-    sf::Texture green_token;
-    green_token.loadFromFile("Proiect-OOP1/tokens/green_token.png");
-    sf::Sprite green1(green_token);
-    green1.setScale(0.2f, 0.2f);
-    green1.setPosition(line * size - 4, col * size);
-    window.draw(green1);
-}
-
-void Grid::Position_blue(int line, int col) {
-    sf::Texture blue_token;
-    blue_token.loadFromFile("Proiect-OOP1/tokens/blue_token.png");
-    sf::Sprite blue1(blue_token);
-    blue1.setScale(0.2f, 0.2f);
-    blue1.setPosition(line * size - 4, col * size);
-    window.draw(blue1);
-}
