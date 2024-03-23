@@ -42,44 +42,42 @@ void Token::determinePos() { // 60 as the square size in the grid
 }
 
 void Token::move(int value, bool &finished) {
-    int line = this->line;
-    int col = this->col;
     while(value and !finished) {
-        if(col == 6) {
-            if(line == 9) {
-                line--;
-                col--;
+        if(this->col == 6) {
+            if(this->line == 9) {
+                this->line--;
+                this->col--;
             }
-            else if(line == 0) {
-                col++;
+            else if(this->line == 0) {
+                this->col++;
             }
             else {
-                line--;
+                this->line--;
             }
         }
-        else if(col == 8) {
-            if(line == 5) {
-                line++;
-                col++;
+        else if(this->col == 8) {
+            if(this->line == 5) {
+                this->line++;
+                this->col++;
             }
-            else if(line == 14) {
-                col--;
+            else if(this->line == 14) {
+                this->col--;
             }
             else {
-                line++;
+                this->line++;
             }
         }
-        else if(col == 7) {
-            if(line == 0) {
-                col++;
+        else if(this->col == 7) {
+            if(this->line == 0) {
+                this->col++;
             }
-            else if(line == 14) {
-                line--;
+            else if(this->line == 14) {
+                this->line--;
             }
             else {
-                if(line - value == 8) {
+                if(this->line - value == 8) {
                     value = 0;
-                    line -= value;
+                    this->line -= value;
                     finished = true;
                 }
                 else {
@@ -87,42 +85,40 @@ void Token::move(int value, bool &finished) {
                 }
             }
         }
-        else if(line == 8) {
-            if(col == 9) {
-                line--;
-                col--;
+        else if(this->line == 8) {
+            if(this->col == 9) {
+                this->line--;
+                this->col--;
             }
-            else if(col == 0) {
-                line--;
-            }
-            else {
-                col--;
-            }
-        }
-        else if(line == 7) {
-            if(col == 0) {
-                line--;
-            }
-            else if(col == 14) {
-                line++;
-            }
-        }
-        else if(line == 6) {
-            if(col == 5) {
-                line--;
-                col++;
-            }
-            else if(col == 14) {
-                line++;
+            else if(this->col == 0) {
+                this->line--;
             }
             else {
-                col++;
+                this->col--;
+            }
+        }
+        else if(this->line == 7) {
+            if(this->col == 0) {
+                this->line--;
+            }
+            else if(this->col == 14) {
+                this->line++;
+            }
+        }
+        else if(this->line == 6) {
+            if(this->col == 5) {
+                this->line--;
+                this->col++;
+            }
+            else if(this->col == 14) {
+                this->line++;
+            }
+            else {
+                this->col++;
             }
         }
         value--;
     }
-    this->line = line;
-    this->col = col;
     this->determinePos();
 
 }

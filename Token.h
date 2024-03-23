@@ -17,7 +17,7 @@ private:
     void initTexture();
 public:
     // constructor
-    Token(const std::string &color_);
+    explicit Token(const std::string &color_);
 
     // functions
     void setPosition(sf::Vector2f newPosition);
