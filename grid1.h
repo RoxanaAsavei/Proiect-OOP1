@@ -7,9 +7,7 @@ class Grid {
 private:
     // class objects
     int size; // size of each square
-    sf::RectangleShape square;
     std::vector<std::vector<sf::RectangleShape>> tiles;
-    sf::CircleShape circle;
     std::vector<sf::CircleShape> circles;
 
     // colors for the grid
@@ -23,11 +21,11 @@ private:
     static const sf::Color light_red;
 
     // functions
-    void initCircle(int line1, int col1, int line2, int col2, sf::Color color);
+    void initCircle(int line1, int col1, int line2, int col2, sf::Color color, sf::CircleShape &circle);
     void initCircles();
 
-    void setColor(int row, int col);
-    void initSquare(int line, int col);
+    static void setColor(int row, int col, sf::RectangleShape &square);
+    void initSquare(int line, int col, sf::RectangleShape &square);
     void initTiles();
 
 
