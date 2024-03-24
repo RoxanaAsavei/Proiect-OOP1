@@ -22,6 +22,9 @@ public:
     // constructor
     Dice();
 
+    // accessors
+    sf::RectangleShape getDiceFace();
+
     // functions
     void Roll();
     void renderDice(sf::RenderWindow &window);

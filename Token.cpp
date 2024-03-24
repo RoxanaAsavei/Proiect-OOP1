@@ -1,15 +1,14 @@
-
 #include "Token.h"
 
 void Token::setPosition(sf::Vector2f newPosition) {
-    this->position = newPosition;
+    this->sprite.setPosition(newPosition);
 }
 
 void Token::initToken() {
-    this->initTexture();
     this->line = 0;
     this->col = 0;
-    this->position = sf::Vector2f(0.f, 0.f);
+    this->initTexture();
+    this->sprite.setTexture(this->texture);
     this->sprite.setScale(0.2f, 0.2f);
 }
 

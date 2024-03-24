@@ -21,7 +21,7 @@ private:
     static const sf::Color light_red;
 
     // functions
-    void initCircle(int line1, int col1, int line2, int col2, sf::Color color, sf::CircleShape &circle);
+    void initCircle(int line1, int line2, int col1, int col2, sf::Color color, sf::CircleShape &circle);
     void initCircles();
 
     static void setColor(int row, int col, sf::RectangleShape &square);

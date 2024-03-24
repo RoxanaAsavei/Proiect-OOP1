@@ -7,11 +7,12 @@ int main() {
     std::srand(static_cast<unsigned>(time(NULL)));
     Game game;
 
+
     // game loop
     while(game.running() and !game.ending()) { // window is still open
         game.render(); // render grid & tokens
         // rolling the dice
-        game.renderDice();
+        game.displayDice();
         // update
         game.update();
         // render grid & tokens after tokens being moved
@@ -20,7 +21,6 @@ int main() {
         game.clearGrid();
 
     }
-
     return 0;
 
 }

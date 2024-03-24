@@ -1,7 +1,5 @@
 #include "Player.h"
 
-
-
 Player::Player() {
     initPlayer();
 }
@@ -9,27 +7,30 @@ Player::Player() {
 void Player::initPlayer() {
     this->color = "red";
     // adding all 4 tokens
-    Token token{color};
+    Token token1{this->color};
     // setting position for the in-house tokens
-    token.setPosition(sf::Vector2f(1 * 60 - 4 , 10 * 60));
-    this->tokensInHouse.push_back(token);
+    token1.setPosition(sf::Vector2f(1 * 60 - 4 , 10 * 60));
+    this->tokensInHouse.push_back(token1);
 
-    token.setPosition(sf::Vector2f(3 * 60 - 4 , 10 * 60));
-    this->tokensInHouse.push_back(token);
+    Token token2{this->color};
+    token2.setPosition(sf::Vector2f(3 * 60 - 4 , 10 * 60));
+    this->tokensInHouse.push_back(token2);
 
-    token.setPosition(sf::Vector2f(1 * 60 - 4 , 12 * 60));
-    this->tokensInHouse.push_back(token);
+    Token token3{this->color};
+    token3.setPosition(sf::Vector2f(1 * 60 - 4 , 12 * 60));
+    this->tokensInHouse.push_back(token3);
 
-    token.setPosition(sf::Vector2f(3 * 60 - 4 , 12 * 60));
-    this->tokensInHouse.push_back(token);
+    Token token4{this->color};
+    token4.setPosition(sf::Vector2f(3 * 60 - 4 , 12 * 60));
+    this->tokensInHouse.push_back(token4);
 
 }
 
 void Player::renderTokens(sf::RenderWindow &window) {
-    for(auto t : this->tokensInHouse) {
+    for(const auto& t : this->tokensInHouse) {
         t.renderToken(window);
     }
-    for(auto t: this->tokensInGame) {
+    for(const auto& t: this->tokensInGame) {
         t.renderToken(window);
     }
 

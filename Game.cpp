@@ -5,7 +5,7 @@ void Game::initWindow() {
     this->videoMode.height = 900;
     this->videoMode.width = 900;
     this->window = new sf::RenderWindow(this->videoMode, "Ludo game", sf::Style::Titlebar | sf::Style::Close);
-    this->window->setFramerateLimit(60);
+    this->window->setFramerateLimit(6);
 }
 
 void Game::initVariables() {
@@ -46,7 +46,7 @@ void Game::update() { // the logic behind the game
     }
 
     // end game condition
-    if(this->player.inGame() == 0) {
+    if(this->player.inGame() == 0 && this->player.inHouse() == 0) {
         this->endGame = true;
     }
 
@@ -55,37 +55,48 @@ void Game::update() { // the logic behind the game
 void Game::updateTokens() {
 
     // daca da 6 si mai are in casa, e obligat sa scoata din casa
-    if(this->dice.diceValue == 5 and !this->player.inHouse()) {
-       if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-           this->updateMousePosition(); // iau pozitia curenta
-           bool moved = false;
-           for(int i = 0; i < this->player.inHouse() and !moved; ++i) {
-               if(this->player.tokensInHouse[i].sprite.getGlobalBounds().contains(this->mousePosView)) {
-                   moved = true;
-                   // get it out of house
-                   this->player.tokensInHouse[i].line = 13;
-                   this->player.tokensInHouse[i].col = 6;
-                   this->player.tokensInHouse[i].determinePos();
-                   // place it in game
-                   this->player.tokensInGame.push_back(player.tokensInHouse[i]);
-                   // token no longer in house
-                   this->player.tokensInHouse.erase(this->player.tokensInHouse.begin() + i);
-               }
+    if(this->dice.diceValue == 5 and this->player.inHouse()) {
+        bool clickedUpon = false;
+        while(!clickedUpon) {
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                this->updateMousePosition(); // iau pozitia curenta
+                bool moved = false;
+                for(int i = 0; i < this->player.inHouse() and !moved; ++i) {
+                    this->pollEvents(); // so i can close the window at any moment
+                    if(this->player.tokensInHouse[i].sprite.getGlobalBounds().contains(this->mousePosView)) {
+                        moved = true;
+                        clickedUpon = true;
+                        // get it out of house
+                        this->player.tokensInHouse[i].line = 13;
+                        this->player.tokensInHouse[i].col = 6;
+                        this->player.tokensInHouse[i].determinePos();
+                        // place it in game
+                        this->player.tokensInGame.push_back(player.tokensInHouse[i]);
+                        // token no longer in house
+                        this->player.tokensInHouse.erase(this->player.tokensInHouse.begin() + i);
+                    }
 
-           }
-       }
+                }
+            }
+        }
+
     }
 
     else {
-        if(this->player.inGame()) {
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                this->updateMousePosition();
-                bool moved = false;
-                for(int i = 0; i < this->player.inGame() && !moved; ++i) {
-                    if(this->player.tokensInGame[i].sprite.getGlobalBounds().contains(this->mousePosView)) {
-                        moved = true;
-                        bool finished = false;
-                        this->player.tokensInGame[i].move(this->dice.diceValue, finished);
+        if(this->player.inGame()) { // if the player still has tokens in game
+            bool clickedUpon = false;
+            while(!clickedUpon) {
+                if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                    this->updateMousePosition();
+                    bool moved = false;
+                    for(int i = 0; i < this->player.inGame() && !moved; ++i) {
+                        this->pollEvents(); // so i can close the window at any moment
+                        if(this->player.tokensInGame[i].sprite.getGlobalBounds().contains(this->mousePosView)) {
+                            moved = true;
+                            clickedUpon = true;
+                            bool finished = false;
+                            this->player.tokensInGame[i].move(this->dice.diceValue, finished);
+                        }
                     }
                 }
             }
@@ -105,14 +116,12 @@ void Game::render() { // the drawing part
      *  - render objects
      *  - display frame in window
      * */
-
-    this->window->clear();
-
-    // draw game objects
+     this->window->clear();
+  // draw game objects
     this->grid.renderGrid(*this->window);
     this->player.renderTokens(*this->window);
-
     this->window->display();
+
 }
 
 bool Game::running() const {
@@ -124,17 +133,39 @@ bool Game::ending() const {
 }
 
 void Game::renderDice() { // gridul si pionii deja sunt
-    this->dice.Roll();
-    this->dice.renderDice(*this->window);
-    this->window->display();
+
+        this->dice.Roll();
+        this->dice.renderDice(*this->window);
+        this->window->display();
 }
 
 void Game::clearGrid() {
-    for(int i = this->player.tokensInGame.size() - 1; i >= 0; --i) {
-        if(this->player.tokensInGame[i].final()) {
-            this->player.tokensInGame.erase(this->player.tokensInGame.begin() + i);
+        for(int i = this->player.tokensInGame.size() - 1; i >= 0; --i) {
+            if(this->player.tokensInGame[i].final()) {
+                this->player.tokensInGame.erase(this->player.tokensInGame.begin() + i);
+            }
         }
-    }
+
+}
+
+void Game::displayDice() {
+        this->renderDice(); // rendering the dice once
+        // you have to click on it
+        sf::RectangleShape diceFace = dice.getDiceFace();
+        bool clickedUpon = false;
+        while(!clickedUpon) {
+            this->pollEvents();
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                this->updateMousePosition();
+                if(diceFace.getGlobalBounds().contains(this->mousePosView)) {
+                    clickedUpon = true;
+                    // rolling the dice for 5 times
+                    for(int i = 0; i < 5; ++i) {
+                        this->renderDice();
+                    }
+                }
+            }
+        }
 }
 
 

@@ -25,7 +25,6 @@ private:
     // game logic
     bool endGame;
 
-
     // functions
     void initVariables();
     void initWindow();
@@ -46,6 +45,7 @@ public:
 
     void render();
     void renderDice();
+    void displayDice();
 
     void pollEvents();
     void clearGrid();

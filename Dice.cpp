@@ -12,7 +12,7 @@ void Dice::initDiceFaces() {
 
 void Dice::initFace(int faceNo) {
     this->face.setSize(sf::Vector2f(size, size));
-    this->face.setPosition(sf::Vector2f(10* 60, 10 * 60)); // line 10, col 10
+    this->face.setPosition(sf::Vector2f(10 * 60, 10 * 60)); // line 10, col 10
     this->face.setTexture(&this->textures[faceNo]);
 }
 
@@ -41,4 +41,8 @@ void Dice::initTextures() {
     this->textures[5].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-six.png");
 
 
+}
+
+sf::RectangleShape Dice::getDiceFace() {
+    return this->diceFaces[this->diceValue];
 }
