@@ -73,7 +73,7 @@ void Token::move(int value, bool &finished) {
         }
         else if(this->line == 8) {
             if(this->col == 9) {
-                this->line--;
+                this->line++;
                 this->col--;
             }
             else if(this->col == 0) {
