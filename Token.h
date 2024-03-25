@@ -1,6 +1,7 @@
 #ifndef OOP_TOKEN_H
 #define OOP_TOKEN_H
 #include <SFML/Graphics.hpp>
+#include "AssetsManager.h"
 
 class Token {
 public:
@@ -9,16 +10,14 @@ public:
     int col;
 private:
     sf::Vector2f position;
-    sf::Texture texture;
     std::string color;
 
     // functions
     void initToken();
-    void initTexture();
 
 public:
     // constructor
-    explicit Token(const std::string &color_);
+    Token(const std::string &color_, AssetsManager &assetsManager);
 
     // functions
     void setPosition(sf::Vector2f newPosition);

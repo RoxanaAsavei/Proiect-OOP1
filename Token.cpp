@@ -1,4 +1,5 @@
 #include "Token.h"
+#include "AssetsManager.h"
 
 void Token::setPosition(sf::Vector2f newPosition) {
     this->shape.setPosition(newPosition);
@@ -7,28 +8,13 @@ void Token::setPosition(sf::Vector2f newPosition) {
 void Token::initToken() {
     this->line = 0;
     this->col = 0;
-    this->initTexture();
-    this->shape.setTexture(&this->texture);
     this->shape.setSize(sf::Vector2f(60, 60));
 }
 
-void Token::initTexture() {
-    if(this->color == "yellow") {
-        this->texture.loadFromFile("Proiect-OOP1/tokens/yellow_token.png");
-    }
-    else if(this->color == "blue") {
-        this->texture.loadFromFile("Proiect-OOP1/tokens/blue_token.png");
-    }
-    else if(this->color == "green") {
-        this->texture.loadFromFile("Proiect-OOP1/tokens/green_token.png");
-    }
-    else { // color == "red"
-        this->texture.loadFromFile("Proiect-OOP1/tokens/red_token.png");
-    }
-}
 
-Token::Token(const std::string &color_) : color(color_) {
+Token::Token(const std::string &color_, AssetsManager &assetsManager) : color(color_) {
     initToken();
+    this->shape.setTexture(assetsManager.getRed());
 }
 
 void Token::renderToken(sf::RenderWindow &window) const {

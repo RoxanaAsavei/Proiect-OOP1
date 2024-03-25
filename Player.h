@@ -1,6 +1,7 @@
 #ifndef OOP_PLAYER_H
 #define OOP_PLAYER_H
 #include "Token.h"
+#include "AssetsManager.h"
 
 class Player {
 public:
@@ -8,7 +9,7 @@ public:
     std::vector<Token> tokensInHouse;
 private:
     std::string color;
-
+    AssetsManager assetsManager;
 
     // functions
     void initPlayer();

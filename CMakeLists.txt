@@ -119,6 +119,8 @@ add_executable(${PROJECT_NAME}
         Token.h
         Player.cpp
         Player.h
+        AssetsManager.cpp
+        AssetsManager.h
 )
 
 ###############################################################################
