@@ -1,15 +1,15 @@
 #include "Token.h"
 
 void Token::setPosition(sf::Vector2f newPosition) {
-    this->sprite.setPosition(newPosition);
+    this->shape.setPosition(newPosition);
 }
 
 void Token::initToken() {
     this->line = 0;
     this->col = 0;
     this->initTexture();
-    this->sprite.setTexture(this->texture);
-    this->sprite.setScale(0.2f, 0.2f);
+    this->shape.setTexture(&this->texture);
+    this->shape.setSize(sf::Vector2f(60, 60));
 }
 
 void Token::initTexture() {
@@ -32,12 +32,13 @@ Token::Token(const std::string &color_) : color(color_) {
 }
 
 void Token::renderToken(sf::RenderWindow &window) const {
-    window.draw(this->sprite);
+    window.draw(this->shape);
 }
 
 void Token::determinePos() { // 60 as the square size in the grid
     this->position.x = this->col * 60;
     this->position.y = this->line * 60;
+    this->shape.setPosition(this->position.x, this->position.y);
 }
 
 void Token::move(int value, bool &finished) {

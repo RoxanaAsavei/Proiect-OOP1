@@ -4,7 +4,7 @@
 
 class Token {
 public:
-    sf::Sprite sprite;
+    sf::RectangleShape shape;
     int line;
     int col;
 private:
@@ -15,6 +15,7 @@ private:
     // functions
     void initToken();
     void initTexture();
+
 public:
     // constructor
     explicit Token(const std::string &color_);

@@ -10,7 +10,6 @@ void Game::initWindow() {
 
 void Game::initVariables() {
     this->window = nullptr;
-
     this->squareSize = 60;
     this->endGame = false;
 }
@@ -63,7 +62,7 @@ void Game::updateTokens() {
                 bool moved = false;
                 for(int i = 0; i < this->player.inHouse() and !moved; ++i) {
                     this->pollEvents(); // so i can close the window at any moment
-                    if(this->player.tokensInHouse[i].sprite.getGlobalBounds().contains(this->mousePosView)) {
+                    if(this->player.tokensInHouse[i].shape.getGlobalBounds().contains(this->mousePosView)) {
                         moved = true;
                         clickedUpon = true;
                         // get it out of house
@@ -91,11 +90,11 @@ void Game::updateTokens() {
                     bool moved = false;
                     for(int i = 0; i < this->player.inGame() && !moved; ++i) {
                         this->pollEvents(); // so i can close the window at any moment
-                        if(this->player.tokensInGame[i].sprite.getGlobalBounds().contains(this->mousePosView)) {
+                        if(this->player.tokensInGame[i].shape.getGlobalBounds().contains(this->mousePosView)) {
                             moved = true;
                             clickedUpon = true;
                             bool finished = false;
-                            this->player.tokensInGame[i].move(this->dice.diceValue, finished);
+                            this->player.tokensInGame[i].move(this->dice.diceValue + 1, finished);
                         }
                     }
                 }
@@ -116,8 +115,8 @@ void Game::render() { // the drawing part
      *  - render objects
      *  - display frame in window
      * */
-     this->window->clear();
-  // draw game objects
+    this->window->clear();
+    // draw game objects
     this->grid.renderGrid(*this->window);
     this->player.renderTokens(*this->window);
     this->window->display();

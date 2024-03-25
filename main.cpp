@@ -7,6 +7,10 @@ int main() {
     std::srand(static_cast<unsigned>(time(NULL)));
     Game game;
 
+//    while(game.running() and !game.ending()) {
+//        game.update();
+//        game.render();
+//    }
 
     // game loop
     while(game.running() and !game.ending()) { // window is still open

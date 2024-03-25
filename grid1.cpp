@@ -81,33 +81,6 @@ void Grid::initSquare(int line, int col, sf::RectangleShape& square) {
 
 
 void Grid::initCircles() {
-//    sf::CircleShape g1;
-//    this->initCircle(1, 1, 3, 3, light_green, g1);
-//    this->circles.push_back(g1);
-//
-//    sf::CircleShape g2;
-//    this->initCircle(3, 1, 5, 3, light_green, g2);
-//    this->circles.push_back(g2);
-//
-//    sf::CircleShape g3;
-//    this->initCircle(1, 3, 3, 5, light_green, g3);
-//    this->circles.push_back(g3);
-//
-//    sf::CircleShape g4;
-//    this->initCircle(3, 3, 5, 5, light_green, g4);
-//    this->circles.push_back(g4);
-//
-//    sf::CircleShape y1;
-//    this->initCircle(10, 1, 12, 3, light_yellow, y1);
-//    this->circles.push_back(y1);
-//
-//    sf::CircleShape y2;
-//    this->initCircle(12, 1, 14, 3, light_yellow, y2);
-//    this->circles.push_back(y2);
-//
-//    sf::CircleShape y3;
-//    this->initCircle(10, 3, 12, 5, light_yellow, y3);
-//    this->circles.push_back(y3);
 
     sf::CircleShape g1;
     this->initCircle(1, 3, 1, 3, light_green, g1);
