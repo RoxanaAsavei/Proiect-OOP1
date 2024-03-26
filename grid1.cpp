@@ -65,6 +65,8 @@ void Grid::initCircle(int line1, int line2, int col1, int col2, sf::Color color,
     float radius = this->size / 2.0f;
     circle.setRadius(radius);
     circle.setFillColor(color);
+    circle.setOutlineThickness(2.f);
+    circle.setOutlineColor(sf::Color::Black);
     circle.setPosition(centerX - radius, centerY - radius);
 }
 
@@ -74,7 +76,7 @@ void Grid::initSquare(int line, int col, sf::RectangleShape& square) {
     square.setSize(sf::Vector2f(size, size));
     setColor(line, col, square);
     square.setPosition(col * size, line * size);
-    square.setOutlineThickness(1.0f);
+    square.setOutlineThickness(2.0f);
     square.setOutlineColor(sf::Color::Black);
 }
 

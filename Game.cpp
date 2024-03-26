@@ -2,8 +2,7 @@
 
 
 void Game::initWindow() {
-    this->videoMode.height = 900;
-    this->videoMode.width = 900;
+    this->videoMode = sf::VideoMode::getDesktopMode();
     this->window = new sf::RenderWindow(this->videoMode, "Ludo game", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(6);
 }
@@ -115,7 +114,7 @@ void Game::render() { // the drawing part
      *  - render objects
      *  - display frame in window
      * */
-    this->window->clear();
+    this->window->clear(sf::Color::White);
     // draw game objects
     this->grid.renderGrid(*this->window);
     this->player.renderTokens(*this->window);

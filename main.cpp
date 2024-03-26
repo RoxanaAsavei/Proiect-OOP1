@@ -2,6 +2,12 @@
 #include <SFML/Graphics.hpp>
 #include "Game.h"
 
+/**
+ * DO TO
+ * - ce facem cand 2 piese ale aceluiasi jucator ajung in aceeasi celula?
+ *
+ * */
+
 int main() {
     // init srand
     std::srand(static_cast<unsigned>(time(NULL)));
