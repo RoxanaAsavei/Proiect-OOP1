@@ -20,6 +20,7 @@ Dice::Dice() {
     this->size = 100;
     this->diceValue = 0;
     this->textures.resize(6);
+    this->diceValue = 3; // prima valoare, inainte sa dai cu zarul
     this->initTextures();
     this->initDiceFaces();
 }
