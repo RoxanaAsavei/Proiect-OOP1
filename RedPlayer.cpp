@@ -28,3 +28,92 @@ void RedPlayer::initPlayer() {
         token4.setPosition(sf::Vector2f(3 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
         this->tokensInHouse.push_back(token4);
 }
+
+void RedPlayer::move(Token &token, int value, bool &finished) {
+    while(value and !finished) {
+        if(token.col == 6) {
+            if(token.line == 9) {
+                token.line--;
+                token.col--;
+            }
+            else if(token.line == 0) {
+                token.col++;
+            }
+            else {
+                token.line--;
+            }
+        }
+        else if(token.col == 8) {
+            if(token.line == 5) {
+                token.line++;
+                token.col++;
+            }
+            else if(token.line == 14) {
+                token.col--;
+            }
+            else {
+                token.line++;
+            }
+        }
+        else if(token.col == 7) {
+            if(token.line == 0) {
+                token.col++;
+            }
+            else if(token.line == 14) {
+                token.line--;
+            }
+            else {
+                if(token.line - value > 8) {
+                    token.line -= value;
+                    value = 0;
+                    break;
+                }
+                else if(token.line - value == 7){
+                    value = 0;
+                    token.line = 7;
+                    finished = true;
+                    break; // trebuie sa dai fix cat iti trebuie sa intri in casa
+                }
+            }
+        }
+        else if(token.line == 8) {
+            if(token.col == 9) {
+                token.line++;
+                token.col--;
+            }
+            else if(token.col == 0) {
+                token.line--;
+            }
+            else {
+                token.col--;
+            }
+        }
+        else if(token.line == 7) {
+            if(token.col == 0) {
+                token.line--;
+            }
+            else if(token.col == 14) {
+                token.line++;
+            }
+        }
+        else if(token.line == 6) {
+            if(token.col == 5) {
+                token.line--;
+                token.col++;
+            }
+            else if(token.col == 14) {
+                token.line++;
+            }
+            else {
+                token.col++;
+            }
+        }
+        value--;
+    }
+    token.determinePos();
+}
+
+bool RedPlayer::immovable(Token &token, int move) {
+    return token.col == 7 && (token.line >=9 && token.line <= 13) &&
+           (token.line - move < 7 || token.line - move == 8);
+}

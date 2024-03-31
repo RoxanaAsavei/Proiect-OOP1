@@ -23,10 +23,7 @@ public:
     void setPosition(sf::Vector2f newPosition);
     void renderToken(sf::RenderWindow &window) const;
     void determinePos();
-    void move(int value, bool &finished);
     bool final() const;
-    bool immovable(int move);
-
 };
 
 

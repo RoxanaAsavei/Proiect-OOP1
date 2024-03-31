@@ -27,3 +27,98 @@ void BluePlayer::initPlayer() {
 BluePlayer::BluePlayer() {
     this->initPlayer();
 }
+
+void BluePlayer::move(Token &token, int value, bool &finished) {
+    while(value and !finished) {
+        if(token.line == 7) {
+            if(token.col == 0) {
+                token.line--;
+            }
+            else if(token.col == 14) {
+                token.col--;
+            }
+            else {
+                if(token.col - value > 8) {
+                    token.col -= value;
+                    value = 0;
+                    break;
+                }
+
+                else if(token.col - value == 7) {
+                    token.col = 7;
+                    value = 0;
+                    finished = true;
+                    break;
+                }
+            }
+        }
+        else if(token.line == 8) {
+            if(token.col == 9) {
+                token.line++;
+                token.col--;
+            }
+            else if(token.col == 0) {
+                token.line--;
+            }
+            else {
+                token.col--;
+            }
+        }
+        else if(token.line == 6) {
+            if(token.col == 5) {
+                token.line--;
+                token.col++;
+            }
+            else if(token.col == 14) {
+                token.line++;
+            }
+            else {
+                token.col++;
+            }
+        }
+
+        else if(token.col == 6) {
+            if(token.line == 9) {
+                token.line--;
+                token.col--;
+            }
+            else if(token.line == 0) {
+                token.col++;
+            }
+            else {
+                token.line--;
+            }
+        }
+        else if(token.col == 8) {
+            if(token.line == 5) {
+                token.line++;
+                token.col++;
+            }
+            else if(token.line == 14) {
+                token.col--;
+            }
+            else {
+                token.line++;
+            }
+        }
+        else if(token.col == 7) {
+            if(token.line == 0) {
+                token.col++;
+            }
+            else if(token.line == 14) {
+                token.col--;
+            }
+        }
+        value--;
+    }
+    token.determinePos();
+}
+
+bool BluePlayer::immovable(Token &token, int move) {
+    return token.line == 7 && (token.col >= 9 && token.col <= 13) &&
+            (token.col - move == 8 || token.col - move < 7);
+}
+
+bool BluePlayer::almostDone(Token &token) {
+    return token.line == 7 && token.col >= 9 && token.col <= 13;
+}

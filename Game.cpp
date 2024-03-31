@@ -36,10 +36,10 @@ void Game::pollEvents() {
 
 }
 
-void Game::update() { // the logic behind the game
+void Game::updateRed() { // the logic behind the game
     this->pollEvents();
     if(this->running()) {
-        this->updateTokens();
+        this->updateTokensRed();
     }
 
     // end game condition
@@ -49,7 +49,7 @@ void Game::update() { // the logic behind the game
 
 }
 
-void Game::updateTokens() {
+void Game::updateTokensRed() {
 
     // daca da 6 si mai are in casa, e obligat sa scoata din casa
     if(this->dice.diceValue == 5 and this->redPlayer.inHouse()) {
@@ -94,11 +94,11 @@ void Game::updateTokens() {
                         if(this->ev.type == sf::Event::Closed) {
                             break;
                         }
-                        if(clickedOn(i) && !this->redPlayer.tokensInGame[i].immovable(this->dice.diceValue + 1)) {
+                        if(clickedOn(i) && !this->redPlayer.immovable(this->redPlayer.tokensInGame[i], this->dice.diceValue + 1)) {
                             moved = true;
                             clickedUpon = true;
                             bool finished = false;
-                            this->redPlayer.tokensInGame[i].move(this->dice.diceValue + 1, finished);
+                            this->redPlayer.move(this->redPlayer.tokensInGame[i],this->dice.diceValue + 1, finished);
                         }
                     }
                 }
@@ -154,37 +154,110 @@ void Game::clearGrid() {
                     this->redPlayer.tokensInGame.erase(this->redPlayer.tokensInGame.begin() + i);
                 }
             }
-        }
-}
-
-void Game::displayDice() {
-        // you have to click on it
-        sf::RectangleShape diceFace = dice.getDiceFace();
-        bool clickedUpon = false;
-        while(!clickedUpon && this->running()) {
-            this->pollEvents();
-            if(this->ev.type == sf::Event::Closed) {
-                break;
-            }
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                this->updateMousePosition();
-                if(diceFace.getGlobalBounds().contains(this->mousePosView)) {
-                    clickedUpon = true;
-                    // rolling the dice for 5 times
-                    for(int i = 0; i < 5; ++i) {
-                        this->pollEvents();
-                        if(this->ev.type == sf::Event::Closed) {
-                            break;
-                        }
-                        this->renderDice();
-                    }
+            for(int i = this->bluePlayer.tokensInGame.size() - 1; i >= 0; -- i) {
+                if(this->bluePlayer.tokensInGame[i].final()) {
+                    this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + i);
                 }
             }
         }
 }
 
+void Game::displayDiceBlue() {
+    // rolling the dice for 5 times
+    for(int i = 0; i < 5; ++i) {
+        this->pollEvents();
+        if (this->ev.type == sf::Event::Closed) {
+            break;
+        }
+        this->renderDice();
+    }
+}
+
+void Game::displayDiceRed() {
+    // you have to click on it
+    sf::RectangleShape diceFace = dice.getDiceFace();
+    bool clickedUpon = false;
+    while(!clickedUpon && this->running()) {
+        this->pollEvents();
+        if(this->ev.type == sf::Event::Closed) {
+            break;
+        }
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            this->updateMousePosition();
+            if(diceFace.getGlobalBounds().contains(this->mousePosView)) {
+                clickedUpon = true;
+                // rolling the dice for 5 times
+                for(int i = 0; i < 5; ++i) {
+                    this->pollEvents();
+                    if(this->ev.type == sf::Event::Closed) {
+                        break;
+                    }
+                    this->renderDice();
+                }
+            }
+        }
+    }
+}
+
+
 bool Game::clickedOn(int pos) {
     return this->redPlayer.tokensInGame[pos].shape.getGlobalBounds().contains(this->mousePosView);
+}
+
+void Game::redTurn() {
+    this->displayDiceRed();
+    this->updateRed();
+}
+
+void Game::blueTurn() {
+    this->displayDiceBlue();
+    this->updateBlue();
+}
+
+void Game::updateBlue() {
+    this->pollEvents();
+    if(this->running()) {
+        this->updateTokensBlue();
+    }
+
+    // end game condition
+    if(this->bluePlayer.inGame() == 0 && this->bluePlayer.inHouse() == 0) {
+        this->endGame = true;
+    }
+}
+
+void Game::updateTokensBlue() {
+    if(this->dice.diceValue == 5 and this->bluePlayer.inHouse()) { // e obligat sa scoata din casa
+        this->bluePlayer.tokensInHouse[0].line = 8;
+        this->bluePlayer.tokensInHouse[0].col = 13;
+        this->bluePlayer.tokensInHouse[0].determinePos();
+        // place it in game
+        this->bluePlayer.tokensInGame.push_back(this->bluePlayer.tokensInHouse[0]);
+        this->bluePlayer.tokensInHouse.erase(this->bluePlayer.tokensInHouse.begin());
+    }
+
+    else { // trebuie sa mute unul dintre pionii din joc
+        // vad daca am unul aproape de a intra in casa
+        bool moved = false;
+        for(int i = 0; i < this->bluePlayer.inGame() && !moved; ++i) {
+            if(this->bluePlayer.almostDone(this->bluePlayer.tokensInGame[i]) && !this->bluePlayer.immovable(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1)) {
+                bool finished = false;
+                this->bluePlayer.move(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1, finished);
+                moved = true;
+            }
+        }
+
+        if(!moved) {
+            // il iau pe primul care e movable
+            for(int i = 0; i < this->bluePlayer.inGame() && !moved; ++i) {
+                if(!this->bluePlayer.immovable(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1)) {
+                    bool finished = false;
+                    this->bluePlayer.move(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1, finished);
+                    moved = true;
+                }
+            }
+        }
+    }
 }
 
 

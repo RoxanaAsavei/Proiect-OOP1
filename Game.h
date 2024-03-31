@@ -41,18 +41,25 @@ public:
     bool ending() const;
 
     // functions
-    void update();
-    void updateTokens();
+    void updateRed();
+    void updateTokensRed();
+    void updateBlue();
+    void updateTokensBlue();
+
     void updateMousePosition();
 
     void render();
     void renderDice();
-    void displayDice();
+    void displayDiceRed();
+    void displayDiceBlue();
 
     void pollEvents();
     void clearGrid();
 
     bool clickedOn(int pos);
+
+    void redTurn();
+    void blueTurn();
 };
 
 

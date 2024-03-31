@@ -17,10 +17,10 @@ int main() {
     // game loop
     while(game.running() and !game.ending()) { // window is still open
         game.render(); // render grid & tokens & dice
-        game.displayDice(); // rolling the dice
-        // update
-        game.update();
-        // rendering the grid after the updates
+        // updates for each player
+        game.redTurn();
+        game.render();
+        game.blueTurn();
         game.render();
         // take out the tokens that have finished
         game.clearGrid();
