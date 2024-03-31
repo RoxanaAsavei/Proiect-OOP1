@@ -1,5 +1,8 @@
 #include "grid1.h"
 
+const int offset_ox = 480;
+const int offset_oy = 60;
+
 const sf::Color Grid::green{60,179,113};
 const sf::Color Grid::yellow{255, 255, 0};
 const sf::Color Grid::red{220, 20, 60};
@@ -56,10 +59,10 @@ void Grid::setColor(int line, int col, sf::RectangleShape &square) {
 
 void Grid::initCircle(int line1, int line2, int col1, int col2, sf::Color color, sf::CircleShape &circle) {
     // setting dimension, color and position for the circle
-    float minX = line1 * this->size;
-    float maxX = line2 * this->size;
-    float minY = col1 * this->size;
-    float maxY = col2 * this->size;
+    float minX = line1 * this->size + offset_ox;
+    float maxX = line2 * this->size + offset_ox;
+    float minY = col1 * this->size + offset_oy;
+    float maxY = col2 * this->size + offset_oy;
     float centerX = (minX + maxX) / 2.0f;
     float centerY = (minY + maxY) / 2.0f;
     float radius = this->size / 2.0f;
@@ -75,7 +78,7 @@ void Grid::initSquare(int line, int col, sf::RectangleShape& square) {
     // setting the square's properties
     square.setSize(sf::Vector2f(size, size));
     setColor(line, col, square);
-    square.setPosition(col * size, line * size);
+    square.setPosition(col * size + offset_ox, line * size + offset_oy);
     square.setOutlineThickness(2.0f);
     square.setOutlineColor(sf::Color::Black);
 }

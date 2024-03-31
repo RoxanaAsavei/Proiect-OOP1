@@ -94,7 +94,7 @@ void Game::updateTokens() {
                         if(this->ev.type == sf::Event::Closed) {
                             break;
                         }
-                        if(this->player.tokensInGame[i].shape.getGlobalBounds().contains(this->mousePosView)) {
+                        if(clickedOn(i) && !this->player.tokensInGame[i].immovable(this->dice.diceValue + 1)) {
                             moved = true;
                             clickedUpon = true;
                             bool finished = false;
@@ -120,7 +120,7 @@ void Game::render() { // the drawing part
      *  - display frame in window
      * */
      if(this->running()) {
-         this->window->clear(sf::Color::White);
+         this->window->clear(sf::Color{163, 228, 215});
          // draw game objects
          this->grid.renderGrid(*this->window);
          this->player.renderTokens(*this->window);
@@ -180,6 +180,10 @@ void Game::displayDice() {
                 }
             }
         }
+}
+
+bool Game::clickedOn(int pos) {
+    return this->player.tokensInGame[pos].shape.getGlobalBounds().contains(this->mousePosView);
 }
 
 

@@ -1,6 +1,7 @@
 #include "Dice.h"
 
-
+const int offset_ox = 480;
+const int offset_oy = 60;
 
 void Dice::initDiceFaces() {
     for(int i = 0; i < 6; ++i) {
@@ -12,13 +13,12 @@ void Dice::initDiceFaces() {
 
 void Dice::initFace(int faceNo) {
     this->face.setSize(sf::Vector2f(size, size));
-    this->face.setPosition(sf::Vector2f(10 * 60, 10 * 60)); // line 10, col 10
+    this->face.setPosition(sf::Vector2f(1600, 810));
     this->face.setTexture(&this->textures[faceNo]);
 }
 
 Dice::Dice() {
-    this->size = 100;
-    this->diceValue = 0;
+    this->size = 150;
     this->textures.resize(6);
     this->diceValue = 3; // prima valoare, inainte sa dai cu zarul
     this->initTextures();

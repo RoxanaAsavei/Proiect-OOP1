@@ -49,6 +49,8 @@ public:
 
     void pollEvents();
     void clearGrid();
+
+    bool clickedOn(int pos);
 };
 
 

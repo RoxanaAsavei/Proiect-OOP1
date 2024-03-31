@@ -1,6 +1,9 @@
 #include "Token.h"
 #include "AssetsManager.h"
 
+const int offset_ox = 480;
+const int offset_oy = 60;
+
 void Token::setPosition(sf::Vector2f newPosition) {
     this->shape.setPosition(newPosition);
 }
@@ -22,8 +25,8 @@ void Token::renderToken(sf::RenderWindow &window) const {
 }
 
 void Token::determinePos() { // 60 as the square size in the grid
-    this->position.x = this->col * 60;
-    this->position.y = this->line * 60;
+    this->position.x = this->col * 60 + offset_ox;
+    this->position.y = this->line * 60 + offset_oy;
     this->shape.setPosition(this->position.x, this->position.y);
 }
 
@@ -61,12 +64,15 @@ void Token::move(int value, bool &finished) {
                 this->line--;
             }
             else {
-                if(this->line - value == 8) {
-                    value = 0;
+                if(this->line - value > 8) {
                     this->line -= value;
-                    finished = true;
+                    value = 0;
+                    break;
                 }
-                else {
+                else if(this->line - value == 7){
+                    value = 0;
+                    this->line = 7;
+                    finished = true;
                     break; // trebuie sa dai fix cat iti trebuie sa intri in casa
                 }
             }
@@ -110,5 +116,10 @@ void Token::move(int value, bool &finished) {
 }
 
 bool Token::final() const {
-    return this->line == 8 && this->col == 7;
+    return this->line == 7 && this->col == 7;
+}
+
+bool Token::immovable(int move) {
+    return this->col == 7 && (this->line >=9 && this->line <= 13) &&
+    (this->line - move < 7 || this->line - move == 8);
 }

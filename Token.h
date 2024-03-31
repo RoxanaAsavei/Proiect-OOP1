@@ -25,6 +25,7 @@ public:
     void determinePos();
     void move(int value, bool &finished);
     bool final() const;
+    bool immovable(int move);
 
 };
 
