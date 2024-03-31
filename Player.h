@@ -7,16 +7,11 @@ class Player {
 public:
     std::vector<Token> tokensInGame;
     std::vector<Token> tokensInHouse;
-private:
+protected:
     std::string color;
     AssetsManager assetsManager;
 
-    // functions
-    void initPlayer();
-
 public:
-    // constructor
-    Player();
 
     // accessors
     int inHouse() const;

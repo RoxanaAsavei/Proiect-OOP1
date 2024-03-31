@@ -3,7 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include "grid1.h"
 #include "Dice.h"
-#include "Player.h"
+#include "RedPlayer.h"
+#include "BluePlayer.h"
 
 class Game {
 private:
@@ -19,7 +20,8 @@ private:
     // game objects
     Grid grid;
     Dice dice;
-    Player player;
+    RedPlayer redPlayer;
+    BluePlayer bluePlayer;
     int squareSize;
 
     // game logic

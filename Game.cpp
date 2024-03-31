@@ -43,7 +43,7 @@ void Game::update() { // the logic behind the game
     }
 
     // end game condition
-    if(this->player.inGame() == 0 && this->player.inHouse() == 0) {
+    if(this->redPlayer.inGame() == 0 && this->redPlayer.inHouse() == 0) {
         this->endGame = true;
     }
 
@@ -52,28 +52,28 @@ void Game::update() { // the logic behind the game
 void Game::updateTokens() {
 
     // daca da 6 si mai are in casa, e obligat sa scoata din casa
-    if(this->dice.diceValue == 5 and this->player.inHouse()) {
+    if(this->dice.diceValue == 5 and this->redPlayer.inHouse()) {
         bool clickedUpon = false;
         while(!clickedUpon && this->running()) {
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 this->updateMousePosition(); // iau pozitia curenta
                 bool moved = false;
-                for(int i = 0; i < this->player.inHouse() and !moved; ++i) {
+                for(int i = 0; i < this->redPlayer.inHouse() and !moved; ++i) {
                     this->pollEvents(); // so i can close the window at any moment
                     if(this->ev.type == sf::Event::Closed) {
                         break;
                     }
-                    if(this->player.tokensInHouse[i].shape.getGlobalBounds().contains(this->mousePosView)) {
+                    if(this->redPlayer.tokensInHouse[i].shape.getGlobalBounds().contains(this->mousePosView)) {
                         moved = true;
                         clickedUpon = true;
                         // get it out of house
-                        this->player.tokensInHouse[i].line = 13;
-                        this->player.tokensInHouse[i].col = 6;
-                        this->player.tokensInHouse[i].determinePos();
+                        this->redPlayer.tokensInHouse[i].line = 13;
+                        this->redPlayer.tokensInHouse[i].col = 6;
+                        this->redPlayer.tokensInHouse[i].determinePos();
                         // place it in game
-                        this->player.tokensInGame.push_back(player.tokensInHouse[i]);
+                        this->redPlayer.tokensInGame.push_back(redPlayer.tokensInHouse[i]);
                         // token no longer in house
-                        this->player.tokensInHouse.erase(this->player.tokensInHouse.begin() + i);
+                        this->redPlayer.tokensInHouse.erase(this->redPlayer.tokensInHouse.begin() + i);
                     }
 
                 }
@@ -83,22 +83,22 @@ void Game::updateTokens() {
     }
 
     else {
-        if(this->player.inGame()) { // if the player still has tokens in game
+        if(this->redPlayer.inGame()) { // if the redPlayer still has tokens in game
             bool clickedUpon = false;
             while(!clickedUpon && this->running()) {
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     this->updateMousePosition();
                     bool moved = false;
-                    for(int i = 0; i < this->player.inGame() && !moved; ++i) {
+                    for(int i = 0; i < this->redPlayer.inGame() && !moved; ++i) {
                         this->pollEvents(); // so i can close the window at any moment
                         if(this->ev.type == sf::Event::Closed) {
                             break;
                         }
-                        if(clickedOn(i) && !this->player.tokensInGame[i].immovable(this->dice.diceValue + 1)) {
+                        if(clickedOn(i) && !this->redPlayer.tokensInGame[i].immovable(this->dice.diceValue + 1)) {
                             moved = true;
                             clickedUpon = true;
                             bool finished = false;
-                            this->player.tokensInGame[i].move(this->dice.diceValue + 1, finished);
+                            this->redPlayer.tokensInGame[i].move(this->dice.diceValue + 1, finished);
                         }
                     }
                 }
@@ -123,7 +123,8 @@ void Game::render() { // the drawing part
          this->window->clear(sf::Color{163, 228, 215});
          // draw game objects
          this->grid.renderGrid(*this->window);
-         this->player.renderTokens(*this->window);
+         this->redPlayer.renderTokens(*this->window);
+         this->bluePlayer.renderTokens(*this->window);
          this->dice.renderDice(*this->window);
          this->window->display();
      }
@@ -148,9 +149,9 @@ void Game::renderDice() { // gridul si pionii deja sunt
 
 void Game::clearGrid() {
         if(this->running()) {
-            for(int i = this->player.tokensInGame.size() - 1; i >= 0; --i) {
-                if(this->player.tokensInGame[i].final()) {
-                    this->player.tokensInGame.erase(this->player.tokensInGame.begin() + i);
+            for(int i = this->redPlayer.tokensInGame.size() - 1; i >= 0; --i) {
+                if(this->redPlayer.tokensInGame[i].final()) {
+                    this->redPlayer.tokensInGame.erase(this->redPlayer.tokensInGame.begin() + i);
                 }
             }
         }
@@ -183,7 +184,7 @@ void Game::displayDice() {
 }
 
 bool Game::clickedOn(int pos) {
-    return this->player.tokensInGame[pos].shape.getGlobalBounds().contains(this->mousePosView);
+    return this->redPlayer.tokensInGame[pos].shape.getGlobalBounds().contains(this->mousePosView);
 }
 
 

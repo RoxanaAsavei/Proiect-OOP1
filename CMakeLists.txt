@@ -121,6 +121,10 @@ add_executable(${PROJECT_NAME}
         Player.h
         AssetsManager.cpp
         AssetsManager.h
+        RedPlayer.cpp
+        RedPlayer.h
+        BluePlayer.cpp
+        BluePlayer.h
 )
 
 ###############################################################################

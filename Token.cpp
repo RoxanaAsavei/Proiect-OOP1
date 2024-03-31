@@ -17,7 +17,19 @@ void Token::initToken() {
 
 Token::Token(const std::string &color_, AssetsManager &assetsManager) : color(color_) {
     initToken();
-    this->shape.setTexture(assetsManager.getRed());
+    if(this->color == "red") {
+        this->shape.setTexture(assetsManager.getRed());
+    }
+    else if(this->color == "blue") {
+        this->shape.setTexture(assetsManager.getBlue());
+    }
+    else if(this->color == "green") {
+        this->shape.setTexture(assetsManager.getGreen());
+    }
+    else { // yellow
+        this->shape.setTexture(assetsManager.getYellow());
+    }
+
 }
 
 void Token::renderToken(sf::RenderWindow &window) const {

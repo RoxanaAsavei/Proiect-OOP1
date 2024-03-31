@@ -5,14 +5,8 @@
 /**
  * DO TO
  * - ce facem cand 2 piese ale aceluiasi jucator ajung in aceeasi celula?
- * - full screen
  * - adaugare alti playeri
  *
- * Oprire program:
- *      - iau codul din pollevents si il pun in update
- *      - verific daca eventul a fost close window
- *      - dau break in while
- *      - restul functiilor le apelez doar daca fereastra e deschisa
  * */
 
 int main() {
