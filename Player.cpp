@@ -17,4 +17,3 @@ int Player::inHouse() const {
 int Player::inGame() const {
     return this->tokensInGame.size();
 }
-

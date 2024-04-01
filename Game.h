@@ -11,7 +11,6 @@ private:
     // window parameters
     sf::RenderWindow *window;
     sf::VideoMode videoMode;
-    sf::Event ev;
 
     // mouse positions
     sf::Vector2i mousePosWindow;
@@ -41,6 +40,7 @@ public:
     bool ending() const;
 
     // functions
+    void update(int turn);
     void updateRed();
     void updateTokensRed();
     void updateBlue();

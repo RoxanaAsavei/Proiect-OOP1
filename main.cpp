@@ -13,18 +13,14 @@ int main() {
     // init srand
     std::srand(static_cast<unsigned>(time(NULL)));
     Game game;
+    int turn = 1; // cand e 0 muta rosu, cand e 1 muta albastru
 
     // game loop
     while(game.running() and !game.ending()) { // window is still open
         game.render(); // render grid & tokens & dice
-        // updates for each player
-        game.redTurn();
-        game.render();
-        game.blueTurn();
-        game.render();
-        // take out the tokens that have finished
-        game.clearGrid();
-
+        game.update(turn);
+        turn = 1 - turn;
+      //  sf::sleep(sf::seconds(2));
     }
 
     return 0;

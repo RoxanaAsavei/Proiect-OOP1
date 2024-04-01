@@ -4,7 +4,7 @@
 void Game::initWindow() {
     this->videoMode = sf::VideoMode::getDesktopMode();
     this->window = new sf::RenderWindow(this->videoMode, "Ludo game", sf::Style::Titlebar | sf::Style::Close);
-    this->window->setFramerateLimit(6);
+    this->window->setFramerateLimit(60);
 }
 
 void Game::initVariables() {
@@ -24,12 +24,13 @@ Game::~Game() {
 }
 
 void Game::pollEvents() {
-    while(this->window->pollEvent(this->ev)) {
-        if(this->ev.type == sf::Event::Closed) {
+    sf::Event ev;
+    while(this->window->pollEvent(ev)) {
+        if(ev.type == sf::Event::Closed) {
             this->window->close();
         }
-        else if(this->ev.type == sf::Event::KeyPressed) {
-            if(this->ev.key.code == sf::Keyboard::Escape)
+        else if(ev.type == sf::Event::KeyPressed) {
+            if(ev.key.code == sf::Keyboard::Escape)
                 this->window->close();
         }
     }
@@ -60,7 +61,7 @@ void Game::updateTokensRed() {
                 bool moved = false;
                 for(int i = 0; i < this->redPlayer.inHouse() and !moved; ++i) {
                     this->pollEvents(); // so i can close the window at any moment
-                    if(this->ev.type == sf::Event::Closed) {
+                    if(!this->running()) {
                         break;
                     }
                     if(this->redPlayer.tokensInHouse[i].shape.getGlobalBounds().contains(this->mousePosView)) {
@@ -79,7 +80,7 @@ void Game::updateTokensRed() {
                 }
             }
         }
-
+   //    this->window->display();
     }
 
     else {
@@ -91,7 +92,7 @@ void Game::updateTokensRed() {
                     bool moved = false;
                     for(int i = 0; i < this->redPlayer.inGame() && !moved; ++i) {
                         this->pollEvents(); // so i can close the window at any moment
-                        if(this->ev.type == sf::Event::Closed) {
+                        if(!this->running()) {
                             break;
                         }
                         if(clickedOn(i) && !this->redPlayer.immovable(this->redPlayer.tokensInGame[i], this->dice.diceValue + 1)) {
@@ -103,8 +104,8 @@ void Game::updateTokensRed() {
                     }
                 }
             }
-        }
-
+  //         this->window->display();
+       }
     }
 }
 
@@ -119,15 +120,15 @@ void Game::render() { // the drawing part
      *  - render objects
      *  - display frame in window
      * */
-     if(this->running()) {
-         this->window->clear(sf::Color{163, 228, 215});
-         // draw game objects
-         this->grid.renderGrid(*this->window);
-         this->redPlayer.renderTokens(*this->window);
-         this->bluePlayer.renderTokens(*this->window);
-         this->dice.renderDice(*this->window);
-         this->window->display();
-     }
+    if(this->running()) {
+        this->window->clear(sf::Color{163, 228, 215});
+        // draw game objects
+        this->grid.renderGrid(*this->window);
+        this->redPlayer.renderTokens(*this->window);
+        this->bluePlayer.renderTokens(*this->window);
+        this->dice.renderDice(*this->window);
+        this->window->display();
+    }
 
 }
 
@@ -135,38 +136,38 @@ bool Game::running() const {
     return this->window->isOpen();
 }
 
+
 bool Game::ending() const {
     return this->endGame;
 }
 
 void Game::renderDice() { // gridul si pionii deja sunt
-        if(this->running()) {
-            this->dice.Roll();
-            this->dice.renderDice(*this->window);
-            this->window->display();
-        }
+    if(this->running()) {
+        this->dice.Roll();
+        this->render();
+    }
 }
 
 void Game::clearGrid() {
-        if(this->running()) {
-            for(int i = this->redPlayer.tokensInGame.size() - 1; i >= 0; --i) {
-                if(this->redPlayer.tokensInGame[i].final()) {
-                    this->redPlayer.tokensInGame.erase(this->redPlayer.tokensInGame.begin() + i);
-                }
-            }
-            for(int i = this->bluePlayer.tokensInGame.size() - 1; i >= 0; -- i) {
-                if(this->bluePlayer.tokensInGame[i].final()) {
-                    this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + i);
-                }
+    if(this->running()) {
+        for(int i = this->redPlayer.tokensInGame.size() - 1; i >= 0; --i) {
+            if(this->redPlayer.tokensInGame[i].final()) {
+                this->redPlayer.tokensInGame.erase(this->redPlayer.tokensInGame.begin() + i);
             }
         }
+        for(int i = this->bluePlayer.tokensInGame.size() - 1; i >= 0; -- i) {
+            if(this->bluePlayer.tokensInGame[i].final()) {
+                this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + i);
+            }
+        }
+    }
 }
 
 void Game::displayDiceBlue() {
     // rolling the dice for 5 times
     for(int i = 0; i < 5; ++i) {
         this->pollEvents();
-        if (this->ev.type == sf::Event::Closed) {
+        if (!this->running()) {
             break;
         }
         this->renderDice();
@@ -179,7 +180,7 @@ void Game::displayDiceRed() {
     bool clickedUpon = false;
     while(!clickedUpon && this->running()) {
         this->pollEvents();
-        if(this->ev.type == sf::Event::Closed) {
+        if(!this->running()) {
             break;
         }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -189,7 +190,7 @@ void Game::displayDiceRed() {
                 // rolling the dice for 5 times
                 for(int i = 0; i < 5; ++i) {
                     this->pollEvents();
-                    if(this->ev.type == sf::Event::Closed) {
+                    if(!this->running()) {
                         break;
                     }
                     this->renderDice();
@@ -206,11 +207,13 @@ bool Game::clickedOn(int pos) {
 
 void Game::redTurn() {
     this->displayDiceRed();
+    sf::sleep(sf::seconds(2));
     this->updateRed();
 }
 
 void Game::blueTurn() {
     this->displayDiceBlue();
+    sf::sleep((sf::seconds(2)));
     this->updateBlue();
 }
 
@@ -260,8 +263,11 @@ void Game::updateTokensBlue() {
     }
 }
 
-
-
-
-
-
+void Game::update(int turn) {
+    if(turn == 0) { // muta rosu
+        this->redTurn();
+    }
+    else { // muta albastru
+        this->blueTurn();
+    }
+}

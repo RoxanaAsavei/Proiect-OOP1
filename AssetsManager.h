@@ -2,6 +2,8 @@
 #ifndef OOP_ASSETSMANAGER_H
 #define OOP_ASSETSMANAGER_H
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 class AssetsManager { // class used for all the textures, fonts, and sounds that are to be used
 private:
@@ -12,6 +14,10 @@ private:
     sf::Texture greenToken;
     static const int offset_ox;
     static const int offset_oy;
+    // rolling dice sound
+//    sf::SoundBuffer buffer;
+//    sf::Sound soundDice;
+
     // functions
     void initTextures();
 public:

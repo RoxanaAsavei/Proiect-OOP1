@@ -190,5 +190,3 @@ void Grid::renderGrid(sf::RenderWindow &window) {
 
 
 }
-
-

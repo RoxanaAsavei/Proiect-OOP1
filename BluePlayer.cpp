@@ -116,7 +116,7 @@ void BluePlayer::move(Token &token, int value, bool &finished) {
 
 bool BluePlayer::immovable(Token &token, int move) {
     return token.line == 7 && (token.col >= 9 && token.col <= 13) &&
-            (token.col - move == 8 || token.col - move < 7);
+           (token.col - move == 8 || token.col - move < 7);
 }
 
 bool BluePlayer::almostDone(Token &token) {
