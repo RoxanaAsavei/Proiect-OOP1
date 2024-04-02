@@ -24,6 +24,7 @@ public:
     void back(int line, int col);
     void place(Token& token, int line, int col);
     static bool contains(const Token& token, int line, int col);
+    void resize(int line, int col);
 };
 
 

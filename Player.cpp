@@ -99,6 +99,21 @@ bool Player::contains(const Token &token, int line, int col) {
         return true;
     }
     return false;
+}
 
-     return false;
+void Player::resize(int line, int col) {
+    // verifica daca in celula (line, col) am un singur pion ramas si atunci il face mare
+    int pos;
+    int sameTile = 0;
+    for(int i = 0; i < this->inGame(); ++i) {
+        if(this->contains(this->tokensInGame[i], line, col)) {
+            pos = i;
+            sameTile++;
+        }
+    }
+
+    if(sameTile == 1) {
+        this->tokensInGame[pos].determinePos();
+        this->tokensInGame[pos].shape.setSize(sf::Vector2f(squareSize, squareSize));
+    }
 }

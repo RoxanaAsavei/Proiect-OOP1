@@ -100,9 +100,12 @@ void Game::updateTokensRed() {
                             moved = true;
                             clickedUpon = true;
                             bool finished = false;
+                            int lineBefore = this->redPlayer.tokensInGame[i].line;
+                            int colBefore = this->redPlayer.tokensInGame[i].col;
                             this->redPlayer.move(this->redPlayer.tokensInGame[i],this->dice.diceValue + 1, finished);
                             this->bluePlayer.back(this->redPlayer.tokensInGame[i].line, this->redPlayer.tokensInGame[i].col);
                             this->redPlayer.place(this->redPlayer.tokensInGame[i], this->redPlayer.tokensInGame[i].line, this->redPlayer.tokensInGame[i].col);
+                            this->redPlayer.resize(lineBefore, colBefore);
                             if(this->redPlayer.tokensInGame[i].final()) {
                                 this->redPlayer.tokensInGame[i].setPosition(this->redPlayer.finishTiles[this->redPlayer.out()].getPosition());
                                 this->redPlayer.tokensOut.push_back( this->redPlayer.tokensInGame[i]);
@@ -239,10 +242,13 @@ void Game::updateTokensBlue() {
         for(int i = 0; i < this->bluePlayer.inGame() && !moved; ++i) {
             if(this->bluePlayer.almostDone(this->bluePlayer.tokensInGame[i]) && !this->bluePlayer.immovable(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1)) {
                 bool finished = false;
+                int lineBefore = this->bluePlayer.tokensInGame[i].line;
+                int colBefore = this->bluePlayer.tokensInGame[i].col;
                 this->bluePlayer.move(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1, finished);
                 moved = true;
                 this->redPlayer.back(this->bluePlayer.tokensInGame[i].line, this->bluePlayer.tokensInGame[i].col);
                 this->bluePlayer.place(this->bluePlayer.tokensInGame[i], this->bluePlayer.tokensInGame[i].line, this->bluePlayer.tokensInGame[i].col);
+                this->bluePlayer.resize(lineBefore, colBefore);
                 if(this->bluePlayer.tokensInGame[i].final()) {
                     this->bluePlayer.tokensInGame[i].setPosition(this->bluePlayer.finishTiles[this->bluePlayer.out()].getPosition());
                     this->bluePlayer.tokensOut.push_back( this->bluePlayer.tokensInGame[i]);
@@ -257,6 +263,8 @@ void Game::updateTokensBlue() {
                 int index = bluePlayer.random();
                 if(!this->bluePlayer.immovable(this->bluePlayer.tokensInGame[index], this->dice.diceValue)) {
                     bool finished = false;
+                    int lineBefore = this->bluePlayer.tokensInGame[index].line;
+                    int colBefore = this->bluePlayer.tokensInGame[index].col;
                     this->bluePlayer.move(this->bluePlayer.tokensInGame[index], this->dice.diceValue + 1, finished);
                     moved = true;
                     if(this->bluePlayer.tokensInGame[index].final()) {
@@ -268,6 +276,7 @@ void Game::updateTokensBlue() {
                         this->redPlayer.back(this->bluePlayer.tokensInGame[index].line, this->bluePlayer.tokensInGame[index].col);
                         this->bluePlayer.place(this->bluePlayer.tokensInGame[index], this->bluePlayer.tokensInGame[index].line, this->bluePlayer.tokensInGame[index].col);
                     }
+                    this->bluePlayer.resize(lineBefore, colBefore);
                 }
             }
         }
