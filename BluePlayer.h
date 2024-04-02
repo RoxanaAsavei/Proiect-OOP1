@@ -13,6 +13,8 @@ public:
     static bool immovable(Token &token, int move);
     bool almostDone(Token &token);
     int random();
+
+    bool canMove(int i);
 };
 
 #endif //OOP_BLUEPLAYER_H

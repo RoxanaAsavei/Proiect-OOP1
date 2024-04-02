@@ -124,10 +124,18 @@ void RedPlayer::move(Token &token, int value, bool &finished) {
         }
         value--;
     }
-    token.determinePos();
 }
 
 bool RedPlayer::immovable(Token &token, int move) {
     return token.col == 7 && (token.line >=9 && token.line <= 13) &&
            (token.line - move < 7 || token.line - move == 8);
+}
+
+bool RedPlayer::canMove(int move) {
+    for(auto& t: this->tokensInGame) {
+        if(!immovable(t, move)) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -21,6 +21,9 @@ public:
     int out() const;
     //functions
     void renderTokens(sf::RenderWindow &window);
+    void back(int line, int col);
+    void place(Token& token, int line, int col);
+    static bool contains(const Token& token, int line, int col);
 };
 
 

@@ -24,6 +24,7 @@ public:
     void renderToken(sf::RenderWindow &window) const;
     void determinePos();
     bool final() const;
+    void updatePos(int addOx, int addOy);
 };
 
 

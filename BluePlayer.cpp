@@ -125,7 +125,7 @@ void BluePlayer::move(Token &token, int value, bool &finished) {
         }
         value--;
     }
-    token.determinePos();
+
 }
 
 bool BluePlayer::immovable(Token &token, int move) {
@@ -140,4 +140,13 @@ bool BluePlayer::almostDone(Token &token) {
 int BluePlayer::random() {
     std::srand(static_cast<unsigned>(time(NULL)));
     return rand() % this->inGame();
+}
+
+bool BluePlayer::canMove(int move) {
+    for(auto& t : this->tokensInGame) {
+        if(!immovable(t, move)) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -45,3 +45,12 @@ void Token::determinePos() { // 60 as the square size in the grid
 bool Token::final() const {
     return this->line == 7 && this->col == 7;
 }
+
+void Token::updatePos(int addOx, int addOy) {
+    // adauga la pozitia curenta cei 2 parametri
+    sf::Vector2f posCurrent = this->shape.getPosition();
+    posCurrent.x += addOx;
+    posCurrent.y += addOy;
+    this->setPosition(posCurrent);
+
+}

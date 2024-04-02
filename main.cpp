@@ -5,7 +5,7 @@
 /**
  * DO TO
  * - ce facem cand 2 piese ale aceluiasi jucator ajung in aceeasi celula?
- * - adaugare alti playeri
+ * - il obligam sa mute doar cand POATE muta
  *
  * */
 

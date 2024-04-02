@@ -70,7 +70,9 @@ void Game::updateTokensRed() {
                         // get it out of house
                         this->redPlayer.tokensInHouse[i].line = 13;
                         this->redPlayer.tokensInHouse[i].col = 6;
-                        this->redPlayer.tokensInHouse[i].determinePos();
+                    //    this->redPlayer.tokensInHouse[i].determinePos();
+                        this->bluePlayer.back(this->redPlayer.tokensInHouse[i].line, this->redPlayer.tokensInHouse[i].col);
+                        this->redPlayer.place(this->redPlayer.tokensInHouse[i], this->redPlayer.tokensInHouse[i].line, this->redPlayer.tokensInHouse[i].col);
                         // place it in game
                         this->redPlayer.tokensInGame.push_back(redPlayer.tokensInHouse[i]);
                         // token no longer in house
@@ -80,11 +82,10 @@ void Game::updateTokensRed() {
                 }
             }
         }
-   //    this->window->display();
     }
 
     else {
-        if(this->redPlayer.inGame()) { // if the redPlayer still has tokens in game
+        if(this->redPlayer.inGame() and this->redPlayer.canMove(this->dice.diceValue + 1)) { // if the redPlayer still has tokens in game
             bool clickedUpon = false;
             while(!clickedUpon && this->running()) {
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -100,6 +101,8 @@ void Game::updateTokensRed() {
                             clickedUpon = true;
                             bool finished = false;
                             this->redPlayer.move(this->redPlayer.tokensInGame[i],this->dice.diceValue + 1, finished);
+                            this->bluePlayer.back(this->redPlayer.tokensInGame[i].line, this->redPlayer.tokensInGame[i].col);
+                            this->redPlayer.place(this->redPlayer.tokensInGame[i], this->redPlayer.tokensInGame[i].line, this->redPlayer.tokensInGame[i].col);
                             if(this->redPlayer.tokensInGame[i].final()) {
                                 this->redPlayer.tokensInGame[i].setPosition(this->redPlayer.finishTiles[this->redPlayer.out()].getPosition());
                                 this->redPlayer.tokensOut.push_back( this->redPlayer.tokensInGame[i]);
@@ -109,7 +112,6 @@ void Game::updateTokensRed() {
                     }
                 }
             }
-  //         this->window->display();
        }
     }
 }
@@ -197,13 +199,13 @@ bool Game::clickedOn(int pos) {
 
 void Game::redTurn() {
     this->displayDiceRed();
-    sf::sleep(sf::seconds(2));
+    sf::sleep(sf::seconds(1));
     this->updateRed();
 }
 
 void Game::blueTurn() {
     this->displayDiceBlue();
-    sf::sleep((sf::seconds(2)));
+    sf::sleep((sf::seconds(1)));
     this->updateBlue();
 }
 
@@ -223,7 +225,9 @@ void Game::updateTokensBlue() {
     if(this->dice.diceValue == 5 and this->bluePlayer.inHouse()) { // e obligat sa scoata din casa
         this->bluePlayer.tokensInHouse[0].line = 8;
         this->bluePlayer.tokensInHouse[0].col = 13;
-        this->bluePlayer.tokensInHouse[0].determinePos();
+//        this->bluePlayer.tokensInHouse[0].determinePos();
+        this->redPlayer.back(this->bluePlayer.tokensInHouse[0].line, this->bluePlayer.tokensInHouse[0].col);
+        this->bluePlayer.place(this->bluePlayer.tokensInHouse[0], this->bluePlayer.tokensInHouse[0].line, this->bluePlayer.tokensInHouse[0].col);
         // place it in game
         this->bluePlayer.tokensInGame.push_back(this->bluePlayer.tokensInHouse[0]);
         this->bluePlayer.tokensInHouse.erase(this->bluePlayer.tokensInHouse.begin());
@@ -237,6 +241,8 @@ void Game::updateTokensBlue() {
                 bool finished = false;
                 this->bluePlayer.move(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1, finished);
                 moved = true;
+                this->redPlayer.back(this->bluePlayer.tokensInGame[i].line, this->bluePlayer.tokensInGame[i].col);
+                this->bluePlayer.place(this->bluePlayer.tokensInGame[i], this->bluePlayer.tokensInGame[i].line, this->bluePlayer.tokensInGame[i].col);
                 if(this->bluePlayer.tokensInGame[i].final()) {
                     this->bluePlayer.tokensInGame[i].setPosition(this->bluePlayer.finishTiles[this->bluePlayer.out()].getPosition());
                     this->bluePlayer.tokensOut.push_back( this->bluePlayer.tokensInGame[i]);
@@ -245,7 +251,7 @@ void Game::updateTokensBlue() {
             }
         }
 
-        if(!moved and this->bluePlayer.inGame()) {
+        if(!moved and this->bluePlayer.canMove(this->dice.diceValue + 1)) {
             // generez un indice random pt un token mutabil
             while(!moved) {
                 int index = bluePlayer.random();
@@ -257,6 +263,10 @@ void Game::updateTokensBlue() {
                         this->bluePlayer.tokensInGame[index].setPosition(this->bluePlayer.finishTiles[this->bluePlayer.out()].getPosition());
                         this->bluePlayer.tokensOut.push_back( this->bluePlayer.tokensInGame[index]);
                         this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + index);
+                    }
+                    else {
+                        this->redPlayer.back(this->bluePlayer.tokensInGame[index].line, this->bluePlayer.tokensInGame[index].col);
+                        this->bluePlayer.place(this->bluePlayer.tokensInGame[index], this->bluePlayer.tokensInGame[index].line, this->bluePlayer.tokensInGame[index].col);
                     }
                 }
             }
