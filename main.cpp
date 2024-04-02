@@ -13,7 +13,7 @@ int main() {
     // init srand
     std::srand(static_cast<unsigned>(time(NULL)));
     Game game;
-    int turn = 1; // cand e 0 muta rosu, cand e 1 muta albastru
+    int turn = 0; // cand e 0 muta rosu, cand e 1 muta albastru
 
     // game loop
     while(game.running() and !game.ending()) { // window is still open

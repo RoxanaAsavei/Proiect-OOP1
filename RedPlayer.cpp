@@ -27,6 +27,20 @@ void RedPlayer::initPlayer() {
     Token token4{this->color, this->assetsManager};
     token4.setPosition(sf::Vector2f(3 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token4);
+
+    sf::RectangleShape square;
+    square.setSize(sf::Vector2f(squareSize, squareSize));
+    square.setFillColor(sf::Color::White);
+    square.setOutlineColor(sf::Color::Red);
+    square.setOutlineThickness(2.0f);
+    square.setPosition(240, 720);
+    this->finishTiles.push_back(square);
+    square.setPosition(300, 720);
+    this->finishTiles.push_back(square);
+    square.setPosition(240, 780);
+    this->finishTiles.push_back(square);
+    square.setPosition(300, 780);
+    this->finishTiles.push_back(square);
 }
 
 void RedPlayer::move(Token &token, int value, bool &finished) {

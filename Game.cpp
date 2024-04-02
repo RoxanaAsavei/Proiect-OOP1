@@ -100,6 +100,11 @@ void Game::updateTokensRed() {
                             clickedUpon = true;
                             bool finished = false;
                             this->redPlayer.move(this->redPlayer.tokensInGame[i],this->dice.diceValue + 1, finished);
+                            if(this->redPlayer.tokensInGame[i].final()) {
+                                this->redPlayer.tokensInGame[i].setPosition(this->redPlayer.finishTiles[this->redPlayer.out()].getPosition());
+                                this->redPlayer.tokensOut.push_back( this->redPlayer.tokensInGame[i]);
+                                this->redPlayer.tokensInGame.erase(this->redPlayer.tokensInGame.begin() + i);
+                            }
                         }
                     }
                 }
@@ -145,21 +150,6 @@ void Game::renderDice() { // gridul si pionii deja sunt
     if(this->running()) {
         this->dice.Roll();
         this->render();
-    }
-}
-
-void Game::clearGrid() {
-    if(this->running()) {
-        for(int i = this->redPlayer.tokensInGame.size() - 1; i >= 0; --i) {
-            if(this->redPlayer.tokensInGame[i].final()) {
-                this->redPlayer.tokensInGame.erase(this->redPlayer.tokensInGame.begin() + i);
-            }
-        }
-        for(int i = this->bluePlayer.tokensInGame.size() - 1; i >= 0; -- i) {
-            if(this->bluePlayer.tokensInGame[i].final()) {
-                this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + i);
-            }
-        }
     }
 }
 
@@ -247,16 +237,27 @@ void Game::updateTokensBlue() {
                 bool finished = false;
                 this->bluePlayer.move(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1, finished);
                 moved = true;
+                if(this->bluePlayer.tokensInGame[i].final()) {
+                    this->bluePlayer.tokensInGame[i].setPosition(this->bluePlayer.finishTiles[this->bluePlayer.out()].getPosition());
+                    this->bluePlayer.tokensOut.push_back( this->bluePlayer.tokensInGame[i]);
+                    this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + i);
+                }
             }
         }
 
-        if(!moved) {
-            // il iau pe primul care e movable
-            for(int i = 0; i < this->bluePlayer.inGame() && !moved; ++i) {
-                if(!this->bluePlayer.immovable(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1)) {
+        if(!moved and this->bluePlayer.inGame()) {
+            // generez un indice random pt un token mutabil
+            while(!moved) {
+                int index = bluePlayer.random();
+                if(!this->bluePlayer.immovable(this->bluePlayer.tokensInGame[index], this->dice.diceValue)) {
                     bool finished = false;
-                    this->bluePlayer.move(this->bluePlayer.tokensInGame[i], this->dice.diceValue + 1, finished);
+                    this->bluePlayer.move(this->bluePlayer.tokensInGame[index], this->dice.diceValue + 1, finished);
                     moved = true;
+                    if(this->bluePlayer.tokensInGame[index].final()) {
+                        this->bluePlayer.tokensInGame[index].setPosition(this->bluePlayer.finishTiles[this->bluePlayer.out()].getPosition());
+                        this->bluePlayer.tokensOut.push_back( this->bluePlayer.tokensInGame[index]);
+                        this->bluePlayer.tokensInGame.erase(this->bluePlayer.tokensInGame.begin() + index);
+                    }
                 }
             }
         }

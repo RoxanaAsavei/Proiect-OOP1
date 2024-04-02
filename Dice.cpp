@@ -13,7 +13,7 @@ void Dice::initDiceFaces() {
 
 void Dice::initFace(int faceNo) {
     this->face.setSize(sf::Vector2f(size, size));
-    this->face.setPosition(sf::Vector2f(1600, 810));
+    this->face.setPosition(sf::Vector2f(1600, 450));
     this->face.setTexture(&this->textures[faceNo]);
 }
 

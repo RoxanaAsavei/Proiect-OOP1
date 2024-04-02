@@ -22,6 +22,20 @@ void BluePlayer::initPlayer() {
     Token token4{this->color, this->assetsManager};
     token4.setPosition(sf::Vector2f(12 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token4);
+
+    sf::RectangleShape square;
+    square.setSize(sf::Vector2f(squareSize, squareSize));
+    square.setFillColor(sf::Color::White);
+    square.setOutlineColor(sf::Color::Blue);
+    square.setOutlineThickness(2.0f);
+    square.setPosition(1500, 720);
+    this->finishTiles.push_back(square);
+    square.setPosition(1560, 720);
+    this->finishTiles.push_back(square);
+    square.setPosition(1500, 780);
+    this->finishTiles.push_back(square);
+    square.setPosition(1560, 780);
+    this->finishTiles.push_back(square);
 }
 
 BluePlayer::BluePlayer() {
@@ -121,4 +135,9 @@ bool BluePlayer::immovable(Token &token, int move) {
 
 bool BluePlayer::almostDone(Token &token) {
     return token.line == 7 && token.col >= 9 && token.col <= 13;
+}
+
+int BluePlayer::random() {
+    std::srand(static_cast<unsigned>(time(NULL)));
+    return rand() % this->inGame();
 }
