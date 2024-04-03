@@ -34,12 +34,12 @@ void Dice::renderDice(sf::RenderWindow &window) {
 }
 
 void Dice::initTextures() {
-    this->textures[0].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-one.png");
-    this->textures[1].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-two.png");
-    this->textures[2].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-three.png");
-    this->textures[3].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-four.png");
-    this->textures[4].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-five.png");
-    this->textures[5].loadFromFile("Proiect-OOP1/dice sides/dice-six-faces-six.png");
+    this->textures[0].loadFromFile("dice sides/dice-six-faces-one.png");
+    this->textures[1].loadFromFile("dice sides/dice-six-faces-two.png");
+    this->textures[2].loadFromFile("dice sides/dice-six-faces-three.png");
+    this->textures[3].loadFromFile("dice sides/dice-six-faces-four.png");
+    this->textures[4].loadFromFile("dice sides/dice-six-faces-five.png");
+    this->textures[5].loadFromFile("dice sides/dice-six-faces-six.png");
 
 
 }

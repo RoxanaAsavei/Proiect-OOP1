@@ -5,7 +5,7 @@ const int offset_oy = 60;
 
 const sf::Color Grid::green{60,179,113};
 const sf::Color Grid::yellow{255, 255, 0};
-const sf::Color Grid::red{220, 20, 60};
+const sf::Color Grid::red{180, 55, 87};
 const sf::Color Grid::blue{0, 191, 255};
 const sf::Color Grid::light_yellow{253, 253, 150};
 const sf::Color Grid::light_blue{137, 207, 240};

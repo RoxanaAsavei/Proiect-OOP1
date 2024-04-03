@@ -305,17 +305,17 @@ void Game::winner(const std::string& playerColor) {
     sf::Text text;
     text.setFont(font);
     if(playerColor == "red") {
-        text.setString("RED WON!");
+        text.setString("RED\nWON!");
         text.setFillColor(sf::Color::Red);
     }
     else {
-        text.setString("BLUE WON!");
+        text.setString("BLUE\nWON!");
         text.setFillColor(sf::Color::Blue);
     }
     text.setCharacterSize(120);
     text.setOutlineThickness(3.f);
     text.setOutlineColor(sf::Color::Black);
-    text.setPosition(3 * squareSize + offset_ox, 5 * squareSize + offset_oy);
+    text.setPosition(5 * squareSize + offset_ox, 5 * squareSize + offset_oy);
     this->window->clear(sf::Color{163, 228, 215});
     this->window->draw(text);
     this->window->display();
