@@ -60,6 +60,8 @@ public:
 
     void redTurn();
     void blueTurn();
+
+    void winner(const std::string& playerColor);
 };
 
 

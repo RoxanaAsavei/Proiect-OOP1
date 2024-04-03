@@ -14,6 +14,7 @@ private:
     sf::Texture greenToken;
     static const int offset_ox;
     static const int offset_oy;
+
     // rolling dice sound
 //    sf::SoundBuffer buffer;
 //    sf::Sound soundDice;

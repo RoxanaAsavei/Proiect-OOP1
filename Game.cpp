@@ -1,5 +1,7 @@
 #include "Game.h"
 
+const int offset_ox = 480;
+const int offset_oy = 60;
 
 void Game::initWindow() {
     this->videoMode = sf::VideoMode::getDesktopMode();
@@ -45,6 +47,7 @@ void Game::updateRed() { // the logic behind the game
 
     // end game condition
     if(this->redPlayer.inGame() == 0 && this->redPlayer.inHouse() == 0) {
+        this->winner("red");
         this->endGame = true;
     }
 
@@ -222,6 +225,7 @@ void Game::updateBlue() {
 
     // end game condition
     if(this->bluePlayer.inGame() == 0 && this->bluePlayer.inHouse() == 0) {
+        this->winner("blue");
         this->endGame = true;
     }
 }
@@ -293,4 +297,27 @@ void Game::update(int turn) {
     else { // muta albastru
         this->blueTurn();
     }
+}
+
+void Game::winner(const std::string& playerColor) {
+    sf::Font font;
+    font.loadFromFile("Proiect-OOP1/Davis_Preview.ttf");
+    sf::Text text;
+    text.setFont(font);
+    if(playerColor == "red") {
+        text.setString("RED WON!");
+        text.setFillColor(sf::Color::Red);
+    }
+    else {
+        text.setString("BLUE WON!");
+        text.setFillColor(sf::Color::Blue);
+    }
+    text.setCharacterSize(120);
+    text.setOutlineThickness(3.f);
+    text.setOutlineColor(sf::Color::Black);
+    text.setPosition(3 * squareSize + offset_ox, 5 * squareSize + offset_oy);
+    this->window->clear(sf::Color{163, 228, 215});
+    this->window->draw(text);
+    this->window->display();
+    sf::sleep(sf::seconds(3));
 }
