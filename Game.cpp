@@ -301,7 +301,7 @@ void Game::update(int turn) {
 
 void Game::winner(const std::string& playerColor) {
     sf::Font font;
-    font.loadFromFile("Proiect-OOP1/Davis_Preview.ttf");
+    font.loadFromFile("Davis_Preview.ttf");
     sf::Text text;
     text.setFont(font);
     if(playerColor == "red") {
