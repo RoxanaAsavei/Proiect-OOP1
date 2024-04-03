@@ -33,6 +33,23 @@ int Player::out() const {
 }
 
 void Player::back(int line, int col) {
+    // place back in the house the tokens in cell (line, col)
+    int length = this->inGame();
+    for(int i = 0; i < length; ++i) {
+        if(this->contains(this->tokensInGame[i], line, col)) {
+            this->tokensInGame[i].shape.setSize(sf::Vector2f(squareSize, squareSize));
+            // luam prima pozitie libera
+            this->tokensInGame[i].setPosition(this->freePositions[0]);
+            this->updateTaken(this->freePositions[0]);
+            this->tokensInHouse.push_back(this->tokensInGame[i]);
+            // nu mai e in joc
+            this->tokensInGame.erase(this->tokensInGame.begin() + i);
+            // sta pe loc cu forul
+            i--;
+            length--;
+
+        }
+    }
 
 }
 
@@ -116,4 +133,30 @@ void Player::resize(int line, int col) {
         this->tokensInGame[pos].determinePos();
         this->tokensInGame[pos].shape.setSize(sf::Vector2f(squareSize, squareSize));
     }
+}
+
+void Player::updateFree(sf::Vector2f &position) {
+    // whenever we free a position
+    // the position is no longer taken
+    for(int i = 0; i < this->takenPositions.size(); ++i) {
+        if(this->takenPositions[i] == position) {
+            this->takenPositions.erase(this->takenPositions.begin() + i);
+            break;
+        }
+    }
+    // make it free
+    this->freePositions.push_back(position);
+}
+
+void Player::updateTaken(sf::Vector2f &position) {
+    // whenever a position is taken
+    // the position is no longer free
+    for(int i = 0; i < this->freePositions.size(); ++i) {
+        if(this->freePositions[i] == position) {
+            this->freePositions.erase(this->freePositions.begin() + i);
+            break;
+        }
+    }
+    this->takenPositions.push_back(position);
+
 }

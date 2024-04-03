@@ -67,6 +67,8 @@ void Game::updateTokensRed() {
                     if(this->redPlayer.tokensInHouse[i].shape.getGlobalBounds().contains(this->mousePosView)) {
                         moved = true;
                         clickedUpon = true;
+                        this->redPlayer.updateFree(
+                                const_cast<sf::Vector2f &>(this->redPlayer.tokensInHouse[i].shape.getPosition()));
                         // get it out of house
                         this->redPlayer.tokensInHouse[i].line = 13;
                         this->redPlayer.tokensInHouse[i].col = 6;
@@ -229,6 +231,7 @@ void Game::updateTokensBlue() {
         this->bluePlayer.tokensInHouse[0].line = 8;
         this->bluePlayer.tokensInHouse[0].col = 13;
 //        this->bluePlayer.tokensInHouse[0].determinePos();
+        this->bluePlayer.updateFree(const_cast<sf::Vector2f &>(this->bluePlayer.tokensInHouse[0].shape.getPosition()));
         this->redPlayer.back(this->bluePlayer.tokensInHouse[0].line, this->bluePlayer.tokensInHouse[0].col);
         this->bluePlayer.place(this->bluePlayer.tokensInHouse[0], this->bluePlayer.tokensInHouse[0].line, this->bluePlayer.tokensInHouse[0].col);
         // place it in game

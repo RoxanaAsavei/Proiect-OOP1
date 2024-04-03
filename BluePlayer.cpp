@@ -10,18 +10,22 @@ void BluePlayer::initPlayer() {
     // setting position for the in-house tokens
     token1.setPosition(sf::Vector2f(10 * squareSize  + squareSize / 2 + offset_ox, 10 * squareSize  + offset_oy));
     this->tokensInHouse.push_back(token1);
+    this->takenPositions.push_back(token1.shape.getPosition());
 
     Token token2{this->color, this->assetsManager};
     token2.setPosition(sf::Vector2f(12 * squareSize  + squareSize / 2 + offset_ox, 10 * squareSize  + offset_oy));
     this->tokensInHouse.push_back(token2);
+    this->takenPositions.push_back(token2.shape.getPosition());
 
     Token token3{this->color, this->assetsManager};
     token3.setPosition(sf::Vector2f(10 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token3);
+    this->takenPositions.push_back(token3.shape.getPosition());
 
     Token token4{this->color, this->assetsManager};
     token4.setPosition(sf::Vector2f(12 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token4);
+    this->takenPositions.push_back(token4.shape.getPosition());
 
     sf::RectangleShape square;
     square.setSize(sf::Vector2f(squareSize, squareSize));

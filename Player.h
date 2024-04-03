@@ -9,6 +9,8 @@ public:
     std::vector<Token> tokensInHouse;
     std::vector<Token> tokensOut;
     std::vector<sf::RectangleShape> finishTiles;
+    std::vector<sf::Vector2f> freePositions;
+    std::vector<sf::Vector2f> takenPositions;
 protected:
     std::string color;
     AssetsManager assetsManager;
@@ -25,6 +27,8 @@ public:
     void place(Token& token, int line, int col);
     static bool contains(const Token& token, int line, int col);
     void resize(int line, int col);
+    void updateFree(sf::Vector2f& position);
+    void updateTaken(sf::Vector2f& position);
 };
 
 
