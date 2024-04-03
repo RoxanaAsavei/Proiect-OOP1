@@ -1,8 +1,5 @@
 #include "Dice.h"
 
-const int offset_ox = 480;
-const int offset_oy = 60;
-
 void Dice::initDiceFaces() {
     for(int i = 0; i < 6; ++i) {
         initFace(i);

@@ -9,8 +9,8 @@ private:
 
 public:
     RedPlayer();
-    void move(Token& token, int value, bool &finished);
-    static bool immovable(Token &token, int move);
+    static void move(Token& token, int value, bool &finished);
+    static bool immovable(const Token &token, int move);
     bool canMove(int  move);
 };
 

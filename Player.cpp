@@ -120,7 +120,7 @@ bool Player::contains(const Token &token, int line, int col) {
 
 void Player::resize(int line, int col) {
     // verifica daca in celula (line, col) am un singur pion ramas si atunci il face mare
-    int pos;
+    int pos = -1; // default value
     int sameTile = 0;
     for(int i = 0; i < this->inGame(); ++i) {
         if(this->contains(this->tokensInGame[i], line, col)) {
@@ -138,9 +138,9 @@ void Player::resize(int line, int col) {
 void Player::updateFree(sf::Vector2f &position) {
     // whenever we free a position
     // the position is no longer taken
-    for(int i = 0; i < this->takenPositions.size(); ++i) {
+    for(unsigned long long i = 0; i < this->takenPositions.size(); ++i) {
         if(this->takenPositions[i] == position) {
-            this->takenPositions.erase(this->takenPositions.begin() + i);
+            this->takenPositions.erase(this->takenPositions.begin() + int(i));
             break;
         }
     }
@@ -151,9 +151,9 @@ void Player::updateFree(sf::Vector2f &position) {
 void Player::updateTaken(sf::Vector2f &position) {
     // whenever a position is taken
     // the position is no longer free
-    for(int i = 0; i < this->freePositions.size(); ++i) {
+    for(unsigned long long i = 0; i < this->freePositions.size(); ++i) {
         if(this->freePositions[i] == position) {
-            this->freePositions.erase(this->freePositions.begin() + i);
+            this->freePositions.erase(this->freePositions.begin() + int(i));
             break;
         }
     }

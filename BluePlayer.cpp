@@ -58,13 +58,11 @@ void BluePlayer::move(Token &token, int value, bool &finished) {
             else {
                 if(token.col - value > 8) {
                     token.col -= value;
-                    value = 0;
                     break;
                 }
 
                 else if(token.col - value == 7) {
                     token.col = 7;
-                    value = 0;
                     finished = true;
                     break;
                 }
@@ -132,12 +130,12 @@ void BluePlayer::move(Token &token, int value, bool &finished) {
 
 }
 
-bool BluePlayer::immovable(Token &token, int move) {
+bool BluePlayer::immovable(const Token &token, int move) {
     return token.line == 7 && (token.col >= 9 && token.col <= 13) &&
            (token.col - move == 8 || token.col - move < 7);
 }
 
-bool BluePlayer::almostDone(Token &token) {
+bool BluePlayer::almostDone(const Token &token) {
     return token.line == 7 && token.col >= 9 && token.col <= 13;
 }
 

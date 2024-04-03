@@ -83,11 +83,9 @@ void RedPlayer::move(Token &token, int value, bool &finished) {
             else {
                 if(token.line - value > 8) {
                     token.line -= value;
-                    value = 0;
                     break;
                 }
                 else if(token.line - value == 7){
-                    value = 0;
                     token.line = 7;
                     finished = true;
                     break; // trebuie sa dai fix cat iti trebuie sa intri in casa
@@ -130,7 +128,7 @@ void RedPlayer::move(Token &token, int value, bool &finished) {
     }
 }
 
-bool RedPlayer::immovable(Token &token, int move) {
+bool RedPlayer::immovable(const Token &token, int move) {
     return token.col == 7 && (token.line >=9 && token.line <= 13) &&
            (token.line - move < 7 || token.line - move == 8);
 }
