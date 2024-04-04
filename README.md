@@ -1,9 +1,14 @@
-# Nu primesc notă pentru că nu am pus titlu și descriere
+# Ludo
 
-### Important!
-Aveți voie cu cod generat de modele de limbaj la care nu ați contribuit semnificativ doar în folder-ul `generated`.
-Codul generat pus "ca să fie"/pe care nu îl înțelegeți se punctează doar pentru puncte bonus, doar în contextul
-în care oferă funcționalități ajutătoare și doar dacă are sens.
+#### Controlând mișcările pionilor roșii, fii primul care ajunge cu cei 4 pioni în centrul tablei pentru a câștiga!
+
+Inițial, toți pionii se află în colțurile corespunzătoare culorii de pe planșa de joc, în casă.
+Pentru a intra cu un pion în joc, trebuie să dai 6 cu zarul. Dacă pe parcursul jocului dai 
+peste pionul altui jucător, piesa acestuia iese din joc și trebuie să se reîntoarcă în casă. 
+Respectivul jucător trebuie să aștepte un nou 6 pentru a se întoarce cu pionul în joc. 
+Dacă dai cu zarul mai mult decât ai nevoie pentru a ajunge la capătul traseului, 
+atunci nu vei putea muta pionul respectiv (trebuie să dai fix cât îți trebuie).
+#### Pentru a muta un pion, dă click pe el!
 
 O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie de apeluri proxy către cod generat.
 
