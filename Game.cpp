@@ -4,7 +4,7 @@ const int offset_ox = 480;
 const int offset_oy = 60;
 
 void Game::initWindow() {
-    this->videoMode = sf::VideoMode::getDesktopMode();
+    this->videoMode = sf::VideoMode(1800, 1000);
     this->window = new sf::RenderWindow(this->videoMode, "Ludo game", sf::Style::Titlebar | sf::Style::Close);
     this->window->setFramerateLimit(60);
 }
