@@ -1,6 +1,6 @@
 # Ludo
 
-#### Controlând mișcările pionilor roșii, fii primul care ajunge cu cei 4 pioni în centrul tablei pentru a câștiga!
+#### Controlând mișcările pionilor roșii, fi primul care ajunge cu cei 4 pioni în centrul tablei pentru a câștiga!
 
 Inițial, toți pionii se află în colțurile corespunzătoare culorii de pe planșa de joc, în casă.
 Pentru a intra cu un pion în joc, trebuie să dai 6 cu zarul. Dacă pe parcursul jocului dai 
