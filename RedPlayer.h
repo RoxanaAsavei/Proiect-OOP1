@@ -3,7 +3,6 @@
 #include "Player.h"
 
 class RedPlayer : public Player{
-
 private:
     void initPlayer();
 

@@ -4,11 +4,10 @@
 #include "AssetsManager.h"
 
 class Token {
-public:
+private:
     sf::RectangleShape shape;
     int line;
     int col;
-private:
     sf::Vector2f position;
     std::string color;
 
@@ -32,6 +31,13 @@ public:
     void determinePos();
     bool final() const;
     void updatePos(int addOx, int addOy);
+    sf::Vector2f getShapePos() const;
+    int getLine() const;
+    int getCol() const;
+    void setLine(int line_);
+    void setCol(int col_);
+    void setShapeSize(sf::Vector2<float> dim);
+    bool clickedOn(sf::Vector2f& mousePos);
 };
 
 

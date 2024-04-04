@@ -37,7 +37,7 @@ void Player::back(int line, int col) {
     int length = this->inGame();
     for(int i = 0; i < length; ++i) {
         if(this->contains(this->tokensInGame[i], line, col)) {
-            this->tokensInGame[i].shape.setSize(sf::Vector2f(squareSize, squareSize));
+            this->tokensInGame[i].setShapeSize(sf::Vector2<float> {squareSize, squareSize});
             // luam prima pozitie libera
             this->tokensInGame[i].setPosition(this->freePositions[0]);
             this->updateTaken(this->freePositions[0]);
@@ -66,17 +66,17 @@ void Player::place(Token &token, int line, int col) {
         }
     }
     if(sameTile == 0) { // e singur, are tot spatiul la dispozitie
-        token.shape.setSize(sf::Vector2f(squareSize, squareSize));
+        token.setShapeSize(sf::Vector2 <float> {squareSize, squareSize});
         token.determinePos();
     }
     else { // nu e singur, avem o problema
         // clar imparte patratul cu cineva
-        token.shape.setSize(sf::Vector2f(squareSize / 2, squareSize / 2));
+        token.setShapeSize(sf::Vector2 <float> {squareSize / 2, squareSize / 2});
         if(sameTile == 1) { // tb redimensionat cel existent si plasat si asta nou
             // il redimensionam pe ala existent, ca pozitie ramane la fel
             for(int i = 0; i < this->inGame(); ++i)
                 if(this->contains(this->tokensInGame[i], line, col)) {
-                    this->tokensInGame[i].shape.setSize(sf::Vector2f(squareSize / 2, squareSize / 2));
+                    this->tokensInGame[i].setShapeSize(sf::Vector2 <float> {squareSize / 2, squareSize / 2});
                 }
             // ii setez si lui pozitia
             // il pun initial in pozitia by default
@@ -102,7 +102,7 @@ bool Player::contains(const Token &token, int line, int col) {
      sf::Vector2f coordCel;
      coordCel.x = col * squareSize + offset_ox;
      coordCel.y = line * squareSize + offset_oy;
-     sf::Vector2f pos = token.shape.getPosition();
+     sf::Vector2f pos = token.getShapePos();
      if(coordCel.x == pos.x && coordCel.y == pos.y) {
          return true;
      }
@@ -131,11 +131,11 @@ void Player::resize(int line, int col) {
 
     if(sameTile == 1) {
         this->tokensInGame[pos].determinePos();
-        this->tokensInGame[pos].shape.setSize(sf::Vector2f(squareSize, squareSize));
+        this->tokensInGame[pos].setShapeSize(sf::Vector2 <float> {squareSize, squareSize});
     }
 }
 
-void Player::updateFree(sf::Vector2f &position) {
+void Player::updateFree(sf::Vector2<float> position) {
     // whenever we free a position
     // the position is no longer taken
     for(unsigned long long i = 0; i < this->takenPositions.size(); ++i) {
@@ -148,7 +148,7 @@ void Player::updateFree(sf::Vector2f &position) {
     this->freePositions.push_back(position);
 }
 
-void Player::updateTaken(sf::Vector2f &position) {
+void Player::updateTaken(sf::Vector2<float> position) {
     // whenever a position is taken
     // the position is no longer free
     for(unsigned long long i = 0; i < this->freePositions.size(); ++i) {
@@ -160,3 +160,89 @@ void Player::updateTaken(sf::Vector2f &position) {
     this->takenPositions.push_back(position);
 
 }
+
+void Player::addPosition(std::vector<sf::Vector2<float>> &v, sf::Vector2<float> &pos) {
+    v.emplace_back(pos);
+}
+
+bool Player::clickedOnInGame(int pos, sf::Vector2f mousePos) {
+    return tokensInGame[pos].clickedOn(mousePos);
+}
+
+bool Player::clickedOnInHouse(int pos, sf::Vector2f &mousePos) {
+    return tokensInHouse[pos].clickedOn(mousePos);
+}
+
+sf::Vector2<float> Player::getPositionInHouse(int index) {
+    return this->tokensInHouse[index].getShapePos();
+}
+
+sf::Vector2<float> Player::getPositionInGame(int index) {
+    return this->tokensInGame[index].getShapePos();
+}
+
+void Player::setLineInHouse(int index, int line) {
+    this->tokensInHouse[index].setLine(line);
+}
+
+void Player::setColInHouse(int index, int col) {
+    this->tokensInHouse[index].setCol(col);
+}
+
+int Player::getLineInHouse(int index) {
+    return this->tokensInHouse[index].getLine();
+}
+
+int Player::getColInHouse(int index) {
+    return this->tokensInHouse[index].getCol();
+}
+
+void Player::addTokenInGame(Token &t) {
+    this->tokensInGame.emplace_back(t);
+}
+
+void Player::addTokenInHouse(Token &t) {
+    this->tokensInHouse.emplace_back(t);
+}
+
+Token &Player::getTokenInHouse(int index) {
+    return this->tokensInHouse[index];
+}
+
+Token &Player::getTokenInGame(int index) {
+    return this->tokensInGame[index];
+}
+
+void Player::eraseFromInHouse(int index) {
+    this->tokensInHouse.erase(this->tokensInHouse.begin() + index);
+}
+
+void Player::eraseFromInGame(int index) {
+    this->tokensInGame.erase(this->tokensInGame.begin() + index);
+}
+
+void Player::setLineInGame(int index, int line) {
+    this->tokensInGame[index].setLine(line);
+}
+
+void Player::setColInGame(int index, int col) {
+    this->tokensInGame[index].setCol(col);
+}
+
+int Player::getLineInGame(int index) {
+    return this->tokensInGame[index].getLine();
+}
+
+int Player::getColInGame(int index) {
+    return this->tokensInGame[index].getCol();
+}
+
+sf::Vector2<float> Player::outPosition() {
+    return this->finishTiles[this->out()].getPosition();
+}
+
+void Player::takeTokenOut(Token &t) {
+    this->tokensOut.emplace_back(t);
+}
+
+

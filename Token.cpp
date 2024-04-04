@@ -5,7 +5,7 @@
 const int offset_ox = 480;
 const int offset_oy = 60;
 
-void Token::setPosition(sf::Vector2f newPosition) {
+void Token::setPosition(sf::Vector2 <float> newPosition) {
     this->shape.setPosition(newPosition);
 }
 
@@ -81,4 +81,32 @@ Token &Token::operator=(const Token &other) {
 Token::Token(const Token &other) : shape(other.shape), line(other.line), col(other.col),
                                    position(other.position), color(other.color){
     std::cout << "Token copied\n";
+}
+
+sf::Vector2 <float> Token::getShapePos() const {
+    return this->shape.getPosition();
+}
+
+int Token::getLine() const {
+    return this->line;
+}
+
+int Token::getCol() const {
+    return this->col;
+}
+
+void Token::setLine(int line_) {
+    this->line = line_;
+}
+
+void Token::setCol(int col_) {
+    this->col = col_;
+}
+
+void Token::setShapeSize(sf::Vector2<float> dim) {
+    this->shape.setSize(dim);
+}
+
+bool Token::clickedOn(sf::Vector2f& mousePos) {
+    return this->shape.getGlobalBounds().contains(mousePos);
 }

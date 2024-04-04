@@ -3,13 +3,12 @@
 #include<SFML/Graphics.hpp>
 
 class Dice {
-public:
-    int diceValue;
+
 private:
+    int diceValue;
     // for each face of the dice
     int size;
     sf::RectangleShape face;
-
     std::vector<sf::RectangleShape> diceFaces;
     std::vector<sf::Texture> textures;
 
@@ -24,6 +23,7 @@ public:
 
     // accessors
     sf::RectangleShape getDiceFace();
+    int getDiceValue() const;
 
     // functions
     void Roll();

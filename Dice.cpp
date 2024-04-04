@@ -44,3 +44,7 @@ void Dice::initTextures() {
 sf::RectangleShape Dice::getDiceFace() {
     return this->diceFaces[this->diceValue];
 }
+
+int Dice::getDiceValue() const {
+    return this->diceValue;
+}

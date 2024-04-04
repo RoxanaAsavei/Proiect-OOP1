@@ -10,22 +10,22 @@ void BluePlayer::initPlayer() {
     // setting position for the in-house tokens
     token1.setPosition(sf::Vector2f(10 * squareSize  + squareSize / 2 + offset_ox, 10 * squareSize  + offset_oy));
     this->tokensInHouse.push_back(token1);
-    this->takenPositions.push_back(token1.shape.getPosition());
+    this->takenPositions.push_back(token1.getShapePos());
 
     Token token2{this->color, this->assetsManager};
     token2.setPosition(sf::Vector2f(12 * squareSize  + squareSize / 2 + offset_ox, 10 * squareSize  + offset_oy));
     this->tokensInHouse.push_back(token2);
-    this->takenPositions.push_back(token2.shape.getPosition());
+    this->takenPositions.push_back(token2.getShapePos());
 
     Token token3{this->color, this->assetsManager};
     token3.setPosition(sf::Vector2f(10 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token3);
-    this->takenPositions.push_back(token3.shape.getPosition());
+    this->takenPositions.push_back(token3.getShapePos());
 
     Token token4{this->color, this->assetsManager};
     token4.setPosition(sf::Vector2f(12 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token4);
-    this->takenPositions.push_back(token4.shape.getPosition());
+    this->takenPositions.push_back(token4.getShapePos());
 
     sf::RectangleShape square;
     square.setSize(sf::Vector2f(squareSize, squareSize));
@@ -47,96 +47,103 @@ BluePlayer::BluePlayer() {
 }
 
 void BluePlayer::move(Token &token, int value, bool &finished) {
+    int line = token.getLine();
+    int col = token.getCol();
     while(value and !finished) {
-        if(token.line == 7) {
-            if(token.col == 0) {
-                token.line--;
+        if(line == 7) {
+            if(col == 0) {
+                line--;
             }
-            else if(token.col == 14) {
-                token.col--;
+            else if(col == 14) {
+                 col--;
             }
             else {
-                if(token.col - value > 8) {
-                    token.col -= value;
+                if(col - value > 8) {
+                    col -= value;
                     break;
                 }
 
-                else if(token.col - value == 7) {
-                    token.col = 7;
+                else if(col - value == 7) {
+                    col = 7;
                     finished = true;
                     break;
                 }
             }
         }
-        else if(token.line == 8) {
-            if(token.col == 9) {
-                token.line++;
-                token.col--;
+        else if(line == 8) {
+            if(col == 9) {
+                line++;
+                col--;
             }
-            else if(token.col == 0) {
-                token.line--;
+            else if(col == 0) {
+                line--;
             }
             else {
-                token.col--;
+                col--;
             }
         }
-        else if(token.line == 6) {
-            if(token.col == 5) {
-                token.line--;
-                token.col++;
+        else if(line == 6) {
+            if(col == 5) {
+                line--;
+                col++;
             }
-            else if(token.col == 14) {
-                token.line++;
+            else if(col == 14) {
+                line++;
             }
             else {
-                token.col++;
+                col++;
             }
         }
 
-        else if(token.col == 6) {
-            if(token.line == 9) {
-                token.line--;
-                token.col--;
+        else if(col == 6) {
+            if(line == 9) {
+                line--;
+                col--;
             }
-            else if(token.line == 0) {
-                token.col++;
-            }
-            else {
-                token.line--;
-            }
-        }
-        else if(token.col == 8) {
-            if(token.line == 5) {
-                token.line++;
-                token.col++;
-            }
-            else if(token.line == 14) {
-                token.col--;
+            else if(line == 0) {
+                col++;
             }
             else {
-                token.line++;
+                line--;
             }
         }
-        else if(token.col == 7) {
-            if(token.line == 0) {
-                token.col++;
+        else if(col == 8) {
+            if(line == 5) {
+                line++;
+                col++;
             }
-            else if(token.line == 14) {
-                token.col--;
+            else if(line == 14) {
+                col--;
+            }
+            else {
+                line++;
+            }
+        }
+        else if(col == 7) {
+            if(line == 0) {
+                col++;
+            }
+            else if(line == 14) {
+                col--;
             }
         }
         value--;
     }
-
+    token.setLine(line);
+    token.setCol(col);
 }
 
 bool BluePlayer::immovable(const Token &token, int move) {
-    return token.line == 7 && (token.col >= 9 && token.col <= 13) &&
-           (token.col - move == 8 || token.col - move < 7);
+    int line = token.getLine();
+    int col = token.getCol();
+    return line == 7 && (col >= 9 && col <= 13) &&
+           (col - move == 8 || col - move < 7);
 }
 
 bool BluePlayer::almostDone(const Token &token) {
-    return token.line == 7 && token.col >= 9 && token.col <= 13;
+    int line = token.getLine();
+    int col = token.getCol();
+    return line == 7 && col >= 9 && col <= 13;
 }
 
 int BluePlayer::random() {

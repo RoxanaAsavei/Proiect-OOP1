@@ -54,9 +54,6 @@ public:
     void displayDiceBlue();
 
     void pollEvents();
-    void clearGrid();
-
-    bool clickedOn(int pos);
 
     void redTurn();
     void blueTurn();

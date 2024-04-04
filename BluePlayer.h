@@ -13,7 +13,6 @@ public:
     static bool immovable(const Token &token, int move);
     static bool almostDone(const Token &token);
     int random();
-
     bool canMove(int i);
 };
 
