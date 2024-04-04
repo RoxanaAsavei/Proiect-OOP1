@@ -16,8 +16,15 @@ private:
     void initToken();
 
 public:
-    // constructor
+    // compulsory requirements
     Token(const std::string &color_, AssetsManager &assetsManager);
+    ~Token();
+    // constructor de copiere
+    Token(const Token& other);
+    // op =
+    Token& operator =(const Token& other);
+    // op <<
+    friend std::ostream& operator <<(std::ostream& os, const Token& token);
 
     // functions
     void setPosition(sf::Vector2f newPosition);

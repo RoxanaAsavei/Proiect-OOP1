@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Token.h"
 #include "AssetsManager.h"
 
@@ -53,4 +54,31 @@ void Token::updatePos(int addOx, int addOy) {
     posCurrent.y += addOy;
     this->setPosition(posCurrent);
 
+}
+
+Token::~Token() {
+    std::cout << "Token destroyed\n";
+}
+
+std::ostream &operator<<(std::ostream &os, const Token &token) {
+    os << "Line: " << token.line << "\n";
+    os << "Column: " << token.col << "\n";
+    os << "Position: " << token.position.x << " " << token.position.y << "\n";
+    os << "Color: " << token.color << "\n";
+    return os;
+}
+
+Token &Token::operator=(const Token &other) {
+    this->shape = other.shape;
+    this->line = other.line;
+    this->col = other.col;
+    this->position = other.position;
+    this->color = other.color;
+    std::cout << "Op =\n";
+    return *this;
+}
+
+Token::Token(const Token &other) : shape(other.shape), line(other.line), col(other.col),
+                                   position(other.position), color(other.color){
+    std::cout << "Token copied\n";
 }
