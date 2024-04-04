@@ -27,23 +27,18 @@ public:
     void resize(int line, int col);
     void updateFree(sf::Vector2<float> position); // & strica treaba
     void updateTaken(sf::Vector2<float> position);
-    static void addPosition(std::vector<sf::Vector2<float>> &v, sf::Vector2<float> &pos);
     bool clickedOnInHouse(int pos, sf::Vector2f& mousePos);
     bool clickedOnInGame(int pos, sf::Vector2f mousePos);
     sf::Vector2<float> getPositionInHouse(int index);
-    sf::Vector2<float> getPositionInGame(int index);
     void setLineInHouse(int index, int line);
     void setColInHouse(int index, int col);
     int getLineInHouse(int index);
     int getColInHouse(int index);
     void addTokenInGame(Token& t);
-    void addTokenInHouse(Token& t);
     Token& getTokenInHouse(int index);
     Token& getTokenInGame(int index);
     void eraseFromInHouse(int index);
     void eraseFromInGame(int index);
-    void setLineInGame(int index, int line);
-    void setColInGame(int index, int col);
     int getLineInGame(int index);
     int getColInGame(int index);
     sf::Vector2 <float> outPosition();

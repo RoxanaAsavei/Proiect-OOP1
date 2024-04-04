@@ -161,9 +161,6 @@ void Player::updateTaken(sf::Vector2<float> position) {
 
 }
 
-void Player::addPosition(std::vector<sf::Vector2<float>> &v, sf::Vector2<float> &pos) {
-    v.emplace_back(pos);
-}
 
 bool Player::clickedOnInGame(int pos, sf::Vector2f mousePos) {
     return tokensInGame[pos].clickedOn(mousePos);
@@ -175,10 +172,6 @@ bool Player::clickedOnInHouse(int pos, sf::Vector2f &mousePos) {
 
 sf::Vector2<float> Player::getPositionInHouse(int index) {
     return this->tokensInHouse[index].getShapePos();
-}
-
-sf::Vector2<float> Player::getPositionInGame(int index) {
-    return this->tokensInGame[index].getShapePos();
 }
 
 void Player::setLineInHouse(int index, int line) {
@@ -201,10 +194,6 @@ void Player::addTokenInGame(Token &t) {
     this->tokensInGame.emplace_back(t);
 }
 
-void Player::addTokenInHouse(Token &t) {
-    this->tokensInHouse.emplace_back(t);
-}
-
 Token &Player::getTokenInHouse(int index) {
     return this->tokensInHouse[index];
 }
@@ -219,14 +208,6 @@ void Player::eraseFromInHouse(int index) {
 
 void Player::eraseFromInGame(int index) {
     this->tokensInGame.erase(this->tokensInGame.begin() + index);
-}
-
-void Player::setLineInGame(int index, int line) {
-    this->tokensInGame[index].setLine(line);
-}
-
-void Player::setColInGame(int index, int col) {
-    this->tokensInGame[index].setCol(col);
 }
 
 int Player::getLineInGame(int index) {
