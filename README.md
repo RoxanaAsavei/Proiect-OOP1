@@ -10,6 +10,8 @@ Dacă dai cu zarul mai mult decât ai nevoie pentru a ajunge la capătul traseul
 atunci nu vei putea muta pionul respectiv (trebuie să dai fix cât îți trebuie).
 #### Pentru a muta un pion, dă click pe el!
 
+........................................................................................................................................................................
+
 O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie de apeluri proxy către cod generat.
 
 ### Cerințe modele de limbaj la nivel de semestru
