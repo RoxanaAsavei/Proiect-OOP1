@@ -55,7 +55,7 @@ void BluePlayer::move(Token &token, int value, bool &finished) {
                 line--;
             }
             else if(col == 14) {
-                 col--;
+                col--;
             }
             else {
                 if(col - value > 8) {

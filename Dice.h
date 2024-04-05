@@ -3,7 +3,6 @@
 #include<SFML/Graphics.hpp>
 
 class Dice {
-
 private:
     int diceValue;
     // for each face of the dice
