@@ -10,7 +10,7 @@ public:
     RedPlayer();
     static void move(Token& token, int value, bool &finished);
     static bool immovable(const Token &token, int move);
-    bool canMove(int  move);
+    bool canMove(int move);
 };
 
 

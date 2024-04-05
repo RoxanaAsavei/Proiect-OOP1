@@ -67,17 +67,18 @@ void Game::updateTokensRed() {
                     if(!this->running()) {
                         break;
                     }
-                    if(this->redPlayer.clickedOnInHouse(i, this->mousePosView)) {
+                    Token& t = this->redPlayer.getTokenInHouse(i);
+                    if(t.clickedOn(this->mousePosView)) {
                         moved = true;
                         clickedUpon = true;
-                        this->redPlayer.updateFree((this->redPlayer.getPositionInHouse(i)));
+                        this->redPlayer.updateFree((t.getShapePos()));
                         // get it out of house
-                        this->redPlayer.setLineInHouse(i, 13);
-                        this->redPlayer.setColInHouse(i, 6);
-                        this->bluePlayer.back(this->redPlayer.getLineInHouse(i), this->redPlayer.getColInHouse(i));
-                        this->redPlayer.place(this->redPlayer.getTokenInHouse(i), this->redPlayer.getLineInHouse(i), this->redPlayer.getColInHouse(i));
+                        t.setLine(13);
+                        t.setCol(6);
+                        this->bluePlayer.back(13, 6);
+                        this->redPlayer.place(t, 13, 6);
                         // place it in game
-                        this->redPlayer.addTokenInGame(this->redPlayer.getTokenInHouse(i));
+                        this->redPlayer.addTokenInGame(t);
                         // token no longer in house
                         this->redPlayer.eraseFromInHouse(i);
                     }
@@ -88,7 +89,8 @@ void Game::updateTokensRed() {
     }
 
     else {
-        if(this->redPlayer.inGame() and this->redPlayer.canMove(this->dice.getDiceValue() + 1)) { // if the redPlayer still has tokens in game
+        int diceValue = this->dice.getDiceValue();
+        if(this->redPlayer.inGame() and this->redPlayer.canMove(diceValue + 1)) { // if the redPlayer still has tokens in game
             bool clickedUpon = false;
             while(!clickedUpon && this->running()) {
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -99,26 +101,29 @@ void Game::updateTokensRed() {
                         if(!this->running()) {
                             break;
                         }
-                        if(this->redPlayer.clickedOnInGame(i, this->mousePosView) && !this->redPlayer.immovable(this->redPlayer.getTokenInGame(i), this->dice.getDiceValue() + 1)) {
+                        Token& t = this->redPlayer.getTokenInGame(i);
+                        if(t.clickedOn(this->mousePosView) && !this->redPlayer.immovable(t, diceValue + 1)) {
                             moved = true;
                             clickedUpon = true;
                             bool finished = false;
-                            int lineBefore = this->redPlayer.getLineInGame(i);
-                            int colBefore = this->redPlayer.getColInGame(i);
-                            this->redPlayer.move(this->redPlayer.getTokenInGame(i),this->dice.getDiceValue() + 1, finished);
-                            this->bluePlayer.back(this->redPlayer.getLineInGame(i), this->redPlayer.getColInGame(i));
-                            this->redPlayer.place(this->redPlayer.getTokenInGame(i), this->redPlayer.getLineInGame(i), this->redPlayer.getColInGame(i));
+                            int lineBefore = t.getLine();
+                            int colBefore = t.getCol();
+                            this->redPlayer.move(t, diceValue + 1, finished);
+                            int lineAfter = t.getLine();
+                            int colAfter = t.getCol();
+                            this->bluePlayer.back(lineAfter, colAfter);
+                            this->redPlayer.place(t, lineAfter, colAfter);
                             this->redPlayer.resize(lineBefore, colBefore);
-                            if(this->redPlayer.getTokenInGame(i).final()) {
-                                this->redPlayer.getTokenInGame(i).setPosition(this->redPlayer.outPosition());
-                                this->redPlayer.takeTokenOut(this->redPlayer.getTokenInGame(i));
+                            if(t.final()) {
+                                t.setPosition(this->redPlayer.outPosition());
+                                this->redPlayer.takeTokenOut(t);
                                 this->redPlayer.eraseFromInGame(i);
                             }
                         }
                     }
                 }
             }
-       }
+        }
     }
 }
 
@@ -225,55 +230,63 @@ void Game::updateBlue() {
 
 void Game::updateTokensBlue() {
     if(this->dice.getDiceValue() == 5 and this->bluePlayer.inHouse()) { // e obligat sa scoata din casa
-        this->bluePlayer.setLineInHouse(0, 8);
-        this->bluePlayer.setColInHouse(0, 13);
-        this->bluePlayer.updateFree(this->bluePlayer.getPositionInHouse(0));
-        this->redPlayer.back(this->bluePlayer.getLineInHouse(0), this->bluePlayer.getColInHouse(0));
-        this->bluePlayer.place(this->bluePlayer.getTokenInHouse(0), this->bluePlayer.getLineInHouse(0), this->bluePlayer.getColInHouse(0));
+        Token& t = this->bluePlayer.getTokenInHouse(0);
+        t.setLine(8);
+        t.setCol(13);
+        this->bluePlayer.updateFree(t.getShapePos());
+        this->redPlayer.back(8, 13);
+        this->bluePlayer.place(t, 8, 13);
         // place it in game
-        this->bluePlayer.addTokenInGame(this->bluePlayer.getTokenInHouse(0));
+        this->bluePlayer.addTokenInGame(t);
         this->bluePlayer.eraseFromInHouse(0);
     }
 
     else { // trebuie sa mute unul dintre pionii din joc
         // vad daca am unul aproape de a intra in casa
         bool moved = false;
+        int diceValue = this->dice.getDiceValue();
         for(int i = 0; i < this->bluePlayer.inGame() && !moved; ++i) {
-            if(this->bluePlayer.almostDone(this->bluePlayer.getTokenInGame(i)) && !this->bluePlayer.immovable(this->bluePlayer.getTokenInGame(i), this->dice.getDiceValue() + 1)) {
+            Token& t = this->bluePlayer.getTokenInGame(i);
+            if(this->bluePlayer.almostDone(t) && !this->bluePlayer.immovable(t, diceValue + 1)) {
                 bool finished = false;
-                int lineBefore = this->bluePlayer.getLineInGame(i);
-                int colBefore = this->bluePlayer.getColInGame(i);
-                this->bluePlayer.move(this->bluePlayer.getTokenInGame(i), this->dice.getDiceValue() + 1, finished);
+                int lineBefore = t.getLine();
+                int colBefore = t.getCol();
+                this->bluePlayer.move(t, diceValue + 1, finished);
                 moved = true;
-                this->redPlayer.back(this->bluePlayer.getLineInGame(i), this->bluePlayer.getColInGame(i));
-                this->bluePlayer.place(this->bluePlayer.getTokenInGame(i), this->bluePlayer.getLineInGame(i), this->bluePlayer.getColInGame(i));
+                int lineAfter = t.getLine();
+                int colAfter = t.getCol();
+                this->redPlayer.back(lineAfter, colAfter);
+                this->bluePlayer.place(t, lineAfter, colAfter);
                 this->bluePlayer.resize(lineBefore, colBefore);
-                if(this->bluePlayer.getTokenInGame(i).final()) {
-                    this->bluePlayer.getTokenInGame(i).setPosition(this->bluePlayer.outPosition());
-                    this->bluePlayer.takeTokenOut(this->bluePlayer.getTokenInGame(i));
+                if(t.final()) {
+                    t.setPosition(this->bluePlayer.outPosition());
+                    this->bluePlayer.takeTokenOut(t);
                     this->bluePlayer.eraseFromInGame(i);
                 }
             }
         }
 
-        if(!moved and this->bluePlayer.canMove(this->dice.getDiceValue() + 1)) {
+        if(!moved and this->bluePlayer.canMove(diceValue + 1)) {
             // generez un indice random pt un token mutabil
             while(!moved) {
                 int index = bluePlayer.random();
-                if(!this->bluePlayer.immovable(this->bluePlayer.getTokenInGame(index), this->dice.getDiceValue() + 1)) {
+                Token& t = this->bluePlayer.getTokenInGame(index);
+                if(!this->bluePlayer.immovable(t, diceValue + 1)) {
                     bool finished = false;
-                    int lineBefore = this->bluePlayer.getLineInGame(index);
-                    int colBefore = this->bluePlayer.getColInGame(index);
-                    this->bluePlayer.move(this->bluePlayer.getTokenInGame(index), this->dice.getDiceValue() + 1, finished);
+                    int lineBefore = t.getLine();
+                    int colBefore = t.getCol();
+                    this->bluePlayer.move(t, diceValue + 1, finished);
                     moved = true;
-                    if(this->bluePlayer.getTokenInGame(index).final()) {
-                        this->bluePlayer.getTokenInGame(index).setPosition(this->bluePlayer.outPosition());
-                        this->bluePlayer.takeTokenOut( this->bluePlayer.getTokenInGame(index));
+                    if(t.final()) {
+                        t.setPosition(this->bluePlayer.outPosition());
+                        this->bluePlayer.takeTokenOut( t);
                         this->bluePlayer.eraseFromInGame(index);
                     }
                     else {
-                        this->redPlayer.back(this->bluePlayer.getLineInGame(index), this->bluePlayer.getColInGame(index));
-                        this->bluePlayer.place(this->bluePlayer.getTokenInGame(index), this->bluePlayer.getLineInGame(index), this->bluePlayer.getColInGame(index));
+                        int lineAfter = t.getLine();
+                        int colAfter = t.getCol();
+                        this->redPlayer.back(lineAfter, colAfter);
+                        this->bluePlayer.place(t, lineAfter, colAfter);
                     }
                     this->bluePlayer.resize(lineBefore, colBefore);
                 }

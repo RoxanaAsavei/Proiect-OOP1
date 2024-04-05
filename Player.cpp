@@ -53,7 +53,7 @@ void Player::back(int line, int col) {
 
 }
 
-void Player::place(Token &token, int line, int col) {
+void Player::place(Token& token, int line, int col) {
     /** cand ii dau place unui token am doua optiuni:
         - in casuta (line, col) sa mai afla si alti pioni de ai lui
         - el e primul din neamul lui care ajunge aici
@@ -99,16 +99,16 @@ bool Player::contains(const Token &token, int line, int col) {
     /**
      * returneaza true daca token e in celula (line, col)
      * */
-     sf::Vector2f coordCel;
-     coordCel.x = col * squareSize + offset_ox;
-     coordCel.y = line * squareSize + offset_oy;
-     sf::Vector2f pos = token.getShapePos();
-     if(coordCel.x == pos.x && coordCel.y == pos.y) {
-         return true;
-     }
-     if(coordCel.x + squareSize / 2 == pos.x && coordCel.y == pos.y) {
-         return true;
-     }
+    sf::Vector2f coordCel;
+    coordCel.x = col * squareSize + offset_ox;
+    coordCel.y = line * squareSize + offset_oy;
+    sf::Vector2f pos = token.getShapePos();
+    if(coordCel.x == pos.x && coordCel.y == pos.y) {
+        return true;
+    }
+    if(coordCel.x + squareSize / 2 == pos.x && coordCel.y == pos.y) {
+        return true;
+    }
     if(coordCel.x + squareSize / 2 == pos.x && coordCel.y + squareSize / 2 == pos.y) {
         return true;
     }
@@ -161,35 +161,6 @@ void Player::updateTaken(sf::Vector2<float> position) {
 
 }
 
-
-bool Player::clickedOnInGame(int pos, sf::Vector2f mousePos) {
-    return tokensInGame[pos].clickedOn(mousePos);
-}
-
-bool Player::clickedOnInHouse(int pos, sf::Vector2f &mousePos) {
-    return tokensInHouse[pos].clickedOn(mousePos);
-}
-
-sf::Vector2<float> Player::getPositionInHouse(int index) {
-    return this->tokensInHouse[index].getShapePos();
-}
-
-void Player::setLineInHouse(int index, int line) {
-    this->tokensInHouse[index].setLine(line);
-}
-
-void Player::setColInHouse(int index, int col) {
-    this->tokensInHouse[index].setCol(col);
-}
-
-int Player::getLineInHouse(int index) {
-    return this->tokensInHouse[index].getLine();
-}
-
-int Player::getColInHouse(int index) {
-    return this->tokensInHouse[index].getCol();
-}
-
 void Player::addTokenInGame(Token &t) {
     this->tokensInGame.emplace_back(t);
 }
@@ -210,14 +181,6 @@ void Player::eraseFromInGame(int index) {
     this->tokensInGame.erase(this->tokensInGame.begin() + index);
 }
 
-int Player::getLineInGame(int index) {
-    return this->tokensInGame[index].getLine();
-}
-
-int Player::getColInGame(int index) {
-    return this->tokensInGame[index].getCol();
-}
-
 sf::Vector2<float> Player::outPosition() {
     return this->finishTiles[this->out()].getPosition();
 }
@@ -225,5 +188,3 @@ sf::Vector2<float> Player::outPosition() {
 void Player::takeTokenOut(Token &t) {
     this->tokensOut.emplace_back(t);
 }
-
-
