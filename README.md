@@ -8,7 +8,8 @@ peste pionul altui jucător, piesa acestuia iese din joc și trebuie să se reî
 Respectivul jucător trebuie să aștepte un nou 6 pentru a se întoarce cu pionul în joc. 
 Dacă dai cu zarul mai mult decât ai nevoie pentru a ajunge la capătul traseului, 
 atunci nu vei putea muta pionul respectiv (trebuie să dai fix cât îți trebuie).
-#### Pentru a muta un pion, dă click pe el!
+#### Pentru a muta un pion, dă click pe pionul respectiv!
+#### Pentru a da cu zarul, dă click pe zar!
 
 ........................................................................................................................................................................
 
