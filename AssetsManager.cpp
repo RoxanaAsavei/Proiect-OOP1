@@ -5,10 +5,10 @@ AssetsManager::AssetsManager() {
 }
 
 void AssetsManager::initTextures() {
-    this->redToken.loadFromFile("tokens/red_token.png");
-    this->blueToken.loadFromFile("tokens/blue_token.png");
-    this->greenToken.loadFromFile("tokens/green_token.png");
-    this->yellowToken.loadFromFile("tokens/yellow_token.png");
+    this->redToken.loadFromFile("assets/red_token.png");
+    this->blueToken.loadFromFile("assets/blue_token.png");
+    this->greenToken.loadFromFile("assets/green_token.png");
+    this->yellowToken.loadFromFile("assets/yellow_token.png");
 
 }
 

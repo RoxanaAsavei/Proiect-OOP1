@@ -1,6 +1,7 @@
 #ifndef OOP_DICE_H
 #define OOP_DICE_H
 #include<SFML/Graphics.hpp>
+#include <random>
 
 class Dice {
 private:
@@ -10,6 +11,11 @@ private:
     sf::RectangleShape face;
     std::vector<sf::RectangleShape> diceFaces;
     std::vector<sf::Texture> textures;
+
+    // for random number generator
+    std::random_device rd;
+    std::mt19937 mt;
+    std::uniform_int_distribution<int>dist;
 
     // functions
     void initTextures();

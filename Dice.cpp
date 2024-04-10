@@ -20,6 +20,7 @@ Dice::Dice() {
     this->diceValue = 3; // prima valoare, inainte sa dai cu zarul
     this->initTextures();
     this->initDiceFaces();
+
 }
 
 void Dice::Roll() { // returns a number between 0 and 5
@@ -31,12 +32,12 @@ void Dice::renderDice(sf::RenderWindow &window) {
 }
 
 void Dice::initTextures() {
-    this->textures[0].loadFromFile("dice sides/dice-six-faces-one.png");
-    this->textures[1].loadFromFile("dice sides/dice-six-faces-two.png");
-    this->textures[2].loadFromFile("dice sides/dice-six-faces-three.png");
-    this->textures[3].loadFromFile("dice sides/dice-six-faces-four.png");
-    this->textures[4].loadFromFile("dice sides/dice-six-faces-five.png");
-    this->textures[5].loadFromFile("dice sides/dice-six-faces-six.png");
+    this->textures[0].loadFromFile("assets/dice-six-faces-one.png");
+    this->textures[1].loadFromFile("assets/dice-six-faces-two.png");
+    this->textures[2].loadFromFile("assets/dice-six-faces-three.png");
+    this->textures[3].loadFromFile("assets/dice-six-faces-four.png");
+    this->textures[4].loadFromFile("assets/dice-six-faces-five.png");
+    this->textures[5].loadFromFile("assets/dice-six-faces-six.png");
 
 
 }
