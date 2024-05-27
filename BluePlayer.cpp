@@ -44,118 +44,11 @@ void BluePlayer::initPlayer() {
 
 BluePlayer::BluePlayer() {
     this->initPlayer();
+    this->dice.initDice(color);
 }
 
-void BluePlayer::move(Token &token, int value, bool &finished) {
-    int line = token.getLine();
-    int col = token.getCol();
-    while(value and !finished) {
-        if(line == 7) {
-            if(col == 0) {
-                line--;
-            }
-            else if(col == 14) {
-                col--;
-            }
-            else {
-                if(col - value > 8) {
-                    col -= value;
-                    break;
-                }
 
-                else if(col - value == 7) {
-                    col = 7;
-                    finished = true;
-                    break;
-                }
-            }
-        }
-        else if(line == 8) {
-            if(col == 9) {
-                line++;
-                col--;
-            }
-            else if(col == 0) {
-                line--;
-            }
-            else {
-                col--;
-            }
-        }
-        else if(line == 6) {
-            if(col == 5) {
-                line--;
-                col++;
-            }
-            else if(col == 14) {
-                line++;
-            }
-            else {
-                col++;
-            }
-        }
 
-        else if(col == 6) {
-            if(line == 9) {
-                line--;
-                col--;
-            }
-            else if(line == 0) {
-                col++;
-            }
-            else {
-                line--;
-            }
-        }
-        else if(col == 8) {
-            if(line == 5) {
-                line++;
-                col++;
-            }
-            else if(line == 14) {
-                col--;
-            }
-            else {
-                line++;
-            }
-        }
-        else if(col == 7) {
-            if(line == 0) {
-                col++;
-            }
-            else if(line == 14) {
-                col--;
-            }
-        }
-        value--;
-    }
-    token.setLine(line);
-    token.setCol(col);
-}
 
-bool BluePlayer::immovable(const Token &token, int move) {
-    int line = token.getLine();
-    int col = token.getCol();
-    return line == 7 && (col >= 9 && col <= 13) &&
-           (col - move == 8 || col - move < 7);
-}
 
-bool BluePlayer::almostDone(const Token &token) {
-    int line = token.getLine();
-    int col = token.getCol();
-    return line == 7 && col >= 9 && col <= 13;
-}
 
-int BluePlayer::random() {
-    std::srand(static_cast<unsigned>(time(NULL)));
-    return rand() % this->inGame();
-}
-
-bool BluePlayer::canMove(int move) {
-    for(auto& t : this->tokensInGame) {
-        if(!immovable(t, move)) {
-            return true;
-        }
-    }
-    return false;
-}

@@ -6,6 +6,7 @@ const int squareSize = 60;
 
 RedPlayer::RedPlayer() {
     this->initPlayer();
+    this->dice.initDice(color);
 }
 
 void RedPlayer::initPlayer() {
@@ -47,103 +48,97 @@ void RedPlayer::initPlayer() {
     this->finishTiles.push_back(square);
 }
 
-void RedPlayer::move(Token &token, int value, bool &finished) {
-    int line = token.getLine();
-    int col = token.getCol();
-    while(value and !finished) {
-        if(col == 6) {
-            if(line == 9) {
-                line--;
-                col--;
-            }
-            else if(line == 0) {
-                col++;
-            }
-            else {
-                line--;
-            }
-        }
-        else if(col == 8) {
-            if(line == 5) {
-                line++;
-                col++;
-            }
-            else if(line == 14) {
-                col--;
-            }
-            else {
-                line++;
-            }
-        }
-        else if(col == 7) {
-            if(line == 0) {
-                col++;
-            }
-            else if(line == 14) {
-                line--;
-            }
-            else {
-                if(line - value > 8) {
-                    line -= value;
-                    break;
-                }
-                else if(line - value == 7){
-                    line = 7;
-                    finished = true;
-                    break; // trebuie sa dai fix cat iti trebuie sa intri in casa
+void RedPlayer::displayDice(sf::RenderWindow &window) {
+    // display dice so you see it
+    dice.renderDice(window);
+    // you have to click on it
+    sf::Vector2i mousePosWindow;
+    sf::Vector2f mousePosView;
+    sf::RectangleShape diceFace = dice.getDiceFace();
+    bool clickedUpon = false;
+    while(!clickedUpon) {
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            mousePosWindow = sf::Mouse::getPosition(window);
+            mousePosView = window.mapPixelToCoords(mousePosWindow);
+            if(diceFace.getGlobalBounds().contains(mousePosView)) {
+                clickedUpon = true;
+                // rolling the dice for 5 times
+                for(int i = 0; i < 5; ++i) {
+                    dice.Roll();
+                    dice.renderDice(window);
                 }
             }
         }
-        else if(line == 8) {
-            if(col == 9) {
-                line++;
-                col--;
-            }
-            else if(col == 0) {
-                line--;
-            }
-            else {
-                col--;
-            }
-        }
-        else if(line == 7) {
-            if(col == 0) {
-                line--;
-            }
-            else if(col == 14) {
-                line++;
-            }
-        }
-        else if(line == 6) {
-            if(col == 5) {
-                line--;
-                col++;
-            }
-            else if(col == 14) {
-                line++;
-            }
-            else {
-                col++;
-            }
-        }
-        value--;
     }
-    token.setLine(line);
-    token.setCol(col);
 }
 
-bool RedPlayer::immovable(const Token &token, int move) {
-    int line = token.getLine();
-    int col = token.getCol();
-    return col == 7 && (line >=9 && line <= 13) &&
-           (line - move < 7 || line - move == 8);
-}
+void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
+    sf::Vector2i mousePosWindow;
+    sf::Vector2f mousePosView;
+    // daca da 6 si mai are in casa, e obligat sa scoata din casa
+    if(this->dice.getDiceValue() == 5 and this->inHouse()) {
+        bool clickedUpon = false;
+        while(!clickedUpon) {
+            if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                mousePosWindow = sf::Mouse::getPosition(window);
+                mousePosView = window.mapPixelToCoords(mousePosWindow); // iau pozitia curenta
+                bool moved = false;
+                for(int i = 0; i < this->inHouse() and !moved; ++i) {
+                    Token& t = this->getTokenInHouse(i);
+                    if(t.clickedOn(mousePosView)) {
+                        moved = true;
+                        clickedUpon = true;
+                        this->updateFree((t.getShapePos()));
+                        // get it out of house
+                        t.setIndex(0);
+                        std::pair<int, int> pos = t.getCoord();
+                        line = pos.first;
+                        col = pos.second;
+                        this->place(t, t.getCoord());
+                        // place it in game
+                        this->addTokenInGame(t);
+                        // token no longer in house
+                        this->eraseFromInHouse(i);
+                    }
 
-bool RedPlayer::canMove(int move) {
-    for(auto& t: this->tokensInGame) {
-        if(!immovable(t, move)) {
-            return true;
+                }
+            }
         }
     }
-    return false;
+
+    else {
+        int diceValue = this->dice.getDiceValue();
+        if(this->inGame() and this->canMove(diceValue + 1)) { // if the redPlayer still has tokens in game
+            bool clickedUpon = false;
+            while(!clickedUpon) {
+                if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+                    mousePosWindow = sf::Mouse::getPosition(window);
+                    mousePosView = window.mapPixelToCoords(mousePosWindow);
+                    bool moved = false;
+                    for(int i = 0; i < this->inGame() && !moved; ++i) {
+                        //......... // so i can close the window at any moment
+                        Token& t = this->getTokenInGame(i);
+                        if(t.clickedOn(mousePosView) && !t.immovable(diceValue + 1)) {
+                            moved = true;
+                            clickedUpon = true;
+                            bool finished = false;
+                            t.move(diceValue + 1, finished);
+                            std::pair<int, int> pos = t.getCoord();
+                            line = pos.first;
+                            col = pos.second;
+                            this->place(t, t.getCoord());
+                            this->resize(t.getPrev());
+                            if(t.final()) {
+                                t.setPosition(this->outPosition());
+                                this->takeTokenOut(t);
+                                this->eraseFromInGame(i);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
+

@@ -6,38 +6,39 @@
 class Token {
 private:
     sf::RectangleShape shape;
-    int line;
-    int col;
-    sf::Vector2f position;
+    std::vector <std::pair<int, int>> pozitii;
+    int index; // pozitia la care ma aflu in vect pozitii
     std::string color;
-
+    sf::Vector2f position; // difera in functie de bucatica din celula in care se afla
+    static const int startDrum = 50;
+    static const int finalDrum = 55;
+    static const int interzis = 56;
+    std::pair<int, int> prevPos;
     // functions
     void initToken();
 
 public:
     // compulsory requirements
     Token(const std::string &color_, AssetsManager &assetsManager);
-    ~Token();
-    // constructor de copiere
-    Token(const Token& other);
-    // op =
-    Token& operator =(const Token& other);
-    // op <<
-    friend std::ostream& operator <<(std::ostream& os, const Token& token);
 
     // functions
-    void setPosition(sf::Vector2f newPosition);
+    void setPosition(sf::Vector2<float> newPosition);
     void renderToken(sf::RenderWindow &window) const;
     void determinePos();
     bool final() const;
     void updatePos(int addOx, int addOy);
     sf::Vector2f getShapePos() const;
-    int getLine() const;
-    int getCol() const;
-    void setLine(int line_);
-    void setCol(int col_);
     void setShapeSize(sf::Vector2<float> dim);
     bool clickedOn(sf::Vector2f& mousePos);
+    bool immovable(int move) const;
+    bool contains(std::pair<int, int> celula) const;
+    void takeHome(sf::Vector2<float> pos);
+    std::pair<int, int> getCoord();
+    void setIndex(int val);
+    bool almostDone();
+    void setPrevPos();
+    void move(int pas, bool& finished);
+    std::pair<int, int> getPrev();
 };
 
 

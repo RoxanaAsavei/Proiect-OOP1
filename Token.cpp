@@ -1,23 +1,30 @@
 #include <iostream>
+#include <fstream>
 #include "Token.h"
 #include "AssetsManager.h"
 
 const int offset_ox = 480;
 const int offset_oy = 60;
+const int squareSize = 60;
 
-void Token::setPosition(sf::Vector2 <float> newPosition) {
+// schimba pozitia curenta a tokenului
+void Token::setPosition(sf::Vector2<float> newPosition) {
     this->shape.setPosition(newPosition);
 }
 
 void Token::initToken() {
-    this->line = 0;
-    this->col = 0;
+    std::string fileName = "read" + color + ".txt";
+    std::ifstream fin(fileName);
+    std::pair <int, int> pozitie;
+    while(fin >> pozitie.first >> pozitie.second)
+        this->pozitii.emplace_back(pozitie);
+    index = -1;
     this->shape.setSize(sf::Vector2f(60, 60));
 }
 
 
 Token::Token(const std::string &color_, AssetsManager &assetsManager) : color(color_) {
-    initToken();
+    this->initToken();
     if(this->color == "red") {
         this->shape.setTexture(assetsManager.getRed());
     }
@@ -37,14 +44,18 @@ void Token::renderToken(sf::RenderWindow &window) const {
     window.draw(this->shape);
 }
 
+/****
+ * pozitii[index].first => linia
+ * pozitii[index].second => coloana
+ */
 void Token::determinePos() { // 60 as the square size in the grid
-    this->position.x = this->col * 60 + offset_ox;
-    this->position.y = this->line * 60 + offset_oy;
+    this->position.x = this->pozitii[index].second * 60 + offset_ox;
+    this->position.y = this->pozitii[index].first * 60 + offset_oy;
     this->shape.setPosition(this->position.x, this->position.y);
 }
 
 bool Token::final() const {
-    return this->line == 7 && this->col == 7;
+    return index == pozitii.size() - 1;
 }
 
 void Token::updatePos(int addOx, int addOy) {
@@ -56,51 +67,8 @@ void Token::updatePos(int addOx, int addOy) {
 
 }
 
-Token::~Token() {
-    std::cout << "Token destroyed\n";
-}
-
-std::ostream &operator<<(std::ostream &os, const Token &token) {
-    os << "Line: " << token.line << "\n";
-    os << "Column: " << token.col << "\n";
-    os << "Position: " << token.position.x << " " << token.position.y << "\n";
-    os << "Color: " << token.color << "\n";
-    return os;
-}
-
-Token &Token::operator=(const Token &other) {
-    this->shape = other.shape;
-    this->line = other.line;
-    this->col = other.col;
-    this->position = other.position;
-    this->color = other.color;
-    std::cout << "Op =\n";
-    return *this;
-}
-
-Token::Token(const Token &other) : shape(other.shape), line(other.line), col(other.col),
-                                   position(other.position), color(other.color){
-    std::cout << "Token copied\n";
-}
-
 sf::Vector2 <float> Token::getShapePos() const {
     return this->shape.getPosition();
-}
-
-int Token::getLine() const {
-    return this->line;
-}
-
-int Token::getCol() const {
-    return this->col;
-}
-
-void Token::setLine(int line_) {
-    this->line = line_;
-}
-
-void Token::setCol(int col_) {
-    this->col = col_;
 }
 
 void Token::setShapeSize(sf::Vector2<float> dim) {
@@ -109,4 +77,47 @@ void Token::setShapeSize(sf::Vector2<float> dim) {
 
 bool Token::clickedOn(sf::Vector2f& mousePos) {
     return this->shape.getGlobalBounds().contains(mousePos);
+}
+
+bool Token::immovable(int move) const{
+    if(index >= startDrum and index <= finalDrum and
+            (index + move > pozitii.size() - 1 or index + move == interzis))
+        return true;
+    return false;
+}
+
+bool Token::contains(std::pair<int, int> celula) const{
+    return pozitii[index] == celula;
+}
+
+void Token::takeHome(sf::Vector2<float> pos) {
+    this->position = pos;
+    this->index = -1;
+    this->setShapeSize(sf::Vector2<float> {squareSize, squareSize});
+}
+
+std::pair<int, int> Token::getCoord() {
+    return pozitii[index];
+}
+
+void Token::setIndex(int val) {
+    index = val;
+}
+
+bool Token::almostDone() {
+    return index >= startDrum && index <= finalDrum;
+}
+
+void Token::setPrevPos() {
+    prevPos = pozitii[index];
+}
+
+void Token::move(int pas, bool &finished) {
+    index += pas;
+    if(index == pozitii.size() - 1)
+        finished = true;
+}
+
+std::pair<int, int> Token::getPrev() {
+    return prevPos;
 }

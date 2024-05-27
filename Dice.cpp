@@ -14,12 +14,17 @@ void Dice::initFace(int faceNo) {
     this->face.setTexture(&this->textures[faceNo]);
 }
 
+
+void Dice::initDice(std::string& color) {
+    this->initTextures(color);
+    this->initDiceFaces();
+}
+
 Dice::Dice() {
     this->size = 150;
     this->textures.resize(6);
     this->diceValue = 3; // prima valoare, inainte sa dai cu zarul
-    this->initTextures();
-    this->initDiceFaces();
+
 
 }
 
@@ -31,15 +36,12 @@ void Dice::renderDice(sf::RenderWindow &window) {
     window.draw(this->diceFaces[this->diceValue]);
 }
 
-void Dice::initTextures() {
-    this->textures[0].loadFromFile("assets/dice-six-faces-one.png");
-    this->textures[1].loadFromFile("assets/dice-six-faces-two.png");
-    this->textures[2].loadFromFile("assets/dice-six-faces-three.png");
-    this->textures[3].loadFromFile("assets/dice-six-faces-four.png");
-    this->textures[4].loadFromFile("assets/dice-six-faces-five.png");
-    this->textures[5].loadFromFile("assets/dice-six-faces-six.png");
-
-
+void Dice::initTextures(std::string& color) {
+    std::string path = "";
+    for(int i = 0; i < 6; ++i) {
+        path = "assets/" + color + std::to_string(i + 1) + ".png";
+        this->textures[i].loadFromFile(path);
+    }
 }
 
 sf::RectangleShape Dice::getDiceFace() {

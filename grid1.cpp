@@ -184,7 +184,7 @@ void Grid::renderGrid(sf::RenderWindow &window) {
         }
     }
     // rendering the circles
-    for(auto c : this->circles) {
+    for(const auto& c : this->circles) {
         window.draw(c);
     }
 

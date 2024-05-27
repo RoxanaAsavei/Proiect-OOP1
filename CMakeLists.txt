@@ -125,6 +125,10 @@ add_executable(${PROJECT_NAME}
         RedPlayer.h
         BluePlayer.cpp
         BluePlayer.h
+        GreenPlayer.h
+        GreenPlayer.cpp
+        GreenPlayer.cpp
+        GreenPlayer.h
 )
 
 ###############################################################################

@@ -32,7 +32,6 @@ private:
 public:
     // constructor
     Grid();
-
     // functions
     void renderGrid(sf::RenderWindow &window);
 

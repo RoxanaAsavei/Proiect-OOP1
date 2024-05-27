@@ -1,6 +1,7 @@
 #ifndef OOP_GAME_H
 #define OOP_GAME_H
 #include <SFML/Graphics.hpp>
+#include <memory>
 #include "grid1.h"
 #include "Dice.h"
 #include "RedPlayer.h"
@@ -18,9 +19,8 @@ private:
 
     // game objects
     Grid grid;
-    Dice dice;
-    RedPlayer redPlayer;
-    BluePlayer bluePlayer;
+    int noPlayers;
+    std::vector<std::shared_ptr<Player>> Players;
     int squareSize;
 
     // game logic
@@ -30,9 +30,10 @@ private:
     void initVariables();
     void initWindow();
 
+    void upper(std::string& word);
 public:
     // constructor & destructor
-    Game();
+    explicit Game(int noPlayers_);
     ~Game();
 
     // accessors
@@ -40,25 +41,16 @@ public:
     bool ending() const;
 
     // functions
-    void update(int turn);
-    void updateRed();
-    void updateTokensRed();
-    void updateBlue();
-    void updateTokensBlue();
-
+    void updatePlayer(int idx);
     void updateMousePosition();
 
     void render();
-    void renderDice();
-    void displayDiceRed();
-    void displayDiceBlue();
+    void move(int idx, int &line, int &col);
 
     void pollEvents();
 
-    void redTurn();
-    void blueTurn();
-
-    void winner(const std::string& playerColor);
+    void playersTurn(int idx);
+    void winner(std::string& playerColor);
 };
 
 

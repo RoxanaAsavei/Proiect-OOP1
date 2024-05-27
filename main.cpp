@@ -15,19 +15,21 @@
  * zar pe culori to know exactly whose turn it is
  * schimbare culori grid ca sa se vada bine pionii
  * optiune de selectat mod (1 player, 2 playeri), culoarea/culorile aferente, tipul jocului (classic, rush, ?tricky?), dificultatea lui
+ * 6 activeaza dubla 
  * */
 
 int main() {
 
     std::srand(static_cast<unsigned>(time(NULL)));
-    Game game;
-    int turn = 0; // 0 -> red's turn, 1 -> blue's turn
+    Game game(3);
+    int turn = 0;
 
     // game loop
     while(game.running() and !game.ending()) { // window is still open
         game.render(); // render grid & tokens & dice
-        game.update(turn);
-        turn = 1 - turn;
+        game.playersTurn(turn);
+        turn++;
+        turn = turn % 3;
     }
 
     return 0;

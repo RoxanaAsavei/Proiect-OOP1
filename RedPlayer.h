@@ -8,9 +8,8 @@ private:
 
 public:
     RedPlayer();
-    static void move(Token& token, int value, bool &finished);
-    static bool immovable(const Token &token, int move);
-    bool canMove(int move);
+    void displayDice(sf::RenderWindow& window) override;
+    void updateTokens(int &line, int &col, sf::RenderWindow &window) override;
 };
 
 
