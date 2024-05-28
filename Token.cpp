@@ -58,7 +58,7 @@ void Token::determinePos() { // 60 as the square size in the grid
 }
 
 bool Token::final() const {
-    return index == pozitii.size() - 1;
+    return index == static_cast<int>(pozitii.size() - 1);
 }
 
 void Token::updatePos(int addOx, int addOy) {
@@ -84,7 +84,7 @@ bool Token::clickedOn(sf::Vector2f& mousePos) {
 
 bool Token::immovable(int move) const{
     if(index >= startDrum and index <= finalDrum and
-            (index + move > pozitii.size() - 1 or index + move == interzis))
+            (index + move > static_cast<int>(pozitii.size() - 1 ) or index + move == interzis))
         return true;
     return false;
 }
@@ -117,7 +117,7 @@ void Token::setPrevPos() {
 
 void Token::move(int pas, bool &finished) {
     index += pas;
-    if(index == pozitii.size() - 1)
+    if(index == static_cast<int>(pozitii.size() - 1))
         finished = true;
 }
 

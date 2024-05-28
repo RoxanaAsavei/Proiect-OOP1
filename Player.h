@@ -48,7 +48,7 @@ public:
     int random() const;
     void pollEvents(sf::Window &window);
     bool running(sf::Window &window) const;
-    static bool contains(Token& token, std::pair<int, int> coord);
+    static bool contains(const Token& token, std::pair<int, int> coord);
 };
 
 

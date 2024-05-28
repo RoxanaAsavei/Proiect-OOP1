@@ -195,6 +195,10 @@ std::string &Player::getColor() {
 }
 
 void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
+    this->pollEvents(window);
+    if(!this->running(window)) {
+        return;
+    }
     if(this->dice.getDiceValue() == 5 and this->inHouse()) { // e obligat sa scoata din casa
         Token& t = this->getTokenInHouse(0);
         t.setIndex(0);
@@ -282,7 +286,7 @@ bool Player::running(sf::Window &window) const {
     return window.isOpen();
 }
 
-bool Player::contains(Token &token, std::pair<int, int> coord) {
+bool Player::contains(const Token &token, std::pair<int, int> coord) {
     /**
    * returneaza true daca token e in celula (line, col)
    * */
