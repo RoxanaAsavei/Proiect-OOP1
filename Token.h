@@ -9,7 +9,6 @@ private:
     std::vector <std::pair<int, int>> pozitii;
     int index; // pozitia la care ma aflu in vect pozitii
     std::string color;
-    sf::Vector2f position; // difera in functie de bucatica din celula in care se afla
     static const int startDrum = 50;
     static const int finalDrum = 55;
     static const int interzis = 56;
@@ -33,7 +32,7 @@ public:
     bool immovable(int move) const;
     bool contains(std::pair<int, int> celula) const;
     void takeHome(sf::Vector2<float> pos);
-    std::pair<int, int> getCoord();
+    std::pair<int, int> getCoord() const;
     void setIndex(int val);
     bool almostDone();
     void setPrevPos();

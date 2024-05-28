@@ -9,6 +9,9 @@ private:
     void initPlayer();
 public:
     BluePlayer();
+    ~BluePlayer() override {
+        std::cout << "Destructor BluePlayer\n";
+    }
 };
 
 #endif //OOP_BLUEPLAYER_H

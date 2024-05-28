@@ -15,7 +15,7 @@ void Dice::initFace(int faceNo) {
 }
 
 
-void Dice::initDice(std::string& color) {
+void Dice::initDice(const std::string& color) {
     this->initTextures(color);
     this->initDiceFaces();
 }
@@ -34,10 +34,11 @@ void Dice::Roll() { // returns a number between 0 and 5
 
 void Dice::renderDice(sf::RenderWindow &window) {
     window.draw(this->diceFaces[this->diceValue]);
+    window.display();
 }
 
-void Dice::initTextures(std::string& color) {
-    std::string path = "";
+void Dice::initTextures(const std::string& color) {
+    std::string path;
     for(int i = 0; i < 6; ++i) {
         path = "assets/" + color + std::to_string(i + 1) + ".png";
         this->textures[i].loadFromFile(path);
@@ -51,3 +52,4 @@ sf::RectangleShape Dice::getDiceFace() {
 int Dice::getDiceValue() const {
     return this->diceValue;
 }
+

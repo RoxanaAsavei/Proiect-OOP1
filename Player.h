@@ -1,5 +1,7 @@
 #ifndef OOP_PLAYER_H
 #define OOP_PLAYER_H
+
+#include <iostream>
 #include "Token.h"
 #include "AssetsManager.h"
 #include "Dice.h"
@@ -17,7 +19,10 @@ protected:
     Dice dice;
 
 public:
-
+    // destructor
+    virtual ~Player() {
+        std::cout << "Destructor player\n";
+    }
     // accessors
     int inHouse() const;
     int inGame() const;
@@ -41,6 +46,9 @@ public:
     std::string& getColor();
     virtual void updateTokens(int &line, int &col, sf::RenderWindow &window);
     int random() const;
+    void pollEvents(sf::Window &window);
+    bool running(sf::Window &window) const;
+    static bool contains(Token& token, std::pair<int, int> coord);
 };
 
 

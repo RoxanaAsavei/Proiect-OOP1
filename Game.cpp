@@ -11,6 +11,7 @@ void Game::initWindow() {
 }
 
 void Game::initVariables() {
+    this->endGame = false;
     this->window = nullptr;
     this->squareSize = 60;
     this->endGame = false;
@@ -53,11 +54,6 @@ void Game::pollEvents() {
 
 }
 
-
-void Game::updateMousePosition() {
-    this->mousePosWindow = sf::Mouse::getPosition(*this->window);
-    this->mousePosView = this->window->mapPixelToCoords(this->mousePosWindow);
-}
 
 void Game::render() { // the drawing part
     /**
@@ -106,13 +102,13 @@ void Game::winner(std::string& playerColor) {
 }
 
 void Game::upper(std::string &word) {
-    for(int i = 0; i < word.length(); ++i)
+    for(long long unsigned int i = 0; i < word.length(); ++i)
         word[i] = toupper(word[i]);
 }
 
 void Game::playersTurn(int idx) {
     Players[idx]->displayDice(*this->window);
-    sf::sleep(sf::seconds(1));
+    sf::sleep(sf::milliseconds(500));
     this->updatePlayer(idx);
 }
 
@@ -122,7 +118,7 @@ void Game::updatePlayer(int idx) {
     // restul sa se duca la casa lor daca e cazul
         for(int i = 0; i < noPlayers; ++i) {
             if(i != idx) {
-                Players[idx]->back(line, col);
+                Players[i]->back(line, col);
             }
         }
 }

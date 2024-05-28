@@ -13,10 +13,6 @@ private:
     sf::RenderWindow *window;
     sf::VideoMode videoMode;
 
-    // mouse positions
-    sf::Vector2i mousePosWindow;
-    sf::Vector2f mousePosView;
-
     // game objects
     Grid grid;
     int noPlayers;
@@ -30,7 +26,7 @@ private:
     void initVariables();
     void initWindow();
 
-    void upper(std::string& word);
+    static void upper(std::string& word);
 public:
     // constructor & destructor
     explicit Game(int noPlayers_);
@@ -42,7 +38,6 @@ public:
 
     // functions
     void updatePlayer(int idx);
-    void updateMousePosition();
 
     void render();
     void move(int idx, int &line, int &col);

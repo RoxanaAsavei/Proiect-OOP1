@@ -8,6 +8,9 @@ private:
 
 public:
     RedPlayer();
+    ~RedPlayer() override {
+        std::cout << "Destructor RedPlayer\n";
+    }
     void displayDice(sf::RenderWindow& window) override;
     void updateTokens(int &line, int &col, sf::RenderWindow &window) override;
 };

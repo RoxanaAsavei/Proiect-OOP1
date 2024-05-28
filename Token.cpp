@@ -10,9 +10,11 @@ const int squareSize = 60;
 // schimba pozitia curenta a tokenului
 void Token::setPosition(sf::Vector2<float> newPosition) {
     this->shape.setPosition(newPosition);
+    std::cout << "S-a actualizat pozitia\n";
 }
 
 void Token::initToken() {
+    pozitii.resize(0);
     std::string fileName = "read" + color + ".txt";
     std::ifstream fin(fileName);
     std::pair <int, int> pozitie;
@@ -49,9 +51,10 @@ void Token::renderToken(sf::RenderWindow &window) const {
  * pozitii[index].second => coloana
  */
 void Token::determinePos() { // 60 as the square size in the grid
-    this->position.x = this->pozitii[index].second * 60 + offset_ox;
-    this->position.y = this->pozitii[index].first * 60 + offset_oy;
-    this->shape.setPosition(this->position.x, this->position.y);
+    sf::Vector2<float> position;
+    position.x = this->pozitii[index].second * 60 + offset_ox;
+    position.y = this->pozitii[index].first * 60 + offset_oy;
+    this->setPosition(position);
 }
 
 bool Token::final() const {
@@ -91,17 +94,17 @@ bool Token::contains(std::pair<int, int> celula) const{
 }
 
 void Token::takeHome(sf::Vector2<float> pos) {
-    this->position = pos;
+    this->setPosition(pos);
     this->index = -1;
     this->setShapeSize(sf::Vector2<float> {squareSize, squareSize});
 }
 
-std::pair<int, int> Token::getCoord() {
-    return pozitii[index];
+std::pair<int, int> Token::getCoord() const{
+    return this->pozitii[this->index];
 }
 
 void Token::setIndex(int val) {
-    index = val;
+    this->index = val;
 }
 
 bool Token::almostDone() {

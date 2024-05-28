@@ -18,7 +18,7 @@ private:
     std::uniform_int_distribution<int>dist;
 
     // functions
-    void initTextures(std::string& color);
+    void initTextures(const std::string& color);
     void initDiceFaces();
     void initFace(int faceNo);
 
@@ -32,9 +32,8 @@ public:
 
     // functions
     void Roll();
-    void initDice(std::string& color);
+    void initDice(const std::string& color);
     void renderDice(sf::RenderWindow &window);
-
 };
 
 

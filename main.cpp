@@ -20,16 +20,18 @@
 
 int main() {
 
-    std::srand(static_cast<unsigned>(time(NULL)));
     Game game(3);
     int turn = 0;
 
     // game loop
     while(game.running() and !game.ending()) { // window is still open
         game.render(); // render grid & tokens & dice
+        sf::sleep(sf::seconds(1));
         game.playersTurn(turn);
+        game.render();
         turn++;
         turn = turn % 3;
+
     }
 
     return 0;

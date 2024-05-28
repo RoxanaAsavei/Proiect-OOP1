@@ -8,6 +8,9 @@ private:
     void initPlayer();
 public:
     GreenPlayer();
+    ~GreenPlayer() override {
+        std::cout << "Destructor GreenPlayer\n";
+    }
 };
 
 

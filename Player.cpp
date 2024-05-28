@@ -48,7 +48,7 @@ void Player::back(int line, int col) {
     // place back in the house the tokens in cell (line, col)
     int length = this->inGame();
     for(int i = 0; i < length; ++i) {
-        if(this->tokensInGame[i].contains({line, col})) {
+        if(this->tokensInGame[i].getCoord() == std::make_pair(line, col)) {
             this->tokensInGame[i].takeHome(this->freePositions[0]);
             this->updateTaken(this->freePositions[0]);
             this->tokensInHouse.push_back(this->tokensInGame[i]);
@@ -64,13 +64,13 @@ void Player::back(int line, int col) {
 
 void Player::place(Token& token, std::pair<int, int> celula) {
     /** cand ii dau place unui token am doua optiuni:
-        - in casuta (line, col) sa mai afla si alti pioni de ai lui
-        - el e primul din neamul lui care ajunge aici
-    */
+     - in casuta (line, col) sa mai afla si alti pioni de ai lui
+     - el e primul din neamul lui care ajunge aici
+ */
     // vedem cati pioni de ai lui se afla aici
     int sameTile = 0;
-    for(const auto& t : this->tokensInGame) {
-        if(t.contains(celula)) {
+    for(auto& t : this->tokensInGame) {
+        if(this->contains(t, celula)) {
             sameTile++;
         }
     }
@@ -80,28 +80,29 @@ void Player::place(Token& token, std::pair<int, int> celula) {
     }
     else { // nu e singur, avem o problema
         // clar imparte patratul cu cineva
-        token.setShapeSize(sf::Vector2 <float> {half, half});
+        token.setShapeSize(sf::Vector2 <float> {squareSize / 2, squareSize / 2});
         if(sameTile == 1) { // tb redimensionat cel existent si plasat si asta nou
             // il redimensionam pe ala existent, ca pozitie ramane la fel
             for(int i = 0; i < this->inGame(); ++i)
-                if(this->tokensInGame[i].contains(celula)) {
-                    this->tokensInGame[i].setShapeSize(sf::Vector2 <float> {half, half});
+                if(this->contains(this->tokensInGame[i], celula)) {
+                    this->tokensInGame[i].setShapeSize(sf::Vector2 <float> {squareSize / 2, squareSize / 2});
                 }
             // ii setez si lui pozitia
             // il pun initial in pozitia by default
             token.determinePos();
-            token.updatePos(half, half);
+            token.updatePos(squareSize / 2, squareSize / 2);
         }
         else if(sameTile == 2) { // el a al treilea care vine aici
             token.determinePos();
-            token.updatePos(half, 0);
+            token.updatePos(squareSize / 2, 0);
         }
 
         else if(sameTile == 3) { // el e al patrulea
             token.determinePos();
-            token.updatePos(0, half);
+            token.updatePos(0, squareSize / 2);
         }
     }
+
 }
 
 
@@ -110,7 +111,7 @@ void Player::resize(std::pair<int, int> celula) {
     int pos = -1; // default value
     int sameTile = 0;
     for(int i = 0; i < this->inGame(); ++i) {
-        if(this->tokensInGame[i].contains(celula)) {
+        if(this->contains(tokensInGame[i], celula)) {
             pos = i;
             sameTile++;
         }
@@ -145,7 +146,6 @@ void Player::updateTaken(sf::Vector2<float> position) {
         }
     }
     this->takenPositions.push_back(position);
-
 }
 
 void Player::addTokenInGame(Token &t) {
@@ -177,12 +177,16 @@ void Player::takeTokenOut(Token &t) {
 }
 
 void Player::displayDice(sf::RenderWindow &window) {
-    dice.getDiceValue();
+    this->pollEvents(window);
     dice.renderDice(window); // afiseaza o fata a zarului cat sa o vezi
-    sf::sleep(sf::seconds(2));
+    sf::sleep(sf::milliseconds(500));
     for(int i = 0; i < 5; ++i) {
+        this->pollEvents(window);
+        if(!this->running(window))
+            break;
         dice.Roll();
         dice.renderDice(window);
+        sf::sleep(sf::milliseconds(100));
     }
 }
 
@@ -197,11 +201,11 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
         this->updateFree(t.getShapePos());
         this->place(t, t.getCoord());
         // place it in game
-        this->addTokenInGame(t);
-        this->eraseFromInHouse(0);
         std::pair<int, int> poz = t.getCoord();
         line = poz.first;
         col = poz.second;
+        this->addTokenInGame(t);
+        this->eraseFromInHouse(0);
     }
 
     else { // trebuie sa mute unul dintre pionii din joc
@@ -261,7 +265,43 @@ int Player::random() const {
     return rand() % this->inGame();
 }
 
+void Player::pollEvents(sf::Window &window) {
+    sf::Event ev;
+    while(window.pollEvent(ev)) {
+        if(ev.type == sf::Event::Closed) {
+            window.close();
+        }
+        else if(ev.type == sf::Event::KeyPressed) {
+            if(ev.key.code == sf::Keyboard::Escape)
+                window.close();
+        }
+    }
+}
 
+bool Player::running(sf::Window &window) const {
+    return window.isOpen();
+}
 
-
+bool Player::contains(Token &token, std::pair<int, int> coord) {
+    /**
+   * returneaza true daca token e in celula (line, col)
+   * */
+    sf::Vector2f coordCel;
+    coordCel.x = coord.second * squareSize + offset_ox;
+    coordCel.y = coord.first * squareSize + offset_oy;
+    sf::Vector2f pos = token.getShapePos();
+    if(coordCel.x == pos.x && coordCel.y == pos.y) {
+        return true;
+    }
+    if(coordCel.x + squareSize / 2 == pos.x && coordCel.y == pos.y) {
+        return true;
+    }
+    if(coordCel.x + squareSize / 2 == pos.x && coordCel.y + squareSize / 2 == pos.y) {
+        return true;
+    }
+    if(coordCel.x == pos.x && coordCel.y + squareSize / 2 == pos.y) {
+        return true;
+    }
+    return false;
+}
 
