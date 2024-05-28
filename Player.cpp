@@ -80,26 +80,26 @@ void Player::place(Token& token, std::pair<int, int> celula) {
     }
     else { // nu e singur, avem o problema
         // clar imparte patratul cu cineva
-        token.setShapeSize(sf::Vector2 <float> {squareSize / 2, squareSize / 2});
+        token.setShapeSize(sf::Vector2 <float> {half, half});
         if(sameTile == 1) { // tb redimensionat cel existent si plasat si asta nou
             // il redimensionam pe ala existent, ca pozitie ramane la fel
             for(int i = 0; i < this->inGame(); ++i)
                 if(this->contains(this->tokensInGame[i], celula)) {
-                    this->tokensInGame[i].setShapeSize(sf::Vector2 <float> {squareSize / 2, squareSize / 2});
+                    this->tokensInGame[i].setShapeSize(sf::Vector2 <float> {half, half});
                 }
             // ii setez si lui pozitia
             // il pun initial in pozitia by default
             token.determinePos();
-            token.updatePos(squareSize / 2, squareSize / 2);
+            token.updatePos(half, half);
         }
         else if(sameTile == 2) { // el a al treilea care vine aici
             token.determinePos();
-            token.updatePos(squareSize / 2, 0);
+            token.updatePos(half, 0);
         }
 
         else if(sameTile == 3) { // el e al patrulea
             token.determinePos();
-            token.updatePos(0, squareSize / 2);
+            token.updatePos(0, half);
         }
     }
 
@@ -297,13 +297,13 @@ bool Player::contains(const Token &token, std::pair<int, int> coord) {
     if(coordCel.x == pos.x && coordCel.y == pos.y) {
         return true;
     }
-    if(coordCel.x + squareSize / 2 == pos.x && coordCel.y == pos.y) {
+    if(coordCel.x + half == pos.x && coordCel.y == pos.y) {
         return true;
     }
-    if(coordCel.x + squareSize / 2 == pos.x && coordCel.y + squareSize / 2 == pos.y) {
+    if(coordCel.x + half == pos.x && coordCel.y + half == pos.y) {
         return true;
     }
-    if(coordCel.x == pos.x && coordCel.y + squareSize / 2 == pos.y) {
+    if(coordCel.x == pos.x && coordCel.y + half == pos.y) {
         return true;
     }
     return false;
