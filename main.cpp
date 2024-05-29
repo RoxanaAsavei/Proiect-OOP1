@@ -68,31 +68,39 @@ int main() {
             switch (event.type) {
                 case sf::Event::Closed:
                     window.close();
+                    break;
+
                 case sf::Event::KeyPressed:
-                    if(event.key.code == sf::Keyboard::Escape)
+                    if (event.key.code == sf::Keyboard::Escape)
                         window.close();
+                    break;
+
                 case sf::Event::MouseMoved:
-                    for(int i = 0; i < 3; ++i) {
-                        if(butoane[i].isMouseOver(window)) {
+                    for (int i = 0; i < 3; ++i) {
+                        if (butoane[i].isMouseOver(window)) {
                             butoane[i].setBgColor(txt);
                             butoane[i].setTextColor(bg);
-                        }
-                        else {
+                        } else {
                             butoane[i].setBgColor(bg);
                             butoane[i].setTextColor(txt);
                         }
                     }
                     break;
+
                 case sf::Event::MouseButtonPressed:
-                    for(int i = 0; i < 3; ++i) {
-                        if(butoane[i].isMouseOver(window)) {
+                    for (int i = 0; i < 3; ++i) {
+                        if (butoane[i].isMouseOver(window)) {
                             chosen = butoane[i].getText();
                             window.close();
                             break;
                         }
                     }
+                    break;
 
+                default:
+                    break;
             }
+
         }
         window.clear(sf::Color{163, 228, 215});
         window.draw(mesaj);
