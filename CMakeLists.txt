@@ -129,6 +129,8 @@ add_executable(${PROJECT_NAME}
         GreenPlayer.cpp
         GreenPlayer.cpp
         GreenPlayer.h
+        Button.h
+        Button.cpp
 )
 
 ###############################################################################
