@@ -38,6 +38,7 @@ public:
     void setPrevPos();
     void move(int pas, bool& finished);
     std::pair<int, int> getPrev();
+
 };
 
 

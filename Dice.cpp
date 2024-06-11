@@ -1,5 +1,6 @@
 #include "Dice.h"
 
+
 void Dice::initDiceFaces() {
     for(int i = 0; i < 6; ++i) {
         initFace(i);
@@ -41,7 +42,8 @@ void Dice::initTextures(const std::string& color) {
     std::string path;
     for(int i = 0; i < 6; ++i) {
         path = "assets/" + color + std::to_string(i + 1) + ".png";
-        this->textures[i].loadFromFile(path);
+        if(!this->textures[i].loadFromFile(path))
+            throw textureError(path);
     }
 }
 

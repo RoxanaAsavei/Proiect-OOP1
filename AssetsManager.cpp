@@ -5,11 +5,14 @@ AssetsManager::AssetsManager() {
 }
 
 void AssetsManager::initTextures() {
-    this->redToken.loadFromFile("assets/red_token.png");
-    this->blueToken.loadFromFile("assets/blue_token.png");
-    this->greenToken.loadFromFile("assets/green_token.png");
-    this->yellowToken.loadFromFile("assets/yellow_token.png");
-
+    if(!this->redToken.loadFromFile("assets/red_token.png"))
+        throw textureError("assets/red_token.png");
+    if(!this->blueToken.loadFromFile("assets/blue_token.png"))
+        throw textureError("assets/blue_token.png");
+    if(!this->greenToken.loadFromFile("assets/green_token.png"))
+        throw textureError("assets/green_token.png");
+    if(!this->yellowToken.loadFromFile("assets/yellow_token.png"))
+        throw textureError("assets/yellow_token.png");
 }
 
 sf::Texture *AssetsManager::getRed() {

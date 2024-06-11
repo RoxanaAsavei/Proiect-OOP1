@@ -75,7 +75,7 @@ void RedPlayer::displayDice(sf::RenderWindow &window) {
                     }
                     dice.Roll();
                     dice.renderDice(window);
-                    sf::sleep(sf::milliseconds(100));
+                    sf::sleep(sf::milliseconds(200));
                 }
             }
         }
@@ -158,6 +158,25 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
             }
         }
     }
+}
+
+void RedPlayer::displayText(sf::RenderWindow& window) {
+    sf::Font font;
+    if(!font.loadFromFile("assets/Davis_Preview.ttf")) {
+        throw fontError("assets/Davis_Preview.ttf");
+    }
+
+    sf::Text text;
+    text.setFont(font);
+    std::string mesaj = "It's your\nturn!";
+    text.setString(mesaj);
+    text.setFillColor(sf::Color(180, 55, 87));
+    text.setCharacterSize(40);
+    text.setOutlineThickness(2.f);
+    text.setOutlineColor(sf::Color::Black);
+    text.setPosition(4 * squareSize, 7 * squareSize + offset_oy);
+    window.draw(text);
+
 }
 
 

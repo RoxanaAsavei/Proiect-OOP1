@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <ctime>
-/*
+
+/*3
  * TO DO
  * ..........
  * rand din c++
@@ -15,10 +16,9 @@
  * zar pe culori to know exactly whose turn it is
  * schimbare culori grid ca sa se vada bine pionii
  * optiune de selectat mod (1 player, 2 playeri), culoarea/culorile aferente, tipul jocului (classic, rush, ?tricky?), dificultatea lui
- * 6 activeaza dubla 
+ * 6 activeaza dubla
+ *
  * */
-
-
 
 #include "Button.h"
 
@@ -110,19 +110,40 @@ int main() {
         window.display();
     }
 
-    int noPlayers = std::stoi(chosen);
-    Game game(noPlayers);
-    int turn = 0;
+    int noPlayers;
+    try {
+        noPlayers = std::stoi(chosen);
+        Game game(noPlayers);
+        int turn = 0;
 
-    // game loop
-    while(game.running() and !game.ending()) { // window is still open
-        game.render(); // render grid & tokens & dice
-        sf::sleep(sf::seconds(1));
-        game.playersTurn(turn);
-        game.render();
-        turn++;
-        turn = turn % noPlayers;
+        // game loop
+        while(game.running() and !game.ending()) { // window is still open
+            game.render(); // render grid & tokens & dice
+            sf::sleep(sf::seconds(1));
+            game.playersTurn(turn);
+            game.render();
+            turn++;
+            turn = turn % noPlayers;
 
+        }
+    }
+    catch(std::invalid_argument& error) {
+        std::cout << "Nu este un numar: " << error.what() << "\n";
+    }
+    catch(std::out_of_range& error) {
+        std::cout << "Numarul este prea mic / mare: " << error.what() << "\n";
+    }
+    catch(fileError& error) {
+        std::cout << "Eroare de la fisiere: " << error.what() << "\n";
+    }
+    catch(textureError& error) {
+        std::cout << "Eroare de la texturi: " << error.what() << "\n";
+    }
+    catch(fontError& error) {
+        std::cout << "Eroare la font: " << error.what() << "\n";
+    }
+    catch(gameExceptions& error) {
+        std::cout << "Alta eroare de la joc: " << error.what();
     }
 
     return 0;

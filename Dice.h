@@ -1,6 +1,7 @@
 #ifndef OOP_DICE_H
 #define OOP_DICE_H
 #include<SFML/Graphics.hpp>
+#include "Exceptions.h"
 #include <random>
 
 class Dice {
@@ -25,6 +26,7 @@ private:
 public:
     // constructor
     Dice();
+
 
     // accessors
     sf::RectangleShape getDiceFace();

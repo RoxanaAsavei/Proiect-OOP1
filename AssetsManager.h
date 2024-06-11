@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <SFML/Audio/Sound.hpp>
+#include "Exceptions.h"
 
 class AssetsManager { // class used for all the textures, fonts, and sounds that are to be used
 private:

@@ -6,6 +6,8 @@
 #include "Dice.h"
 #include "RedPlayer.h"
 #include "BluePlayer.h"
+#include "GreenPlayer.h"
+#include "Exceptions.h"
 
 class Game {
 private:

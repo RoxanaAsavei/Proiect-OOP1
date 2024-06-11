@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "Token.h"
-#include "AssetsManager.h"
+
 
 const int offset_ox = 480;
 const int offset_oy = 60;
@@ -17,6 +17,9 @@ void Token::initToken() {
     pozitii.resize(0);
     std::string fileName = "read" + color + ".txt";
     std::ifstream fin(fileName);
+    if(!fin.is_open()) {
+        throw fileError(fileName);
+    }
     std::pair <int, int> pozitie;
     while(fin >> pozitie.first >> pozitie.second)
         this->pozitii.emplace_back(pozitie);
@@ -124,3 +127,4 @@ void Token::move(int pas, bool &finished) {
 std::pair<int, int> Token::getPrev() {
     return prevPos;
 }
+

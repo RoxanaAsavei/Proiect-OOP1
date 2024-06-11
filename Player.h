@@ -2,8 +2,8 @@
 #define OOP_PLAYER_H
 
 #include <iostream>
+#include <memory>
 #include "Token.h"
-#include "AssetsManager.h"
 #include "Dice.h"
 
 class Player {
@@ -18,11 +18,20 @@ protected:
     AssetsManager assetsManager;
     Dice dice;
 
+/*protected:
+    Player(const Player& other) = default;
+    Player& operator=(const Player& other) = default;
+    */
 public:
     // destructor
     virtual ~Player() {
         std::cout << "Destructor player\n";
     }
+
+     // clone function
+ //    virtual std::shared_ptr<Player> clone() const = 0;
+
+
     // accessors
     int inHouse() const;
     int inGame() const;

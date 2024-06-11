@@ -11,8 +11,13 @@ public:
     ~RedPlayer() override {
         std::cout << "Destructor RedPlayer\n";
     }
+ /*   std::shared_ptr<Player> clone() const override {
+        return std::make_shared<RedPlayer(*this)>();
+    }
+    */
     void displayDice(sf::RenderWindow& window) override;
     void updateTokens(int &line, int &col, sf::RenderWindow &window) override;
+    void displayText(sf::RenderWindow& window);
 };
 
 

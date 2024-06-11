@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "GreenPlayer.h"
+
 
 const int offset_ox = 480;
 const int offset_oy = 60;
@@ -84,7 +84,9 @@ bool Game::ending() const {
 
 void Game::winner(std::string& playerColor) {
     sf::Font font;
-    font.loadFromFile("assets/Davis_Preview.ttf");
+    if(!font.loadFromFile("assets/Davis_Preview.ttf")) {
+        throw fontError("assets/Davis_Preview.ttf");
+    }
     sf::Text text;
     text.setFont(font);
     upper(playerColor);
@@ -107,6 +109,11 @@ void Game::upper(std::string &word) {
 }
 
 void Game::playersTurn(int idx) {
+
+    if(std::dynamic_pointer_cast<RedPlayer>(Players[idx])) {
+        std::shared_ptr<RedPlayer> redPlayer = std::dynamic_pointer_cast<RedPlayer>(Players[idx]);
+        redPlayer->displayText(*this->window);
+    }
     Players[idx]->displayDice(*this->window);
     sf::sleep(sf::milliseconds(500));
     this->updatePlayer(idx);
