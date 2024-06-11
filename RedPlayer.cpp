@@ -176,6 +176,7 @@ void RedPlayer::displayText(sf::RenderWindow& window) {
     text.setOutlineColor(sf::Color::Black);
     text.setPosition(4 * squareSize, 7 * squareSize + offset_oy);
     window.draw(text);
+    window.display();
 
 }
 

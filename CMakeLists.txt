@@ -133,6 +133,8 @@ add_executable(${PROJECT_NAME}
         Button.cpp
         Exceptions.cpp
         Exceptions.h
+        YellowPlayer.h
+        YellowPlayer.cpp
 )
 
 ###############################################################################

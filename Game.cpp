@@ -27,6 +27,9 @@ void Game::initVariables() {
         else if(colors[i] == "green") {
             Players.push_back(std::make_shared<GreenPlayer>());
         }
+        else {
+            Players.push_back(std::make_shared<YellowPlayer>());
+        }
     }
 }
 

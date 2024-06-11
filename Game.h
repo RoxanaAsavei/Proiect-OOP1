@@ -8,6 +8,7 @@
 #include "BluePlayer.h"
 #include "GreenPlayer.h"
 #include "Exceptions.h"
+#include "YellowPlayer.h"
 
 class Game {
 private:
