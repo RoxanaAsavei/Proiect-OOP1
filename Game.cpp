@@ -1,8 +1,11 @@
 #include "Game.h"
 
-
+const int squareSize = 60;
 const int offset_ox = 480;
 const int offset_oy = 60;
+const sf::Color bg = sf::Color{2,71,77};
+const sf::Color txt = sf::Color::White;
+
 
 void Game::initWindow() {
     this->videoMode = sf::VideoMode(1800, 1000);
@@ -12,8 +15,6 @@ void Game::initWindow() {
 
 void Game::initVariables() {
     this->endGame = false;
-    this->window = nullptr;
-    this->squareSize = 60;
     this->endGame = false;
     Players.push_back(std::make_shared<RedPlayer>());
     std::vector<std::string> colors = {"blue", "green"};
@@ -34,13 +35,15 @@ void Game::initVariables() {
 }
 
 // constructor & destructor
-Game::Game(int noPlayers_) : noPlayers(noPlayers_) {
-    this->initVariables();
-    this->initWindow();
-}
+
 
 Game::~Game() {
     delete this->window;
+}
+Game::Game() {
+    state = GameState::start;
+    this->initWindow();
+    startGame();
 }
 
 void Game::pollEvents() {
@@ -126,11 +129,11 @@ void Game::updatePlayer(int idx) {
     int line, col;
     this->move(idx, line, col); // mi-am mutat eu pionii
     // restul sa se duca la casa lor daca e cazul
-        for(int i = 0; i < noPlayers; ++i) {
-            if(i != idx) {
-                Players[i]->back(line, col);
-            }
+    for(int i = 0; i < noPlayers; ++i) {
+        if(i != idx) {
+            Players[i]->back(line, col);
         }
+    }
 }
 
 void Game::move(int idx, int &line, int &col) {
@@ -145,4 +148,199 @@ void Game::move(int idx, int &line, int &col) {
     }
 }
 
+
+
+
+
+void Game::playerSelection() {
+ // setam butoanele
+    sf::Font font;
+    if(!font.loadFromFile("assets/Ladywish.otf")) {
+        throw fontError("assets/Ladywish.otf");
+    }
+    sf::Text mesaj;
+    mesaj.setString("Select the number of players:");
+    mesaj.setFont(font);
+    mesaj.setCharacterSize(100);
+    mesaj.setFillColor(sf::Color::White);
+    mesaj.setOutlineThickness(3.f);
+    mesaj.setOutlineColor(sf::Color::Black);
+    mesaj.setPosition(240,120);
+
+
+    sf::Color bg = sf::Color{2,71,77};
+    sf::Color txt = sf::Color::White;
+    std::vector<Button> butoane;
+    Button btn1("2", {300, 200}, 120, bg, txt);
+    btn1.setPosition({420, 300});
+
+    butoane.emplace_back(btn1);
+
+    Button btn2("3", {300, 200}, 120, bg, txt);
+    btn2.setPosition({1020, 300});
+
+    butoane.emplace_back(btn2);
+
+    Button btn3("4", {300, 200}, 120, bg, txt);
+    btn3.setPosition({720, 640});
+
+    butoane.emplace_back(btn3);
+
+    for(int i = 0; i < 3; ++i) {
+        butoane[i].setFont(font);
+    }
+
+    std::string chosen;
+    bool done = false;
+
+    while(window->isOpen() and !done) {
+       //  pollEvents();
+        sf::Event event;
+        while(window->pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::Escape)
+                        window->close();
+                    break;
+
+                case sf::Event::MouseMoved:
+                    for (int i = 0; i < 3; ++i) {
+                        if (butoane[i].isMouseOver(*window)) {
+                            butoane[i].setBgColor(txt);
+                            butoane[i].setTextColor(bg);
+                        } else {
+                            butoane[i].setBgColor(bg);
+                            butoane[i].setTextColor(txt);
+                        }
+                    }
+                    break;
+
+                case sf::Event::MouseButtonPressed:
+                    for (int i = 0; i < 3; ++i) {
+                        if (butoane[i].isMouseOver(*window)) {
+                            chosen = butoane[i].getText();
+                            done = true;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
+        window->clear(sf::Color{163, 228, 215});
+        window->draw(mesaj);
+        for(int i = 0; i < 3; ++i) {
+            butoane[i].drawTo(*window);
+        }
+        window->display();
+    }
+
+    if(done) {
+        try{
+            noPlayers = std::stoi(chosen);
+            state = GameState::playing;
+            this->initVariables();
+            runGame();
+        }
+        catch(std::exception& error) {
+            throw error;
+        }
+    }
+
+}
+
+void Game::startGame() {
+    // afisam un text si un buton de start
+    sf::Text titlu;
+    sf::Font font;
+    if(!font.loadFromFile("assets/Davis_Preview.ttf")) {
+        throw fontError("assets/Davis_Preview.ttf");
+    }
+    std::string content = "Play Ludo now!\n";
+    titlu.setString(content);
+    titlu.setFont(font);
+    titlu.setCharacterSize(120);
+    titlu.setFillColor(txt);
+    titlu.setOutlineColor(bg);
+    titlu.setOutlineThickness(5);
+    titlu.setPosition(offset_ox, 3 * squareSize + offset_oy);
+
+
+    Button butonStart("START", {300, 180}, 50, bg, txt);
+    butonStart.setFont(font);
+    butonStart.setPosition(sf::Vector2f{300 + offset_ox, 600 + offset_oy});
+
+    bool clicked = false;
+
+    while(window->isOpen() && !clicked) {
+        // pollEvents();
+        sf::Event event;
+        while(window->pollEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    window->close();
+                    break;
+
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::Escape)
+                        window->close();
+                    break;
+
+                case sf::Event::MouseButtonPressed:
+                    if(butonStart.isMouseOver(*this->window)) {
+                        clicked = true;
+                        break;
+                    }
+                    break;
+
+                case sf::Event::MouseMoved:
+                    if(butonStart.isMouseOver(*this->window)) {
+                        butonStart.setBgColor(txt);
+                        butonStart.setTextColor(bg);
+                    }
+                    else {
+                        butonStart.setBgColor(bg);
+                        butonStart.setTextColor(txt);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        window->clear(sf::Color{163, 228, 215});
+        window->draw(titlu);
+        butonStart.drawTo(*this->window);
+        window->display();
+
+    }
+
+    if(clicked) {
+        state = GameState::playerSelection;
+        playerSelection();
+    }
+
+
+}
+
+void Game::runGame() {
+    int turn = 0;
+    while(running() and !ending()) { // window is still open
+        window->clear(sf::Color{163, 228, 215});
+        render(); // render grid & tokens & dice
+        sf::sleep(sf::seconds(1));
+        playersTurn(turn);
+        render();
+        turn++;
+        turn = turn % noPlayers;
+
+    }
+}
 

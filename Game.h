@@ -9,9 +9,19 @@
 #include "GreenPlayer.h"
 #include "Exceptions.h"
 #include "YellowPlayer.h"
+#include "Button.h"
+
+enum class GameState{
+    start,
+    playerSelection,
+    playing
+};
 
 class Game {
 private:
+    // game state
+    GameState state;
+
     // window parameters
     sf::RenderWindow *window;
     sf::VideoMode videoMode;
@@ -20,7 +30,6 @@ private:
     Grid grid;
     int noPlayers;
     std::vector<std::shared_ptr<Player>> Players;
-    int squareSize;
 
     // game logic
     bool endGame;
@@ -32,7 +41,7 @@ private:
     static void upper(std::string& word);
 public:
     // constructor & destructor
-    explicit Game(int noPlayers_);
+    Game();
     ~Game();
 
     // accessors
@@ -49,6 +58,11 @@ public:
 
     void playersTurn(int idx);
     void winner(std::string& playerColor);
+
+
+    void playerSelection();
+    void startGame();
+    void runGame();
 };
 
 
