@@ -114,6 +114,8 @@ void Game::upper(std::string &word) {
         word[i] = toupper(word[i]);
 }
 
+
+
 void Game::playersTurn(int idx) {
 
     if(std::dynamic_pointer_cast<RedPlayer>(Players[idx])) {
@@ -168,8 +170,6 @@ void Game::playerSelection() {
     mesaj.setPosition(240,120);
 
 
-    sf::Color bg = sf::Color{2,71,77};
-    sf::Color txt = sf::Color::White;
     std::vector<Button> butoane;
     Button btn1("2", {300, 200}, 120, bg, txt);
     btn1.setPosition({420, 300});
@@ -249,7 +249,7 @@ void Game::playerSelection() {
             runGame();
         }
         catch(std::exception& error) {
-            throw error;
+            throw;
         }
     }
 
@@ -335,11 +335,11 @@ void Game::runGame() {
     while(running() and !ending()) { // window is still open
         window->clear(sf::Color{163, 228, 215});
         render(); // render grid & tokens & dice
-        sf::sleep(sf::seconds(1));
         playersTurn(turn);
         render();
         turn++;
         turn = turn % noPlayers;
+        sf::sleep(sf::seconds(1));
 
     }
 }
