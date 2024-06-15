@@ -19,7 +19,6 @@ protected:
     AssetsManager assetsManager;
     Dice dice;
 
-
 public:
     // destructor
     virtual ~Player() {
@@ -30,23 +29,17 @@ public:
     int inHouse() const;
     int inGame() const;
     int out() const;
+    std::string& getColor();
+    sf::Vector2 <float> outPosition();
     //functions
+    void updateFree(sf::Vector2<float> position); // & strica treaba
+    void updateTaken(sf::Vector2<float> position);
     bool canMove(int move);
     void renderTokens(sf::RenderWindow &window);
     void back(int line, int col);
     void place(Token &token, std::pair<int, int> celula);
     void resize(std::pair<int, int> celula);
-    void updateFree(sf::Vector2<float> position); // & strica treaba
-    void updateTaken(sf::Vector2<float> position);
-    void addTokenInGame(Token& t);
-    Token& getTokenInHouse(int index);
-    Token& getTokenInGame(int index);
-    void eraseFromInHouse(int index);
-    void eraseFromInGame(int index);
-    sf::Vector2 <float> outPosition();
-    void takeTokenOut(Token& t);
     virtual void displayDice(sf::RenderWindow& window, class Game& game);
-    std::string& getColor();
     virtual void updateTokens(int &line, int &col, sf::RenderWindow &window);
     int random() const;
     void pollEvents(sf::Window &window);

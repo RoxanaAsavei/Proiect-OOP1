@@ -102,7 +102,7 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                     if(!this->running(window)) {
                         break;
                     }
-                    Token& t = this->getTokenInHouse(i);
+                    Token& t = this->tokensInHouse[i];
                     if(t.clickedOn(mousePosView)) {
                         moved = true;
                         clickedUpon = true;
@@ -114,9 +114,9 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                         line = pos.first;
                         col = pos.second;
                         // place it in game
-                        this->addTokenInGame(t);
+                        this->tokensInGame.emplace_back(t);
                         // token no longer in house
-                        this->eraseFromInHouse(i);
+                        this->tokensInHouse.erase(this->tokensInHouse.begin() + i);
                     }
 
                 }
@@ -139,7 +139,7 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                         if(!this->running(window)) {
                             break;
                         }
-                        Token& t = this->getTokenInGame(i);
+                        Token& t = this->tokensInGame[i];
                         if(t.clickedOn(mousePosView) && !t.immovable(diceValue + 1)) {
                             moved = true;
                             clickedUpon = true;
@@ -153,8 +153,8 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                             this->resize(t.getPrev());
                             if(t.final()) {
                                 t.setPosition(this->outPosition());
-                                this->takeTokenOut(t);
-                                this->eraseFromInGame(i);
+                                this->tokensOut.emplace_back(t);
+                                this->tokensInGame.erase(this->tokensInGame.begin() + i);
                             }
                         }
                     }

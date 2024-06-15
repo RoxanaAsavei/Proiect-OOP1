@@ -164,34 +164,9 @@ void Player::updateTaken(sf::Vector2<float> position) {
     this->takenPositions.push_back(position);
 }
 
-void Player::addTokenInGame(Token &t) {
-    this->tokensInGame.emplace_back(t);
-}
-
-Token &Player::getTokenInHouse(int index) {
-    return this->tokensInHouse[index];
-}
-
-Token &Player::getTokenInGame(int index) {
-    return this->tokensInGame[index];
-}
-
-void Player::eraseFromInHouse(int index) {
-    this->tokensInHouse.erase(this->tokensInHouse.begin() + index);
-}
-
-void Player::eraseFromInGame(int index) {
-    this->tokensInGame.erase(this->tokensInGame.begin() + index);
-}
-
 sf::Vector2<float> Player::outPosition() {
     return this->finishTiles[this->out()].getPosition();
 }
-
-void Player::takeTokenOut(Token &t) {
-    this->tokensOut.emplace_back(t);
-}
-
 
 std::string &Player::getColor() {
     return this->color;
@@ -203,7 +178,7 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
         return;
     }
     if(this->dice.getDiceValue() == 5 and this->inHouse()) { // e obligat sa scoata din casa
-        Token& t = this->getTokenInHouse(0);
+        Token& t = this->tokensInHouse[0];
         t.setIndex(0);
         this->updateFree(t.getShapePos());
         this->place(t, t.getCoord());
@@ -211,8 +186,8 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
         std::pair<int, int> poz = t.getCoord();
         line = poz.first;
         col = poz.second;
-        this->addTokenInGame(t);
-        this->eraseFromInHouse(0);
+        this->tokensInGame.emplace_back(t);
+        this->tokensInHouse.erase(this->tokensInHouse.begin());
     }
 
     else { // trebuie sa mute unul dintre pionii din joc
@@ -220,7 +195,7 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
         bool moved = false;
         int diceValue = this->dice.getDiceValue();
         for(int i = 0; i < this->inGame() && !moved; ++i) {
-            Token& t = this->getTokenInGame(i);
+            Token& t = this->tokensInGame[i];
             if(t.almostDone() && !t.immovable(diceValue + 1)) {
                 bool finished = false;
                 t.setPrevPos();
@@ -233,8 +208,8 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                 this->resize(t.getPrev());
                 if(t.final()) {
                     t.setPosition(this->outPosition());
-                    this->takeTokenOut(t);
-                    this->eraseFromInGame(i);
+                    this->tokensOut.emplace_back(t);
+                    this->tokensInGame.erase(this->tokensInGame.begin() + i);
                 }
             }
         }
@@ -243,7 +218,7 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
             // generez un indice random pt un token mutabil
             while(!moved) {
                 int index = this->random();
-                Token& t = this->getTokenInGame(index);
+                Token& t = this->tokensInGame[index];
                 if(!t.immovable(diceValue + 1)) {
                     bool finished = false;
                     t.setPrevPos();
@@ -254,8 +229,8 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                     col = poz.second;
                     if(t.final()) {
                         t.setPosition(this->outPosition());
-                        this->takeTokenOut( t);
-                        this->eraseFromInGame(index);
+                        this->tokensOut.emplace_back(t);
+                        this->tokensInGame.erase(this->tokensInGame.begin() + index);
                     }
                     else {
                         this->place(t, t.getCoord());
