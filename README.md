@@ -16,13 +16,13 @@ atunci nu vei putea muta pionul respectiv (trebuie să dai fix cât îți trebui
 Linia 19: 
 ```
 //    Players.push_back(std::make_shared<RedPlayer>());
-
 ```
 Linia 24:
 ```
 for(int i = 0; i < noPlayers; ++i) {
-
 ```
+
+----
 
 O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie de apeluri proxy către cod generat.
 
