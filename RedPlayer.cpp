@@ -172,7 +172,7 @@ void RedPlayer::displayText(sf::RenderWindow& window) {
 
     sf::Text text;
     text.setFont(font);
-    std::string mesaj = "It's your\nturn!";
+    std::string mesaj = "It's your\n    turn!";
     text.setString(mesaj);
     text.setFillColor(sf::Color(180, 55, 87));
     text.setCharacterSize(40);

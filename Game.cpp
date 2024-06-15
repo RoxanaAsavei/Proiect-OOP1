@@ -17,7 +17,7 @@ void Game::initVariables() {
     this->endGame = false;
     this->endGame = false;
     Players.push_back(std::make_shared<RedPlayer>());
-    std::vector<std::string> colors = {"blue", "green"};
+    std::vector<std::string> colors = {"blue", "green", "yellow"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::shuffle(colors.begin(), colors.end(), gen);
@@ -121,8 +121,12 @@ void Game::playersTurn(int idx) {
     if(std::dynamic_pointer_cast<RedPlayer>(Players[idx])) {
         std::shared_ptr<RedPlayer> redPlayer = std::dynamic_pointer_cast<RedPlayer>(Players[idx]);
         this->window->clear(sf::Color{163, 228, 215});
+        this->grid.renderGrid(*this->window);
+        for(int i = 0; i < noPlayers; ++i) {
+            Players[i]->renderTokens(*this->window);
+        }
         redPlayer->displayText(*this->window);
-        this->renderAddition();
+        window->display();
         sf::sleep(sf::seconds(1));
     }
     Players[idx]->displayDice(*this->window, *this);
