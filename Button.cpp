@@ -22,12 +22,10 @@ void Button::setTextColor(sf::Color color) {
 
 void Button::setPosition(sf::Vector2f pos) {
     button.setPosition(pos);
-
-    float pos_x = (pos.x + button.getLocalBounds().width/3.0f) -
-                  (text.getGlobalBounds().width/2);
-    float pos_y = (pos.y + button.getLocalBounds().height/3.0f) -
-                  (text.getGlobalBounds().height/2);
-    text.setPosition(pos_x, pos_y);
+    float xPos = (pos.x + (button.getLocalBounds().width - text.getLocalBounds().width) / 2);
+    float yPos = (pos.y + (button.getLocalBounds().height - text.getLocalBounds().height) / 2) -
+                 button.getLocalBounds().height / 16;
+    text.setPosition({xPos, yPos});
 }
 
 void Button::drawTo(sf::RenderWindow &window) {
