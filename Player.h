@@ -19,19 +19,12 @@ protected:
     AssetsManager assetsManager;
     Dice dice;
 
-/*protected:
-    Player(const Player& other) = default;
-    Player& operator=(const Player& other) = default;
-    */
+
 public:
     // destructor
     virtual ~Player() {
         std::cout << "Destructor player\n";
     }
-
-     // clone function
- //    virtual std::shared_ptr<Player> clone() const = 0;
-
 
     // accessors
     int inHouse() const;

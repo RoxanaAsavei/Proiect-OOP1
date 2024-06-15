@@ -12,6 +12,7 @@ public:
     ~YellowPlayer() override {
         std::cout << "Destructor YellowPlayer\n";
     }
+
 };
 
 

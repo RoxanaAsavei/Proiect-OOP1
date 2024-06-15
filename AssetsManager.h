@@ -13,8 +13,6 @@ private:
     sf::Texture blueToken;
     sf::Texture yellowToken;
     sf::Texture greenToken;
-    static const int offset_ox;
-    static const int offset_oy;
 
     // functions
     void initTextures();
