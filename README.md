@@ -11,7 +11,18 @@ atunci nu vei putea muta pionul respectiv (trebuie să dai fix cât îți trebui
 #### Pentru a muta un pion, dă click pe pionul respectiv!
 #### Pentru a da cu zarul, dă click pe zar!
 
-........................................................................................................................................................................
+-----
+### Pentru testare automată se modifică fișierul Game.cpp astfel:
+Linia 19: 
+```
+//    Players.push_back(std::make_shared<RedPlayer>());
+
+```
+Linia 24:
+```
+for(int i = 0; i < noPlayers; ++i) {
+
+```
 
 O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie de apeluri proxy către cod generat.
 
