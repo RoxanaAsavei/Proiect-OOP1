@@ -171,17 +171,17 @@ void Game::playerSelection() {
 
 
     std::vector<Button> butoane;
-    Button btn1("2", {300, 200}, 120, bg, txt);
+    Button btn1("2", {300, 180}, 50, bg, txt);
     btn1.setPosition({420, 300});
 
     butoane.emplace_back(btn1);
 
-    Button btn2("3", {300, 200}, 120, bg, txt);
+    Button btn2("3", {300, 180}, 50, bg, txt);
     btn2.setPosition({1020, 300});
 
     butoane.emplace_back(btn2);
 
-    Button btn3("4", {300, 200}, 120, bg, txt);
+    Button btn3("4", {300, 180}, 50, bg, txt);
     btn3.setPosition({720, 640});
 
     butoane.emplace_back(btn3);
@@ -248,8 +248,23 @@ void Game::playerSelection() {
             this->initVariables();
             runGame();
         }
-        catch(std::exception& error) {
-            throw;
+        catch(std::invalid_argument& error) {
+            std::cout << "Nu este un numar: " << error.what() << "\n";
+        }
+        catch(std::out_of_range& error) {
+            std::cout << "Numarul este prea mic / mare: " << error.what() << "\n";
+        }
+        catch(fileError& error) {
+            std::cout << "Eroare de la fisiere: " << error.what() << "\n";
+        }
+        catch(textureError& error) {
+            std::cout << "Eroare de la texturi: " << error.what() << "\n";
+        }
+        catch(fontError& error) {
+            std::cout << "Eroare la font: " << error.what() << "\n";
+        }
+        catch(gameExceptions& error) {
+            std::cout << "Alta eroare de la joc: " << error.what();
         }
     }
 
@@ -340,7 +355,6 @@ void Game::runGame() {
         turn++;
         turn = turn % noPlayers;
         sf::sleep(sf::seconds(1));
-
     }
 }
 
