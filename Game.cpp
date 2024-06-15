@@ -107,6 +107,8 @@ void Game::winner(std::string& playerColor) {
     this->window->draw(text);
     this->window->display();
     sf::sleep(sf::seconds(3));
+    this->window->clear(sf::Color{163, 228, 215});
+    window->close();
 }
 
 void Game::upper(std::string &word) {
