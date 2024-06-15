@@ -1,5 +1,5 @@
 #include "RedPlayer.h"
-
+#include "Game.h"
 const int offset_ox = 480;
 const int offset_oy = 60;
 const int squareSize = 60;
@@ -48,10 +48,12 @@ void RedPlayer::initPlayer() {
     this->finishTiles.push_back(square);
 }
 
-void RedPlayer::displayDice(sf::RenderWindow &window) {
+void RedPlayer::displayDice(sf::RenderWindow &window, Game& game) {
     // display dice so you see it
     this->pollEvents(window);
+    window.clear(sf::Color{163, 228, 215});
     dice.renderDice(window);
+    game.renderAddition();
     // you have to click on it
     sf::Vector2i mousePosWindow;
     sf::Vector2f mousePosView;
@@ -73,8 +75,10 @@ void RedPlayer::displayDice(sf::RenderWindow &window) {
                     if(!this->running(window)) {
                         break;
                     }
+                    window.clear(sf::Color{163, 228, 215});
                     dice.Roll();
                     dice.renderDice(window);
+                    game.renderAddition();
                     sf::sleep(sf::milliseconds(200));
                 }
             }
@@ -176,8 +180,6 @@ void RedPlayer::displayText(sf::RenderWindow& window) {
     text.setOutlineColor(sf::Color::Black);
     text.setPosition(4 * squareSize, 7 * squareSize + offset_oy);
     window.draw(text);
-    window.display();
-
 }
 
 

@@ -1,10 +1,26 @@
 #include "Player.h"
+#include "Game.h"
 
 const int squareSize = 60;
 const int offset_ox = 480;
 const int offset_oy = 60;
 const int half = squareSize / 2;
 
+void Player::displayDice(sf::RenderWindow &window, Game& game) {
+    this->pollEvents(window);
+    dice.renderDice(window); // afiseaza o fata a zarului cat sa o vezi
+    sf::sleep(sf::milliseconds(500));
+    for(int i = 0; i < 5; ++i) {
+        this->pollEvents(window);
+        if(!this->running(window))
+            break;
+        window.clear(sf::Color{163, 228, 215});
+        dice.Roll();
+        dice.renderDice(window);
+        game.renderAddition();
+        sf::sleep(sf::milliseconds(100));
+    }
+}
 
 bool Player::canMove(int move) {
     for(const auto& t: this->tokensInGame) {
@@ -176,19 +192,6 @@ void Player::takeTokenOut(Token &t) {
     this->tokensOut.emplace_back(t);
 }
 
-void Player::displayDice(sf::RenderWindow &window) {
-    this->pollEvents(window);
-    dice.renderDice(window); // afiseaza o fata a zarului cat sa o vezi
-    sf::sleep(sf::milliseconds(500));
-    for(int i = 0; i < 5; ++i) {
-        this->pollEvents(window);
-        if(!this->running(window))
-            break;
-        dice.Roll();
-        dice.renderDice(window);
-        sf::sleep(sf::milliseconds(100));
-    }
-}
 
 std::string &Player::getColor() {
     return this->color;

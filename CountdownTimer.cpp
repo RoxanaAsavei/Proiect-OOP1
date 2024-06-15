@@ -1,6 +1,6 @@
 #include "CountdownTimer.h"
 
-CountdownTimer::CountdownTimer(int seconds, const sf::Font &font) {
+[[maybe_unused]] CountdownTimer::CountdownTimer(int seconds, const sf::Font &font) {
     timeRemaining = sf::seconds(seconds);
 
     // Initialize the text
@@ -33,7 +33,7 @@ void CountdownTimer::draw(sf::RenderWindow &window) {
     window.draw(text);
 }
 
-bool CountdownTimer::isFinished() const {
+[[maybe_unused]] bool CountdownTimer::isFinished() const {
     return timeRemaining == sf::Time::Zero;
 }
 

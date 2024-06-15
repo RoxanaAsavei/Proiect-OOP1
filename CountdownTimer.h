@@ -9,13 +9,13 @@ private:
 
     void updateText();
 public:
-    CountdownTimer(int seconds, const sf::Font& font);
+    [[maybe_unused]] CountdownTimer(int seconds, const sf::Font& font);
 
-    void update(sf::Time deltaTime);
+    [[maybe_unused]] void update(sf::Time deltaTime);
 
-    void draw(sf::RenderWindow& window);
+    [[maybe_unused]] void draw(sf::RenderWindow& window);
 
-    bool isFinished() const;
+    [[maybe_unused]] bool isFinished() const;
 };
 
 #endif //OOP_COUNTDOWNTIMER_H

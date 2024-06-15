@@ -36,7 +36,6 @@ void Game::initVariables() {
 
 // constructor & destructor
 
-
 Game::~Game() {
     delete this->window;
 }
@@ -59,6 +58,7 @@ void Game::pollEvents() {
     }
 
 }
+
 
 
 void Game::render() { // the drawing part
@@ -120,9 +120,12 @@ void Game::playersTurn(int idx) {
 
     if(std::dynamic_pointer_cast<RedPlayer>(Players[idx])) {
         std::shared_ptr<RedPlayer> redPlayer = std::dynamic_pointer_cast<RedPlayer>(Players[idx]);
+        this->window->clear(sf::Color{163, 228, 215});
         redPlayer->displayText(*this->window);
+        this->renderAddition();
+        sf::sleep(sf::seconds(1));
     }
-    Players[idx]->displayDice(*this->window);
+    Players[idx]->displayDice(*this->window, *this);
     sf::sleep(sf::milliseconds(500));
     this->updatePlayer(idx);
 }
@@ -246,6 +249,10 @@ void Game::playerSelection() {
             noPlayers = std::stoi(chosen);
             state = GameState::playing;
             this->initVariables();
+            // face figuri la prima randare
+            window->clear(sf::Color{163, 228, 215});;
+            render();
+            window->display();
             runGame();
         }
         catch(std::invalid_argument& error) {
@@ -348,7 +355,7 @@ void Game::startGame() {
 void Game::runGame() {
     int turn = 0;
     while(running() and !ending()) { // window is still open
-        window->clear(sf::Color{163, 228, 215});
+        //window->clear(sf::Color{163, 228, 215});
         render(); // render grid & tokens & dice
         playersTurn(turn);
         render();
@@ -357,4 +364,16 @@ void Game::runGame() {
         sf::sleep(sf::seconds(1));
     }
 }
+
+void Game::renderAddition() {
+    if(this->running()) {
+        // draw game objects
+        this->grid.renderGrid(*this->window);
+        for(int i = 0; i < noPlayers; ++i) {
+            Players[i]->renderTokens(*this->window);
+        }
+        this->window->display();
+    }
+}
+
 

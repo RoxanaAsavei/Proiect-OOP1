@@ -52,6 +52,7 @@ public:
     void updatePlayer(int idx);
 
     void render();
+    void renderAddition();
     void move(int idx, int &line, int &col);
 
     void pollEvents();
@@ -59,10 +60,10 @@ public:
     void playersTurn(int idx);
     void winner(std::string& playerColor);
 
-
     void playerSelection();
     void startGame();
     void runGame();
+
 };
 
 

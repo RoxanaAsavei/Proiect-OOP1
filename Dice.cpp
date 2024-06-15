@@ -35,7 +35,7 @@ void Dice::Roll() { // returns a number between 0 and 5
 
 void Dice::renderDice(sf::RenderWindow &window) {
     window.draw(this->diceFaces[this->diceValue]);
-    window.display();
+   // window.display();
 }
 
 void Dice::initTextures(const std::string& color) {

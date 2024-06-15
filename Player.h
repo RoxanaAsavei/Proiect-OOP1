@@ -6,6 +6,7 @@
 #include "Token.h"
 #include "Dice.h"
 
+
 class Player {
 protected:
     std::vector<Token> tokensInGame;
@@ -51,13 +52,14 @@ public:
     void eraseFromInGame(int index);
     sf::Vector2 <float> outPosition();
     void takeTokenOut(Token& t);
-    virtual void displayDice(sf::RenderWindow& window);
+    virtual void displayDice(sf::RenderWindow& window, class Game& game);
     std::string& getColor();
     virtual void updateTokens(int &line, int &col, sf::RenderWindow &window);
     int random() const;
     void pollEvents(sf::Window &window);
     bool running(sf::Window &window) const;
     static bool contains(const Token& token, std::pair<int, int> coord);
+
 };
 
 
