@@ -10,7 +10,7 @@
     updateText();
 }
 
-void CountdownTimer::updateText() {
+[[maybe_unused]] void CountdownTimer::updateText() {
     int totalSeconds = static_cast<int>(timeRemaining.asSeconds());
     int minutes = totalSeconds / 60;
     int seconds = totalSeconds % 60;
@@ -19,7 +19,7 @@ void CountdownTimer::updateText() {
     text.setPosition(10, 10);
 }
 
-void CountdownTimer::update(sf::Time deltaTime) {
+[[maybe_unused]] void CountdownTimer::update(sf::Time deltaTime) {
     if (timeRemaining > sf::Time::Zero) {
         timeRemaining -= deltaTime;
         if (timeRemaining < sf::Time::Zero) {
@@ -29,7 +29,7 @@ void CountdownTimer::update(sf::Time deltaTime) {
     }
 }
 
-void CountdownTimer::draw(sf::RenderWindow &window) {
+[[maybe_unused]] void CountdownTimer::draw(sf::RenderWindow &window) {
     window.draw(text);
 }
 
