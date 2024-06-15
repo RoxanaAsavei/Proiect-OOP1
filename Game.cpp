@@ -90,8 +90,8 @@ bool Game::ending() const {
 
 void Game::winner(std::string& playerColor) {
     sf::Font font;
-    if(!font.loadFromFile("assets/Davis_Preview.ttf")) {
-        throw fontError("assets/Davis_Preview.ttf");
+    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
+        throw fontError("assets/HoneyCrepes.ttf");
     }
     sf::Text text;
     text.setFont(font);
@@ -164,8 +164,8 @@ void Game::move(int idx, int &line, int &col) {
 void Game::playerSelection() {
  // setam butoanele
     sf::Font font;
-    if(!font.loadFromFile("assets/Ladywish.otf")) {
-        throw fontError("assets/Ladywish.otf");
+    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
+        throw fontError("assets/HoneyCrepes.ttf");
     }
     sf::Text mesaj;
     mesaj.setString("Select the number of players:");
@@ -174,21 +174,21 @@ void Game::playerSelection() {
     mesaj.setFillColor(sf::Color::White);
     mesaj.setOutlineThickness(3.f);
     mesaj.setOutlineColor(sf::Color::Black);
-    mesaj.setPosition(240,120);
+    mesaj.setPosition(120,120);
 
 
     std::vector<Button> butoane;
-    Button btn1("2", {300, 180}, 50, bg, txt);
+    Button btn1("2", {300, 180}, 90, bg, txt);
     btn1.setPosition({420, 300});
 
     butoane.emplace_back(btn1);
 
-    Button btn2("3", {300, 180}, 50, bg, txt);
+    Button btn2("3", {300, 180}, 90, bg, txt);
     btn2.setPosition({1020, 300});
 
     butoane.emplace_back(btn2);
 
-    Button btn3("4", {300, 180}, 50, bg, txt);
+    Button btn3("4", {300, 180}, 90, bg, txt);
     btn3.setPosition({720, 640});
 
     butoane.emplace_back(btn3);
@@ -285,8 +285,8 @@ void Game::startGame() {
     // afisam un text si un buton de start
     sf::Text titlu;
     sf::Font font;
-    if(!font.loadFromFile("assets/Davis_Preview.ttf")) {
-        throw fontError("assets/Davis_Preview.ttf");
+    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
+        throw fontError("assets/HoneyCrepes.ttf");
     }
     std::string content = "Play Ludo now!\n";
     titlu.setString(content);

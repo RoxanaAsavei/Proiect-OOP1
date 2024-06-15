@@ -22,7 +22,12 @@ void Button::setTextColor(sf::Color color) {
 
 void Button::setPosition(sf::Vector2f pos) {
     button.setPosition(pos);
-    centerText();
+
+    float pos_x = (pos.x + button.getLocalBounds().width/3.0f) -
+                  (text.getGlobalBounds().width/2);
+    float pos_y = (pos.y + button.getLocalBounds().height/3.0f) -
+                  (text.getGlobalBounds().height/2);
+    text.setPosition(pos_x, pos_y);
 }
 
 void Button::drawTo(sf::RenderWindow &window) {
@@ -48,13 +53,3 @@ std::string Button::getText() {
     return text.getString();
 }
 
-void Button::centerText() {
-    sf::FloatRect buttonBounds = button.getGlobalBounds();
-    sf::FloatRect textBounds = text.getLocalBounds();
-
-    // Adjust text origin to its center
-    text.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
-
-    // Set position to center of button
-    text.setPosition(buttonBounds.left + buttonBounds.width / 2.f, buttonBounds.top + buttonBounds.height / 2.f);
-}

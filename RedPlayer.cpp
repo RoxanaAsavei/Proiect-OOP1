@@ -166,8 +166,8 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
 
 void RedPlayer::displayText(sf::RenderWindow& window) {
     sf::Font font;
-    if(!font.loadFromFile("assets/Davis_Preview.ttf")) {
-        throw fontError("assets/Davis_Preview.ttf");
+    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
+        throw fontError("assets/HoneyCrepes.ttf");
     }
 
     sf::Text text;
