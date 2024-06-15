@@ -22,6 +22,8 @@ Linia 24:
 for(int i = 0; i < noPlayers; ++i) {
 ```
 
+*Numărul maxim de jucători în acest caz este 3!*
+
 ----
 
 O cerință nu se consideră îndeplinită dacă este realizată doar ca o serie de apeluri proxy către cod generat.
