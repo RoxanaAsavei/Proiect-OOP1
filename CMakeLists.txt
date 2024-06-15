@@ -135,9 +135,6 @@ add_executable(${PROJECT_NAME}
         Exceptions.h
         YellowPlayer.h
         YellowPlayer.cpp
-        CountdownTimer.h
-        CountdownTimer.h
-        CountdownTimer.cpp
 )
 
 ###############################################################################
