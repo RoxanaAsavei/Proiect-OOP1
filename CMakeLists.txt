@@ -135,6 +135,7 @@ add_executable(${PROJECT_NAME}
         Exceptions.h
         YellowPlayer.h
         YellowPlayer.cpp
+        Singleton.h
 )
 
 ###############################################################################

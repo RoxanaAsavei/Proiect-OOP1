@@ -10,6 +10,7 @@
 #include "Exceptions.h"
 #include "YellowPlayer.h"
 #include "Button.h"
+#include "Singleton.h"
 
 enum class GameState{
     start,
@@ -17,7 +18,7 @@ enum class GameState{
     playing
 };
 
-class Game {
+class Game : public Singleton<Game> {
 private:
     // game state
     GameState state;
@@ -39,9 +40,9 @@ private:
     void initWindow();
 
     static void upper(std::string& word);
-public:
-    // constructor & destructor
+protected:
     Game();
+public:
     ~Game();
 
     // accessors

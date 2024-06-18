@@ -4,8 +4,7 @@
 
 int main() {
 
-    Game game;
-
+    [[maybe_unused]] Game &game = Game::getInstance();
     return 0;
 }
 
