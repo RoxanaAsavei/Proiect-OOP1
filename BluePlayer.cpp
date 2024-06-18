@@ -3,26 +3,26 @@ const int offset_ox = 480;
 const int offset_oy = 60;
 const int squareSize = 60;
 
-void BluePlayer::initPlayer(AssetsManager& assetsManager) {
+void BluePlayer::initPlayer() {
     this->color = "blue";
     // adding all 4 tokens
-    Token token1{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token1 = TokenFactory::blueToken();
     // setting position for the in-house tokens
     token1.setPosition(sf::Vector2f(10 * squareSize  + squareSize / 2 + offset_ox, 10 * squareSize  + offset_oy));
     this->tokensInHouse.push_back(token1);
     this->takenPositions.push_back(token1.getShapePos());
 
-    Token token2{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token2 = TokenFactory::blueToken();
     token2.setPosition(sf::Vector2f(12 * squareSize  + squareSize / 2 + offset_ox, 10 * squareSize  + offset_oy));
     this->tokensInHouse.push_back(token2);
     this->takenPositions.push_back(token2.getShapePos());
 
-    Token token3{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token3 = TokenFactory::blueToken();
     token3.setPosition(sf::Vector2f(10 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token3);
     this->takenPositions.push_back(token3.getShapePos());
 
-    Token token4{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token4 = TokenFactory::blueToken();
     token4.setPosition(sf::Vector2f(12 * squareSize + squareSize / 2 + offset_ox, 12 * squareSize + offset_oy));
     this->tokensInHouse.push_back(token4);
     this->takenPositions.push_back(token4.getShapePos());
@@ -43,7 +43,7 @@ void BluePlayer::initPlayer(AssetsManager& assetsManager) {
 }
 
 BluePlayer::BluePlayer(AssetsManager& assetsManager) {
-    this->initPlayer(assetsManager);
+    this->initPlayer();
     dice.initDiceFaces(assetsManager.diceFaces(color));
 }
 

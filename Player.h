@@ -5,7 +5,7 @@
 #include <memory>
 #include "Token.h"
 #include "Dice.h"
-
+#include "TokenFactory.h"
 
 class Player {
 protected:

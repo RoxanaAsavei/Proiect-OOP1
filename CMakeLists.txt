@@ -138,6 +138,7 @@ add_executable(${PROJECT_NAME}
         Singleton.h
         ButtonFactory.h
         ButtonFactory.cpp
+        TokenFactory.cpp
 )
 
 ###############################################################################

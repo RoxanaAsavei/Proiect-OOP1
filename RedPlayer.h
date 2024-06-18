@@ -5,7 +5,7 @@
 
 class RedPlayer : public Player{
 private:
-    void initPlayer(AssetsManager& assetsManager);
+    void initPlayer();
 
 public:
     explicit RedPlayer(AssetsManager& assetsManager);

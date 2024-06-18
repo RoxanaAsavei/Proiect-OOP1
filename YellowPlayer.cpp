@@ -5,29 +5,29 @@ const int offset_oy = 60;
 const int squareSize = 60;
 
 YellowPlayer::YellowPlayer(AssetsManager& assetsManager) {
-    this->initPlayer(assetsManager);
+    this->initPlayer();
     dice.initDiceFaces(assetsManager.diceFaces(color));
 }
 
-void YellowPlayer::initPlayer(AssetsManager& assetsManager) {
+void YellowPlayer::initPlayer() {
     this->color = "yellow";
-    Token token1{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token1 = TokenFactory::yellowToken();
     // setting position for the in-house tokens
     token1.setPosition(sf::Vector2f(10* squareSize + squareSize / 2 + offset_ox, 1 * squareSize + offset_oy));
     this->takenPositions.push_back(token1.getShapePos());
     this->tokensInHouse.push_back(token1);
 
-    Token token2{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token2 = TokenFactory::yellowToken();
     token2.setPosition(sf::Vector2f(12 * squareSize + squareSize / 2 + offset_ox, 1 * squareSize + offset_oy));
     this->takenPositions.push_back(token2.getShapePos());
     this->tokensInHouse.push_back(token2);
 
-    Token token3{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token3 = TokenFactory::yellowToken();
     token3.setPosition(sf::Vector2f(10 * squareSize + squareSize / 2 + offset_ox, 3 * squareSize + offset_oy));
     this->takenPositions.push_back(token3.getShapePos());
     this->tokensInHouse.push_back(token3);
 
-    Token token4{this->color, assetsManager.getTokenTexture(color), assetsManager.getPositions(color)};
+    Token token4 = TokenFactory::yellowToken();
     token4.setPosition(sf::Vector2f(12 * squareSize + squareSize / 2 + offset_ox, 3 * squareSize + offset_oy));
     this->takenPositions.push_back(token4.getShapePos());
     this->tokensInHouse.push_back(token4);

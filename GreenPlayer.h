@@ -5,7 +5,7 @@
 
 class GreenPlayer : public Player{
 private:
-    void initPlayer(AssetsManager& assetsManager);
+    void initPlayer();
 public:
     explicit GreenPlayer(AssetsManager& assetsManager);
     ~GreenPlayer() override {

@@ -6,7 +6,7 @@
 
 class YellowPlayer : public Player {
 private:
-    void initPlayer(AssetsManager& assetsManager);
+    void initPlayer();
 public:
     explicit YellowPlayer(AssetsManager& assetsManager);
     ~YellowPlayer() override {

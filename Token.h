@@ -13,8 +13,6 @@ private:
     static const int finalDrum = 55;
     static const int interzis = 56;
     std::pair<int, int> prevPos;
-    // functions
-    void initToken();
 
 public:
     // compulsory requirements
@@ -33,7 +31,7 @@ public:
     void takeHome(sf::Vector2<float> pos);
     std::pair<int, int> getCoord() const;
     void setIndex(int val);
-    bool almostDone();
+    bool almostDone() const;
     void setPrevPos();
     void move(int pas, bool& finished);
     std::pair<int, int> getPrev();

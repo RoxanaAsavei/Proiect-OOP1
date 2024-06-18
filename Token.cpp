@@ -80,7 +80,7 @@ void Token::setIndex(int val) {
     this->index = val;
 }
 
-bool Token::almostDone() {
+bool Token::almostDone() const {
     return index >= startDrum && index <= finalDrum;
 }
 
