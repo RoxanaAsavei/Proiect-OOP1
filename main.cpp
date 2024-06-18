@@ -4,7 +4,7 @@
 
 int main() {
 
-    [[maybe_unused]] Game &game = Game::getInstance();
+    [[maybe_unused]] const Game &game = Game::getInstance();
     return 0;
 }
 
