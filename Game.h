@@ -12,6 +12,7 @@
 #include "Button.h"
 #include "Singleton.h"
 #include "AssetsManager.h"
+#include "ButtonFactory.h"
 
 enum class GameState{
     start,

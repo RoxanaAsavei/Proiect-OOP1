@@ -1,12 +1,14 @@
 #include "Button.h"
 
-Button::Button(const std::string& mesaj, sf::Vector2f size, int charSize, sf::Color bgColor, sf::Color textColor) {
+Button::Button(const std::string& mesaj, sf::Vector2f size, int charSize, sf::Color bgColor, sf::Color textColor): bgColor(bgColor), txtColor(textColor){
     text.setString(mesaj);
     text.setCharacterSize(charSize);
     text.setFillColor(textColor);
     button.setSize(size);
     button.setFillColor(bgColor);
 }
+
+
 
 void Button::setFont(sf::Font &font) {
     text.setFont(font);
@@ -49,5 +51,15 @@ bool Button::isMouseOver(sf::RenderWindow &window) {
 
 std::string Button::getText() {
     return text.getString();
+}
+
+void Button::changeColor() {
+    setBgColor(txtColor);
+    setTextColor(bgColor);
+}
+
+void Button::maintainColor() {
+    setBgColor(bgColor);
+    setTextColor(txtColor);
 }
 

@@ -128,6 +128,7 @@ void Game::playersTurn(int idx) {
         window->display();
         sf::sleep(sf::seconds(1));
     }
+
     Players[idx]->displayDice(*this->window, *this);
     sf::sleep(sf::milliseconds(500));
     this->updatePlayer(idx);
@@ -174,17 +175,17 @@ void Game::playerSelection() {
 
 
     std::vector<Button> butoane;
-    Button btn1("2", {300, 180}, 50, bg, txt);
+    Button btn1 = ButtonFactory::noPlayers("2");
     btn1.setPosition({420, 300});
 
     butoane.emplace_back(btn1);
 
-    Button btn2("3", {300, 180}, 50, bg, txt);
+    Button btn2 = ButtonFactory::noPlayers("3");
     btn2.setPosition({1020, 300});
 
     butoane.emplace_back(btn2);
 
-    Button btn3("4", {300, 180}, 50, bg, txt);
+    Button btn3 = ButtonFactory::noPlayers("4");
     btn3.setPosition({720, 640});
 
     butoane.emplace_back(btn3);
@@ -213,11 +214,9 @@ void Game::playerSelection() {
                 case sf::Event::MouseMoved:
                     for (int i = 0; i < 3; ++i) {
                         if (butoane[i].isMouseOver(*window)) {
-                            butoane[i].setBgColor(txt);
-                            butoane[i].setTextColor(bg);
+                            butoane[i].changeColor();
                         } else {
-                            butoane[i].setBgColor(bg);
-                            butoane[i].setTextColor(txt);
+                            butoane[i].maintainColor();
                         }
                     }
                     break;
@@ -291,7 +290,7 @@ void Game::startGame() {
     titlu.setPosition(offset_ox, 3 * squareSize + offset_oy);
 
 
-    Button butonStart("START", {300, 180}, 50, bg, txt);
+    Button butonStart = ButtonFactory::start();
     butonStart.setFont(font);
     butonStart.setPosition(sf::Vector2f{300 + offset_ox, 600 + offset_oy});
 
@@ -320,12 +319,10 @@ void Game::startGame() {
 
                 case sf::Event::MouseMoved:
                     if(butonStart.isMouseOver(*this->window)) {
-                        butonStart.setBgColor(txt);
-                        butonStart.setTextColor(bg);
+                        butonStart.changeColor();
                     }
                     else {
-                        butonStart.setBgColor(bg);
-                        butonStart.setTextColor(txt);
+                        butonStart.maintainColor();
                     }
                     break;
 

@@ -2,7 +2,6 @@
 #define OOP_ASSETSMANAGER_H
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
-#include <SFML/Audio/Sound.hpp>
 #include "Exceptions.h"
 #include "Singleton.h"
 #include <unordered_map>

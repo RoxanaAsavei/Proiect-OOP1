@@ -7,6 +7,8 @@ class Button {
 private:
     sf::RectangleShape button;
     sf::Text text;
+    sf::Color bgColor;
+    sf::Color txtColor;
 
 public:
     Button() = default;
@@ -18,7 +20,8 @@ public:
     void drawTo(sf::RenderWindow& window);
     bool isMouseOver(sf::RenderWindow &window);
     std::string getText();
+    void changeColor();
+    void maintainColor();
 };
-
 
 #endif //OOP_BUTTON_H
