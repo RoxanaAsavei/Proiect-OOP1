@@ -28,9 +28,11 @@ private:
     void initDice(const std::string& color);
     void initPositions();
     void readPositions(const std::string& color);
-public:
+
+protected:
     // constructor
     AssetsManager();
+public:
 
     //functions
     sf::Texture* getTokenTexture(const std::string& color);
