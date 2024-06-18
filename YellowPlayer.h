@@ -6,9 +6,9 @@
 
 class YellowPlayer : public Player {
 private:
-    void initPlayer();
+    void initPlayer(AssetsManager& assetsManager);
 public:
-    YellowPlayer();
+    explicit YellowPlayer(AssetsManager& assetsManager);
     ~YellowPlayer() override {
         std::cout << "Destructor YellowPlayer\n";
     }

@@ -16,20 +16,20 @@ void Game::initWindow() {
 void Game::initVariables() {
     this->endGame = false;
     this->endGame = false;
-    Players.push_back(std::make_shared<RedPlayer>());
+    Players.push_back(std::make_shared<RedPlayer>(assetsManager));
     std::vector<std::string> colors = {"blue", "green", "yellow"};
     std::random_device rd;
     std::mt19937 gen(rd());
     std::shuffle(colors.begin(), colors.end(), gen);
     for(int i = 0; i < noPlayers - 1; ++i) {
         if(colors[i] == "blue") {
-            Players.push_back(std::make_shared<BluePlayer>());
+            Players.push_back(std::make_shared<BluePlayer>(assetsManager));
         }
         else if(colors[i] == "green") {
-            Players.push_back(std::make_shared<GreenPlayer>());
+            Players.push_back(std::make_shared<GreenPlayer>(assetsManager));
         }
         else {
-            Players.push_back(std::make_shared<YellowPlayer>());
+            Players.push_back(std::make_shared<YellowPlayer>(assetsManager));
         }
     }
 }
@@ -39,7 +39,7 @@ void Game::initVariables() {
 Game::~Game() {
     delete this->window;
 }
-Game::Game() {
+Game::Game() : assetsManager(AssetsManager::getInstance()){
     state = GameState::start;
     this->initWindow();
     startGame();
@@ -89,10 +89,7 @@ bool Game::ending() const {
 }
 
 void Game::winner(std::string& playerColor) {
-    sf::Font font;
-    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
-        throw fontError("assets/HoneyCrepes.ttf");
-    }
+    sf::Font font = assetsManager.getFont();
     sf::Text text;
     text.setFont(font);
     upper(playerColor);
@@ -165,10 +162,7 @@ void Game::move(int idx, int &line, int &col) {
 
 void Game::playerSelection() {
  // setam butoanele
-    sf::Font font;
-    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
-        throw fontError("assets/HoneyCrepes.ttf");
-    }
+    sf::Font font = assetsManager.getFont();
     sf::Text mesaj;
     mesaj.setString("Select the number of players:");
     mesaj.setFont(font);
@@ -286,10 +280,7 @@ void Game::playerSelection() {
 void Game::startGame() {
     // afisam un text si un buton de start
     sf::Text titlu;
-    sf::Font font;
-    if(!font.loadFromFile("assets/HoneyCrepes.ttf")) {
-        throw fontError("assets/HoneyCrepes.ttf");
-    }
+    sf::Font font = assetsManager.getFont();
     std::string content = "Play Ludo now!\n";
     titlu.setString(content);
     titlu.setFont(font);
@@ -361,7 +352,6 @@ void Game::startGame() {
 void Game::runGame() {
     int turn = 0;
     while(running() and !ending()) { // window is still open
-        //window->clear(sf::Color{163, 228, 215});
         render(); // render grid & tokens & dice
         playersTurn(turn);
         render();

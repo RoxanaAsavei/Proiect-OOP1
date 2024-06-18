@@ -5,9 +5,9 @@
 
 class GreenPlayer : public Player{
 private:
-    void initPlayer();
+    void initPlayer(AssetsManager& assetsManager);
 public:
-    GreenPlayer();
+    explicit GreenPlayer(AssetsManager& assetsManager);
     ~GreenPlayer() override {
         std::cout << "Destructor GreenPlayer\n";
     }

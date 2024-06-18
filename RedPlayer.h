@@ -5,10 +5,10 @@
 
 class RedPlayer : public Player{
 private:
-    void initPlayer();
+    void initPlayer(AssetsManager& assetsManager);
 
 public:
-    RedPlayer();
+    explicit RedPlayer(AssetsManager& assetsManager);
     ~RedPlayer() override {
         std::cout << "Destructor RedPlayer\n";
     }

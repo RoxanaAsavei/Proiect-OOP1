@@ -11,7 +11,6 @@ private:
     int size;
     sf::RectangleShape face;
     std::vector<sf::RectangleShape> diceFaces;
-    std::vector<sf::Texture> textures;
 
     // for random number generator
     std::random_device rd;
@@ -19,9 +18,7 @@ private:
     std::uniform_int_distribution<int>dist;
 
     // functions
-    void initTextures(const std::string& color);
-    void initDiceFaces();
-    void initFace(int faceNo);
+    void initFace(sf::Texture* texture);
 
 public:
     // constructor
@@ -33,8 +30,8 @@ public:
     int getDiceValue() const;
 
     // functions
+    void initDiceFaces(std::vector<sf::Texture>& textures);
     void Roll();
-    void initDice(const std::string& color);
     void renderDice(sf::RenderWindow &window);
 };
 

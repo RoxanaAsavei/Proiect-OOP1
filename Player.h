@@ -16,7 +16,6 @@ protected:
     std::vector<sf::Vector2 <float> > freePositions;
     std::vector<sf::Vector2 <float> > takenPositions;
     std::string color;
-    AssetsManager assetsManager;
     Dice dice;
 
 public:

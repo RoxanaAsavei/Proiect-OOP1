@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <utility>
 #include "Token.h"
 
 
@@ -13,38 +14,6 @@ void Token::setPosition(sf::Vector2<float> newPosition) {
     std::cout << "S-a actualizat pozitia\n";
 }
 
-void Token::initToken() {
-    pozitii.resize(0);
-    std::string fileName = "read" + color + ".txt";
-    std::ifstream fin(fileName);
-    if(!fin.is_open()) {
-        throw fileError(fileName);
-    }
-    std::pair <int, int> pozitie;
-    while(fin >> pozitie.first >> pozitie.second)
-        this->pozitii.emplace_back(pozitie);
-    index = -1;
-    this->shape.setSize(sf::Vector2f(60, 60));
-}
-
-
-Token::Token(const std::string &color_, AssetsManager &assetsManager) : color(color_) {
-    this->initToken();
-    if(this->color == "red") {
-        this->shape.setTexture(assetsManager.getRed());
-    }
-    else if(this->color == "blue") {
-        this->shape.setTexture(assetsManager.getBlue());
-    }
-    else if(this->color == "green") {
-        this->shape.setTexture(assetsManager.getGreen());
-    }
-    else { // yellow
-        this->shape.setTexture(assetsManager.getYellow());
-    }
-
-}
-
 void Token::renderToken(sf::RenderWindow &window) const {
     window.draw(this->shape);
 }
@@ -53,6 +22,7 @@ void Token::renderToken(sf::RenderWindow &window) const {
  * pozitii[index].first => linia
  * pozitii[index].second => coloana
  */
+
 void Token::determinePos() { // 60 as the square size in the grid
     sf::Vector2<float> position;
     position.x = this->pozitii[index].second * 60 + offset_ox;
@@ -126,5 +96,13 @@ void Token::move(int pas, bool &finished) {
 
 std::pair<int, int> Token::getPrev() {
     return prevPos;
+}
+
+Token::Token(std::string  color_, const sf::Texture* texture,
+             std::vector<std::pair<int, int>> pozitii_) : pozitii(std::move(pozitii_)), color(std::move(color_)) {
+    shape.setTexture(texture);
+    index = -1;
+    shape.setSize(sf::Vector2f(squareSize, squareSize));
+
 }
 

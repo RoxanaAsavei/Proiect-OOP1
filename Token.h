@@ -18,8 +18,7 @@ private:
 
 public:
     // compulsory requirements
-    Token(const std::string &color_, AssetsManager &assetsManager);
-
+    Token(std::string  color_, const sf::Texture* texture, std::vector<std::pair<int, int> > pozitii_);
     // functions
     void setPosition(sf::Vector2<float> newPosition);
     void renderToken(sf::RenderWindow &window) const;

@@ -11,6 +11,7 @@
 #include "YellowPlayer.h"
 #include "Button.h"
 #include "Singleton.h"
+#include "AssetsManager.h"
 
 enum class GameState{
     start,
@@ -26,6 +27,9 @@ private:
     // window parameters
     sf::RenderWindow *window;
     sf::VideoMode videoMode;
+
+    // resources
+    AssetsManager &assetsManager;
 
     // game objects
     Grid grid;
