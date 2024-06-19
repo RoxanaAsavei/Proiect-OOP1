@@ -136,8 +136,6 @@ add_executable(${PROJECT_NAME}
         YellowPlayer.h
         YellowPlayer.cpp
         Singleton.h
-        ButtonFactory.h
-        ButtonFactory.cpp
         TokenFactory.cpp
         CountdownTimer.cpp
         CountdownTimer.h

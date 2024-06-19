@@ -175,17 +175,17 @@ void Game::playerSelection() {
 
 
     std::vector<Button> butoane;
-    Button btn1 = ButtonFactory::noPlayers("2");
+    Button btn1("2", {300, 180}, 50, bg, txt);
     btn1.setPosition({420, 300});
 
     butoane.emplace_back(btn1);
 
-    Button btn2 = ButtonFactory::noPlayers("3");
+    Button btn2("3", {300, 180}, 50, bg, txt);
     btn2.setPosition({1020, 300});
 
     butoane.emplace_back(btn2);
 
-    Button btn3 = ButtonFactory::noPlayers("4");
+    Button btn3("4", {300, 180}, 50, bg, txt);
     btn3.setPosition({720, 640});
 
     butoane.emplace_back(btn3);
@@ -290,7 +290,7 @@ void Game::startGame() {
     titlu.setPosition(offset_ox, 3 * squareSize + offset_oy);
 
 
-    Button butonStart = ButtonFactory::start();
+    Button butonStart("START", {300, 180}, 50, bg, txt);
     butonStart.setFont(font);
     butonStart.setPosition(sf::Vector2f{300 + offset_ox, 600 + offset_oy});
 
