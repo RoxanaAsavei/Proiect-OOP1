@@ -3,7 +3,7 @@
 CountdownTimer::CountdownTimer(int seconds, const sf::Font &font) : timeRemaining(sf::seconds(seconds)) {
     text.setFont(font);
     text.setCharacterSize(30);
-    text.setOutlineThickness(2.f);
+    text.setOutlineThickness(1.f);
     text.setOutlineColor(sf::Color::Black);
     text.setFillColor(sf::Color(180, 55, 87));
     updateText();
