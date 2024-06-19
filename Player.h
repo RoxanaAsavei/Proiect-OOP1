@@ -39,7 +39,7 @@ public:
     void place(Token &token, std::pair<int, int> celula);
     void resize(std::pair<int, int> celula);
     virtual void displayDice(sf::RenderWindow& window, class Game& game);
-    virtual void updateTokens(int &line, int &col, sf::RenderWindow &window);
+    virtual void updateTokens(int &line, int &col, sf::RenderWindow &window, class Game& game);
     int random() const;
     void pollEvents(sf::Window &window);
     bool running(sf::Window &window) const;

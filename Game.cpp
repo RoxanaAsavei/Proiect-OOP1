@@ -148,7 +148,7 @@ void Game::updatePlayer(int idx) {
 void Game::move(int idx, int &line, int &col) {
     this->pollEvents();
     if(this->running()) {
-        Players[idx]->updateTokens(line, col, *this->window);
+        Players[idx]->updateTokens(line, col, *this->window, *this);
     }
     // end game condition
     if(Players[idx]->inGame() == 0 && Players[idx]->inHouse() == 0) {

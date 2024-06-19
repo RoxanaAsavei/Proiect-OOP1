@@ -85,60 +85,78 @@ void RedPlayer::displayDice(sf::RenderWindow &window, Game& game) {
         }
     }
 }
-
-void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
+void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window, Game& game) {
     sf::Vector2i mousePosWindow;
     sf::Vector2f mousePosView;
-    // daca da 6 si mai are in casa, e obligat sa scoata din casa
+
+    // If the dice value is 6 and there are tokens in the house, the player must move a token out of the house
     if(this->dice.getDiceValue() == 5 and this->inHouse()) {
         bool clickedUpon = false;
+        sf::Clock clock;
+        CountdownTimer timer(5, AssetsManager::getInstance().getFont());
         while(!clickedUpon && this->running(window)) {
+            sf::Time deltaTime = clock.restart();
+            timer.update(deltaTime);
+
+            this->pollEvents(window);
+            if(!this->running(window)) {
+                break;
+            }
+
             if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                 mousePosWindow = sf::Mouse::getPosition(window);
-                mousePosView = window.mapPixelToCoords(mousePosWindow); // iau pozitia curenta
+                mousePosView = window.mapPixelToCoords(mousePosWindow); // Get current position
                 bool moved = false;
-                for(int i = 0; i < this->inHouse() and !moved; ++i) {
-                    this->pollEvents(window);
-                    if(!this->running(window)) {
-                        break;
-                    }
+                for(int i = 0; i < this->inHouse() && !moved; ++i) {
                     Token& t = this->tokensInHouse[i];
                     if(t.clickedOn(mousePosView)) {
                         moved = true;
                         clickedUpon = true;
                         this->updateFree((t.getShapePos()));
-                        // get it out of house
+                        // Get it out of the house
                         t.setIndex(0);
                         this->place(t, t.getCoord());
                         std::pair<int, int> pos = t.getCoord();
                         line = pos.first;
                         col = pos.second;
-                        // place it in game
+                        // Place it in the game
                         this->tokensInGame.emplace_back(t);
-                        // token no longer in house
+                        // Token no longer in the house
                         this->tokensInHouse.erase(this->tokensInHouse.begin() + i);
                     }
-
                 }
+            }
+
+                window.clear(sf::Color{163, 228, 215});
+                timer.draw(window);
+                dice.renderDice(window);
+                game.renderAddition();
+
+            if(timer.isFinished()) {
+                break;
             }
         }
     }
-
     else {
         int diceValue = this->dice.getDiceValue();
-        if(this->inGame() and this->canMove(diceValue + 1)) { // if the redPlayer still has tokens in game
+        if(this->inGame() && this->canMove(diceValue + 1)) { // If the player still has tokens in the game
             bool clickedUpon = false;
+            sf::Clock clock;
+            CountdownTimer timer(5, AssetsManager::getInstance().getFont());
             while(!clickedUpon && this->running(window)) {
+                sf::Time deltaTime = clock.restart();
+                timer.update(deltaTime);
+
+                this->pollEvents(window);
+                if(!this->running(window)) {
+                    break;
+                }
+
                 if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     mousePosWindow = sf::Mouse::getPosition(window);
                     mousePosView = window.mapPixelToCoords(mousePosWindow);
                     bool moved = false;
                     for(int i = 0; i < this->inGame() && !moved; ++i) {
-                        //......... // so i can close the window at any moment
-                        this->pollEvents(window);
-                        if(!this->running(window)) {
-                            break;
-                        }
                         Token& t = this->tokensInGame[i];
                         if(t.clickedOn(mousePosView) && !t.immovable(diceValue + 1)) {
                             moved = true;
@@ -159,10 +177,20 @@ void RedPlayer::updateTokens(int &line, int &col, sf::RenderWindow &window) {
                         }
                     }
                 }
+
+                    window.clear(sf::Color{163, 228, 215});
+                    dice.renderDice(window);
+                    timer.draw(window);
+                    game.renderAddition();
+
+                if(timer.isFinished()) {
+                    break;
+                }
             }
         }
     }
 }
+
 
 void RedPlayer::displayText(sf::RenderWindow& window) {
     sf::Font font;

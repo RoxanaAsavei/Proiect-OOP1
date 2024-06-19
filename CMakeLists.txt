@@ -139,6 +139,8 @@ add_executable(${PROJECT_NAME}
         ButtonFactory.h
         ButtonFactory.cpp
         TokenFactory.cpp
+        CountdownTimer.cpp
+        CountdownTimer.h
 )
 
 ###############################################################################

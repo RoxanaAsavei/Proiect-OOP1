@@ -172,7 +172,7 @@ std::string &Player::getColor() {
     return this->color;
 }
 
-void Player::updateTokens(int &line, int &col, sf::RenderWindow &window) {
+void Player::updateTokens(int &line, int &col, sf::RenderWindow &window, Game& game) {
     this->pollEvents(window);
     if(!this->running(window)) {
         return;
