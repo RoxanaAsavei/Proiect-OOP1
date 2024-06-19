@@ -1,8 +1,6 @@
 #include "CountdownTimer.h"
 
-CountdownTimer::CountdownTimer(int seconds, const sf::Font &font) {
-    timeRemaining = sf::seconds(seconds);
-
+CountdownTimer::CountdownTimer(int seconds, const sf::Font &font) : timeRemaining(sf::seconds(seconds)) {
     text.setFont(font);
     text.setCharacterSize(50);
     text.setFillColor(sf::Color(180, 55, 87));
