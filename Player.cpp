@@ -177,6 +177,11 @@ void Player::updateTokens(int &line, int &col, sf::RenderWindow &window, Game& g
     if(!this->running(window)) {
         return;
     }
+
+    int x = game.running(); // pana imi dau seama cum sa fac
+    if(x)
+        std::cout << "Nu dau bifele fara asta\n";
+
     if(this->dice.getDiceValue() == 5 and this->inHouse()) { // e obligat sa scoata din casa
         Token& t = this->tokensInHouse[0];
         t.setIndex(0);
