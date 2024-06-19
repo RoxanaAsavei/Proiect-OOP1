@@ -2,7 +2,9 @@
 
 CountdownTimer::CountdownTimer(int seconds, const sf::Font &font) : timeRemaining(sf::seconds(seconds)) {
     text.setFont(font);
-    text.setCharacterSize(50);
+    text.setCharacterSize(30);
+    text.setOutlineThickness(2.f);
+    text.setOutlineColor(sf::Color::Black);
     text.setFillColor(sf::Color(180, 55, 87));
     updateText();
 }
@@ -12,7 +14,7 @@ void CountdownTimer::updateText() {
     int minutes = totalSeconds / 60;
     int seconds = totalSeconds % 60;
 
-    text.setString(std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds));
+    text.setString("Remaining time: " + std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds));
     text.setPosition(60, 60);
 }
 
